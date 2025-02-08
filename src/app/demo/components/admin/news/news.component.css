@@ -1,0 +1,11 @@
+td{
+    max-height: 100px !important; /* Đặt chiều cao tối đa của ô là 100px */
+    overflow: hidden !important; /* Ẩn nội dung vượt quá chiều cao tối đa */
+    text-overflow: ellipsis !important; /* Đặt dạng "..." cho nội dung vượt quá */
+    white-space: nowrap !important; /* Ngăn cách từ và không xuống dòng */
+}
+
+
+.field{
+    margin-bottom: 0 !important;
+}

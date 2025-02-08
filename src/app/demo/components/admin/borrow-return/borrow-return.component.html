@@ -1,0 +1,192 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <p-toast></p-toast>
+            <p-breadcrumb [model]="itemsMenu" [home]="home" styleClass="mb-4"></p-breadcrumb>
+
+            <div class="card" styleClass="mb-4">
+                <div class="flex flex-row">
+                    <div class="flex flex-column w-16rem mr-4">
+                        <label for="searchName">Từ ngày (ngày mượn): </label>
+                        <p-calendar class="mt-2" [style]="{ width: '100%' }" [(ngModel)]="searchBorrowedHistoryDto.fromDate" [readonlyInput]="true" dateFormat="dd-mm-yy" dataType="string" [showIcon]="true" inputId="buttondisplay" placeholder="--Chọn ngày--"></p-calendar>
+                    </div>
+                    <div class="flex flex-column w-16rem mr-4">
+                        <label for="searchName">Đến ngày (ngày mượn): </label>
+                        <p-calendar class="mt-2" [style]="{ width: '100%' }" [(ngModel)]="searchBorrowedHistoryDto.toDate" [readonlyInput]="true" dateFormat="dd-mm-yy" dataType="string" [showIcon]="true" inputId="buttondisplay" placeholder="--Chọn ngày--"></p-calendar>
+                    </div>
+                    <div class="flex flex-column w-16rem mr-4">
+                        <label for="searchCategory">Trạng thái: </label>
+                        <p-dropdown [style]="{ width: '100%' }" class="mt-2" [(ngModel)]="searchBorrowedHistoryDto.status" [options]="listStatus" optionLabel="name" optionValue="code" filterBy="name" placeholder="--Chọn trạng thái--"></p-dropdown>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <button pButton pRipple label="Tìm kiếm" icon="pi pi-search" class="p-button-success mr-2 p-button-rounded p-button-sm" (click)="search()"></button>
+                    <button pButton pRipple label="Đặt lại" icon="pi pi-refresh" class="p-button-warning p-button-rounded p-button-sm" (click)="refreshSearchFields()"></button>
+                </div>
+            </div>
+
+            <p-table #dt 
+                [value]="listBorrow" 
+                responsiveLayout="scroll" 
+                [rows]="pagination.size" 
+                [totalRecords]="pagination.totalElements"
+                [lazy]="true"
+                [paginator]="true" 
+                [rowsPerPageOptions]="[10,20,30]" 
+                [showCurrentPageReport]="true" 
+                [(selection)]="listBorrowSelected" 
+                selectionMode="multiple" 
+                [rowHover]="true" 
+                dataKey="id" 
+                (onPage)="pageChange($event)"
+                (rowsChange)="sizeChange($event)"
+            >
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0">DANH SÁCH DỮ LIỆU</h5>
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <button pButton pRipple label="Xuất Excel" icon="pi pi-file-excel" class="p-button-primary mr-2 p-button-rounded p-button-sm" (click)="exportExcel()"></button>
+                            <!-- <button pButton pRipple label="Thêm mới" icon="pi pi-plus" class="p-button-primary mr-2 p-button-rounded p-button-sm" (click)="openNew()"></button> -->
+                            <button pButton pRipple label="Xóa" icon="pi pi-trash" class="p-button-danger p-button-rounded p-button-sm" (click)="deleteList()" [disabled]="!listBorrowSelected || !listBorrowSelected.length"></button>
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th>Tên sách</th>
+                        <th>Số lượng</th>
+                        <th>Người mượn</th>
+                        <th>Ngày mượn</th>
+                        <th>Ngày trả</th>
+                        <th>Trạng thái</th>
+                        <!-- <th>Thao tác</th> -->
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-borrow>
+                    <tr>
+                        <td>
+                            <p-tableCheckbox [value]="borrow"></p-tableCheckbox>
+                        </td>
+                        <td style="width:14%; min-width:16rem;">
+                            {{borrow.book.name}}
+                        </td>
+                        <td style="width:14%; min-width:8rem; text-align: center">
+                            {{borrow.quantity}}
+                        </td>
+                        <td style="width:14%; min-width:18rem;">
+                            {{borrow.borrower.username}}
+                        </td>
+                        <td style="width:14%; min-width:14rem;">
+                            {{borrow.createdDate | date:"dd/MM/yyyy HH:mm"}}
+                        </td>
+                        <td style="width:14%; min-width:14rem;">
+                            {{borrow.returnDate | date:"dd/MM/yyyy HH:mm"}}
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <!-- {{borrow.status == 1 ? "Đang mượn" : "Đã trả"}} -->
+
+                            <button 
+                                pButton 
+                                pRipple 
+                                class="mr-2 p-button-rounded p-button-sm" 
+                                (click)="changeStatus(borrow.id)"
+                                [ngClass]="borrow.status == 1 ? 'p-button-primary' : 'p-button-success'"
+                                [disabled]="borrow.status == 1 ? false : true"
+                            >
+                                {{borrow.status == 1 ? "Đang mượn" : "Đã trả"}}
+                            </button>
+                        </td>
+                        <!-- <td style="width:14%; min-width:16rem;">
+                            <div class="flex justify-content-left">
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="edit(category.id)"></button>
+                                <p-selectButton 
+                                    class="mr-2 p-button-sm"
+                                    [(ngModel)] = "borrow.status"
+                                    [options]="stateOptions" 
+                                    optionLabel="label" 
+                                    optionValue="value">
+                                </p-selectButton>
+                                <button 
+                                    pButton 
+                                    pRipple 
+                                    class="mr-2 p-button-rounded p-button-sm" 
+                                    (click)="changeStatus(borrow.id)"
+                                    [ngClass]="borrow.status == 1 ? 'p-button-primary' : 'p-button-success'"
+                                    [disabled]="borrow.status == 1 ? false : true"
+                                >
+                                    {{borrow.status == 1 ? "Đang mượn" : "Đã trả"}}
+                                </button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="deleteOne(borrow.id)"></button>
+                            </div>
+                        </td> -->
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <!-- <p-dialog [(visible)]="dialogAddOrUpdate" [style]="{width: '450px'}" header="{{headerDialogAddOrUpdate}}" [modal]="true" class="p-fluid">
+            <ng-template pTemplate="content">
+                <div class="field">
+                    <label for="name">Tên thể loại <span style="color: red;">(*)</span></label>
+                    <input type="text" pInputText id="name" [(ngModel)]="category.name" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !category.name}"/>
+                    <small style="color: red;" class="ng-dirty ng-invalid" *ngIf="submitted && !category.name">Tên thể loại không được trống</small>
+                </div>
+                <div class="field">
+                    <label for="description">Mô tả</label>
+                    <textarea id="description" pInputTextarea [(ngModel)]="category.description" required rows="5" cols="20"></textarea>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple label="Lưu lại" icon="pi pi-check" class="p-button-text" (click)="save()"></button>
+                <button pButton pRipple label="Hủy bỏ" icon="pi pi-times" class="p-button-text" (click)="dialogAddOrUpdate = false"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="dialogConfirmDeleteOne" header="Xác nhận xóa" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span *ngIf="category">Bạn có chắc muốn xóa <b>{{category.name}}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Xác nhận" (click)="confirmDeleteOne()"></button>
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Hủy bỏ" (click)="dialogConfirmDeleteOne = false"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="dialogConfirmDeleteList" header="Xác nhận xóa" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span>Bạn có chắc muốn xóa các bản ghi này không?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Xác nhận" (click)="confirmDeleteList()"></button>
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Hủy bỏ" (click)="dialogConfirmDeleteList = false"></button>
+            </ng-template>
+        </p-dialog> -->
+
+        <p-dialog [(visible)]="dialogConfirmReturn" header="Xác nhận" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span>Xác nhận người dùng muốn trả sách</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Xác nhận" (click)="confirmReturn()"></button>
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Hủy bỏ" (click)="dialogConfirmReturn = false"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="dialogConfirmDeleteList" header="Xác nhận xóa" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span>Bạn có chắc muốn xóa các bản ghi này không?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Xác nhận" (click)="confirmDeleteList()"></button>
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Hủy bỏ" (click)="dialogConfirmDeleteList = false"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>

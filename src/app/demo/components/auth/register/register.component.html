@@ -1,0 +1,207 @@
+<div
+    class="surface-0 flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden"
+>
+    <div class="grid justify-content-center p-2 lg:p-0" style="min-width: 80%">
+        <div class="col-12 mt-5 xl:mt-0 text-center">
+            <img
+                src="assets/layout/images/logo.png"
+                alt="LMS logo"
+                class="mb-5"
+                style="width: 81px; height: 80px"
+            />
+        </div>
+        <div
+            class="col-12 xl:col-6"
+            style="
+                border-radius: 56px;
+                padding: 0.3rem;
+                background: linear-gradient(
+                    180deg,
+                    var(--primary-color) 10%,
+                    rgba(33, 150, 243, 0) 30%
+                );
+            "
+        >
+            <div
+                class="h-full w-full m-0 py-7 px-4"
+                style="
+                    border-radius: 53px;
+                    background: linear-gradient(
+                        180deg,
+                        var(--surface-50) 38.9%,
+                        var(--surface-0)
+                    );
+                "
+            >
+                <div class="text-center mb-5">
+                    <img
+                        src="assets/demo/images/login/avatar.png"
+                        alt="Image"
+                        height="50"
+                        class="mb-3"
+                    />
+                    <div class="text-900 text-3xl font-medium">
+                        {{ lg === "vi" ? "Chào mừng!" : "Welcome" }}
+                    </div>
+                    <span class="text-600 font-medium"
+                        >{{
+                            lg === "vi"
+                                ? "Đăng nhập để tiếp tục"
+                                : "Please log in to continue"
+                        }}
+                    </span>
+                </div>
+
+                <form
+                    class="w-full md:w-10 mx-auto"
+                    [formGroup]="registerForm"
+                    (ngSubmit)="register()"
+                >
+                    <label
+                        for="username1"
+                        class="block text-900 text-xl font-medium mb-2 mt-3"
+                        >{{ lg === "vi" ? "Tên đăng nhập" : "Username" }}
+                    </label>
+                    <input
+                        id="username1"
+                        type="text"
+                        formControlName="username"
+                        [placeholder]='lg === "vi" ? "Tên đăng nhập" : "Username"'
+                        pInputText
+                        class="w-full"
+                        style="padding: 1rem"
+                        [ngClass]="{
+                            'is-invalid': submitted && f.username.errors
+                        }"
+                    />
+                    <div
+                        *ngIf="submitted && f.username.errors"
+                        class="invalid-feedback"
+                    >
+                        <div
+                            *ngIf="f.username.errors.required"
+                            style="color: red"
+                        >
+                            {{
+                                lg === "vi"
+                                    ? "Tên đăng nhập không được trống!"
+                                    : "Username cannot be empty!"
+                            }}
+                        </div>
+                    </div>
+
+                    <label
+                        for="password1"
+                        class="block text-900 font-medium text-xl mb-2 mt-3"
+                        >{{ lg === "vi" ? "Mật khẩu" : "Password" }}
+                    </label>
+                    <p-password
+                        id="password1"
+                        [placeholder]='lg === "vi" ? "Mật khẩu" : "Password"'
+                        formControlName="password"
+                        [toggleMask]="true"
+                        styleClass="w-full"
+                        [ngClass]="{
+                            'is-invalid': submitted && f.password.errors
+                        }"
+                    ></p-password>
+                    <div
+                        *ngIf="submitted && f.password.errors"
+                        class="invalid-feedback"
+                    >
+                        <div
+                            *ngIf="f.password.errors.required"
+                            style="color: red"
+                        >
+                            {{
+                                lg === "vi"
+                                    ? "Mật khẩu không được trống!"
+                                    : "Password cannot be empty!"
+                            }}
+                        </div>
+                    </div>
+
+                    <label
+                        for="confirmpassword1"
+                        class="block text-900 font-medium text-xl mb-2 mt-3"
+                        >{{
+                            lg === "vi"
+                                ? "Xác nhận mật khẩu"
+                                : "Confirm password"
+                        }}
+                    </label>
+                    <p-password
+                        id="confirmpassword1"
+                        [placeholder]='lg === "vi"
+                                ? "Xác nhận mật khẩu"
+                                : "Confirm password"'
+                        formControlName="confirmpassword"
+                        [toggleMask]="true"
+                        styleClass="w-full"
+                        [ngClass]="{
+                            'is-invalid': submitted && f.confirmpassword.errors
+                        }"
+                    ></p-password>
+                    <div
+                        *ngIf="submitted && f.confirmpassword.errors"
+                        class="invalid-feedback"
+                    >
+                        <div
+                            *ngIf="f.confirmpassword.errors.required"
+                            style="color: red"
+                        >
+                            {{
+                                lg === "vi"
+                                    ? "Xác nhận mật khẩu không được trống!"
+                                    : "Confirm password cannot be empty!"
+                            }}
+                        </div>
+                    </div>
+
+                    <div
+                        class="flex align-items-center justify-content-between mb-5 mt-3"
+                    >
+                        <div class="flex align-items-center">
+                            <p-checkbox
+                                id="rememberme1"
+                                [binary]="true"
+                                styleClass="mr-2"
+                            ></p-checkbox>
+                            <label for="rememberme1">{{ lg === 'vi' ? 'Ghi nhớ' : 'Remember me' }}
+</label>
+                        </div>
+                        <a
+                            class="font-medium no-underline ml-2 text-right cursor-pointer"
+                            style="color: var(--primary-color)"
+                            >{{
+                                lg === "vi"
+                                    ? "Quên mật khẩu"
+                                    : "Forgot password"
+                            }}</a
+                        >
+                    </div>
+
+                    <button
+                        delay
+                        type="submit"
+                        pButton
+                        pRipple
+                        [label]="dangky"
+                        class="w-full p-3 text-xl"
+                    ></button>
+
+                    <div
+                        class="flex align-items-center justify-content-center mt-5"
+                    >
+                        <a
+                            [routerLink]="['/auth/login']"
+                            class="font-medium no-underline ml-2 text-right cursor-pointer"
+                            style="color: var(--primary-color)"
+                            >{{ lg === "vi" ? "Đăng nhập" : "Login" }}
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,77 @@
+<div class="card px-6 py-6">
+    <div>
+        <p-toast></p-toast>
+        <div>
+        <p-table   #dt [value]="books" [columns]="cols" responsiveLayout="scroll" [globalFilterFields]="['name','country.name','representative.name','status']"  [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [(selection)]="selectedBooks" selectionMode="multiple" [rowHover]="true" dataKey="id">
+            <ng-template pTemplate="caption">
+                <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                    <h5 class="m-0">Manage Cart</h5>
+                    <span class="block mt-2 md:mt-0 p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..."  class="w-full sm:w-auto"/>
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width: 3rem">
+                    </th>
+                    <th >Image</th>
+                    <th pSortableColumn="name">Book Info<p-sortIcon field="name"></p-sortIcon></th>
+                    <th pSortableColumn="quantity">Quantity<p-sortIcon field="quantity"></p-sortIcon></th>
+                    <th pSortableColumn="price">Price<p-sortIcon field="price"></p-sortIcon></th>
+                    <th>Action</th>
+                </tr>
+            </ng-template>
+            <ng-template  *ngIf="this.books.length >=1" pTemplate="body" let-book>
+                <tr>
+                    <td> 
+                    </td>
+                    <td style="width:10rem; min-width:10rem;">
+                        <span class="p-column-title">Book</span>
+                        <img src="{{book.image}}"  (error) ="changeSource($event)" [alt]="book.name" (click)="bookDetail(this.book.id)" class="my-4 md:my-0 w-9 md:w-10rem shadow-2 mr-5"/>
+                    </td>
+                    <td style="width:30%; min-width:20rem;">
+                        <div class="flex-1 text-center md:text-left">
+                            <div class="font-bold text-2xl">{{ book.name | slice:0:27 }}{{ book.name.length > 27 ? '...' : '' }}</div>
+                            <p-rating [ngModel]="book.rating" [readonly]="true" [cancel]="false"></p-rating>
+                            <div class="flex align-items-center mt-2 mb-2">
+                                <i class="pi pi-tag mr-2"></i>
+                                <span class="font-semibold">{{book.category}}</span>
+                            </div>
+                            <span [class]="'book-badge status-' + book.inventoryStatus.toLowerCase()">{{book.inventoryStatus}}</span>
+                        </div>
+                    </td>
+                    <td style="width:20%; min-width:20rem;">
+                        <span class="p-column-title">Quantity</span>
+                        <p-inputNumber type="number" class="p-2" [(ngModel)]="this.book.selectedQuantity" [min]="1" [max]="this.book.quantity" [showButtons]="true" [allowEmpty]="false" placeholder="1"></p-inputNumber>
+                    </td>
+                    <td>			
+                        <span class="text-2xl font-semibold align-self-center md:align-self-end">{{book.price}}đ</span>
+                    </td>
+                    <td>
+                        <div class="flex">
+                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="deleteBookFromCart(this.book.id)"></button>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+          
+        </p-table>
+        <div class="p-5 text-right" *ngIf="this.books.length >=1">
+            <p-button label="Pay: {{this.calculateSum()}}$" [loading]="loading[3]" (onClick)="pay()"></p-button>
+        </div>
+
+
+        <div *ngIf="this.books.length<1">
+            <p-messages severity="info">
+                <ng-template pTemplate>
+                    <i class="pi pi-check" style="font-size: 2rem"></i>
+                    <div class="ml-2 pr-5 py-5">EMPTY</div>
+                    <button pButton type="button" label="Return" (click)="redirectToList()" class="p-button-info"></button>
+                </ng-template>
+            </p-messages>
+        </div>
+    </div>
+</div>
+

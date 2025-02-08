@@ -1,0 +1,99 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <p-breadcrumb [model]="itemsMenu" [home]="home" styleClass="mb-4"></p-breadcrumb>
+            <div class="card">
+                <p-tabView id="closableTabView">
+                    <p-tabPanel header="Đăng ký và sử dụng dịch vụ thư viện" [selected]="true" class="tbpanel">
+                        <p-accordion [multiple]="true">
+                            <p-accordionTab header="Làm thế nào để đăng ký thành viên mới trong thư viện?">
+                                <p>
+                                    Để đăng ký thành viên mới trong thư viện, bạn có thể đến quầy đăng ký và cung cấp các thông tin cá nhân cần thiết như tên, địa chỉ, số điện thoại, và có thể yêu cầu cung cấp một số giấy tờ tuỳ theo quy định.
+                                </p>
+                            </p-accordionTab>
+                            <p-accordionTab header="Quy trình mượn và trả sách như thế nào?">
+                                <p>
+                                    Quy trình mượn và trả sách thường bao gồm việc chọn sách, đưa thẻ thành viên và sách tới quầy mượn/trả, và sau đó nhận lại thẻ và biên lai trả sách.
+                                </p>
+                            </p-accordionTab>
+                            <p-accordionTab header="Có bao nhiêu sách tối đa mà một người đọc có thể mượn cùng một lúc?">
+                                <p>
+                                    Số lượng sách tối đa mà một người đọc có thể mượn cùng một lúc thường được quy định trong chính sách mượn sách của thư viện đó.
+                                </p>
+                            </p-accordionTab>
+                            <p-accordionTab header="Thư viện có dịch vụ mượn sách trực tuyến không? Nếu có, làm thế nào để sử dụng dịch vụ này?">
+                                <p>
+                                    Thư viện có thể cung cấp dịch vụ mượn sách trực tuyến thông qua hệ thống quản lý thư viện trực tuyến hoặc ứng dụng di động. Bạn có thể đăng nhập vào tài khoản của mình và tìm kiếm, đặt sách trực tuyến, và xem thông tin về các mượn sách hiện tại và lịch sử mượn sách.
+                                </p>
+                            </p-accordionTab>
+                            <p-accordionTab header="Làm thế nào để xem thông tin cá nhân của mình và cập nhật thông tin liên hệ trong hồ sơ thành viên?">
+                                <p>
+                                    Để xem thông tin cá nhân của mình và cập nhật thông tin liên hệ trong hồ sơ thành viên, bạn có thể truy cập vào hệ thống quản lý thư viện trực tuyến hoặc ứng dụng di động (nếu có). Đăng nhập vào tài khoản của bạn và tìm phần "Hồ sơ cá nhân" hoặc "Thông tin thành viên". 
+                                    Tại đó, bạn có thể xem thông tin cá nhân hiện tại, như địa chỉ, số điện thoại, và email, và cập nhật bất kỳ thay đổi nào cần thiết.
+                                </p>
+                            </p-accordionTab>
+                        </p-accordion>
+                    </p-tabPanel>
+                    <p-tabPanel header="Tìm kiếm và truy cập tài liệu" class="tbpanel">
+                        <p-accordion [multiple]="true">
+                            <p-accordionTab header="Làm thế nào để tìm kiếm sách trong cơ sở dữ liệu của thư viện?">
+                                <p>
+                                    Để tìm kiếm sách trong cơ sở dữ liệu của thư viện, bạn có thể sử dụng hệ thống tìm kiếm trực tuyến hoặc hỏi nhân viên thư viện giúp đỡ. Thông thường, bạn có thể tìm kiếm theo tên sách, tác giả, từ khóa, hoặc mã số sách.
+                            </p-accordionTab>
+                            <p-accordionTab header="Thư viện có chính sách phí trễ không? Nếu có, làm thế nào để tính toán và thanh toán các khoản phí này?">
+                                <p>
+                                    Chính sách phí trễ (nếu có) và cách tính toán phí thường được quy định trong quy định của thư viện. Thông thường, phí trễ được tính dựa trên số ngày trễ và loại tài liệu.
+                                </p>
+                            </p-accordionTab>
+                            <p-accordionTab header="Làm thế nào để đề xuất mua sách mới cho thư viện?">
+                                <p>
+                                    Để đề xuất mua sách mới cho thư viện, bạn có thể liên hệ với nhân viên thư viện hoặc sử dụng các hệ thống đề xuất sách trực tuyến nếu có.
+                                </p>
+                            </p-accordionTab>
+                            <p-accordionTab header="Thư viện có chương trình sự kiện, buổi thảo luận hoặc câu lạc bộ đọc sách không? Làm thế nào để tham gia?">
+                                <p>
+                                    Thư viện có thể tổ chức các chương trình sự kiện, buổi thảo luận, hoặc câu lạc bộ đọc sách. Thông tin về các sự kiện này thường được thông báo trên trang web của thư viện hoặc bảng thông tin trong thư viện.
+                                </p>
+                            </p-accordionTab>
+                            <p-accordionTab header="Làm thế nào để đề nghị mua sách hoặc nguồn tài liệu mới cho thư viện?">
+                                <p>
+                                    Để đề nghị mua sách hoặc nguồn tài liệu mới cho thư viện, bạn có thể liên hệ trực tiếp với nhân viên thư viện. Họ sẽ hướng dẫn bạn về quy trình và các yêu cầu cụ thể. 
+                                    Thông thường, thư viện có một quy trình đánh giá và xem xét các đề nghị mua mới dựa trên các yếu tố như tính chất và nhu cầu của người dùng, ngân sách và chính sách mua sắm của thư viện.
+                                </p>
+                            </p-accordionTab>
+                        </p-accordion>
+                    </p-tabPanel>
+                    <p-tabPanel header="Chính sách và thông tin khác" class="tbpanel">
+                        <p-accordion [multiple]="true">
+                            <p-accordionTab header="Thư viện có dịch vụ in ấn, sao chụp tài liệu không? Nếu có, làm thế nào để sử dụng dịch vụ này?">
+                                <p>
+                                    Thư viện có thể cung cấp dịch vụ in ấn, sao chụp tài liệu cho người dùng. Để sử dụng dịch vụ này, bạn cần liên hệ với nhân viên thư viện và tuân thủ quy định về việc sử dụng máy in và sao chụp.
+                                </p>
+                            </p-accordionTab>
+                            <p-accordionTab header="Làm thế nào để biết thông tin về các tài liệu mới, sách bán chạy hoặc sách được đề xuất trong thư viện?">
+                                <p>
+                                    Thông tin về các tài liệu mới, sách bán chạy, hoặc sách được đề xuất thường có thể được tìm thấy trong các bảng thông tin trong thư viện, trang web của thư viện, hoặc thông qua hệ thống tìm kiếm trực tuyến.
+                                </p>
+                            </p-accordionTab>
+                            <p-accordionTab header="Thư viện có máy tính và Wi-Fi miễn phí cho người dùng không?">
+                                <p>
+                                    Thư viện có thể cung cấp máy tính và Wi-Fi miễn phí cho người dùng. Thông tin về cách sử dụng các thiết bị này có thể được tìm thấy tại quầythông tin hoặc trên trang web của thư viện.
+                                </p>
+                            </p-accordionTab>
+                            <p-accordionTab header="Làm thế nào để liên hệ với thủ thư hoặc nhận hỗ trợ khi cần thiết?">
+                                <p>
+                                    Để liên hệ với thủ thư hoặc nhận hỗ trợ, bạn có thể đến quầy thông tin hoặc quầy mượn/trả sách trong thư viện. Thông tin liên hệ của thư viện và các phương thức liên lạc khác thường được hiển thị trên trang web của thư viện.
+                                </p>
+                            </p-accordionTab>
+                            <p-accordionTab header="Thư viện có chính sách bảo mật thông tin cá nhân không? ">
+                                <p>
+                                    Chính sách bảo mật thông tin cá nhân thường được thư viện tuân thủ theo quy định pháp luật và được công bố trên trang web hoặc trong các tài liệu hướng dẫn của thư viện.
+                                </p>
+                            </p-accordionTab>
+                        </p-accordion>
+                    </p-tabPanel>
+                </p-tabView>
+            </div>
+        </div>
+    </div>
+</div>

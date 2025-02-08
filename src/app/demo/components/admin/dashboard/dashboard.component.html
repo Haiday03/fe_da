@@ -1,0 +1,77 @@
+    <div class="grid">
+        <div class="col-12 lg:col-6 xl:col-3 scalein animation-delay-50 animation-duration-500">
+            <div class="card mb-0">
+                <div class="flex justify-content-between mb-3">
+                    <div>
+                        <span class="block text-500 font-medium mb-3">Số lượng người dùng</span>
+                        <div class="text-900 font-medium text-xl hover:text-primary-400">{{this.dashboardInfo.countUsers}}</div>
+                    </div>
+                    <div class="flex align-items-center justify-content-center bg-blue-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                        <i class="pi pi-user text-blue-500 text-xl"></i>   
+                    </div>
+                </div>
+                <span class="text-green-500 font-medium">+{{this.dashboardInfo.countNewUsers}} mới </span>
+                <span class="text-500">trong vòng 1 tháng</span>
+            </div>
+        </div>
+        <div class="col-12 lg:col-6 xl:col-3 scalein animation-delay-50 animation-duration-500">
+            <div class="card mb-0">
+                <div class="flex justify-content-between mb-3">
+                    <div>
+                        <span class="block text-500 font-medium mb-3">Số lượng tác giả</span>   
+                        <div class="text-900 font-medium text-xl hover:text-primary-400">{{this.dashboardInfo.countAuthors}}</div>
+                    </div>
+                    <div class="flex align-items-center justify-content-center bg-orange-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                        <i class="pi pi-user text-orange-500 text-xl"></i>
+                    </div>
+                </div>
+                <span class="text-green-500 font-medium">+{{this.dashboardInfo.countNewAuthors}} mới </span>
+                <span class="text-500">trong vòng 1 tháng</span>
+            </div>
+        </div>
+        <div class="col-12 lg:col-6 xl:col-3 scalein animation-delay-50 animation-duration-500">
+            <div class="card mb-0">
+                <div class="flex justify-content-between mb-3">
+                    <div>
+                        <span class="block text-500 font-medium mb-3">Số lượng thể loại</span>
+                        <div class="text-900 font-medium text-xl hover:text-primary-400">{{this.dashboardInfo.countCategories}}</div>
+                    </div>
+                    <div class="flex align-items-center justify-content-center bg-cyan-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                        <i class="pi pi-inbox text-cyan-500 text-xl"></i>
+                    </div>
+                </div>
+                <span class="text-green-500 font-medium">+{{this.dashboardInfo.countNewCategories}} mới </span>
+                <span class="text-500">trong vòng 1 tháng</span>
+            </div>
+        </div>
+        <div class="col-12 lg:col-6 xl:col-3 scalein animation-delay-50 animation-duration-500">
+            <div class="card mb-0">
+                <div class="flex justify-content-between mb-3 ">
+                    <div>
+                        <span class="block text-500 font-medium mb-3">Số lượng sách</span>
+                        <div class="text-900 font-medium text-xl hover:text-primary-400">{{this.dashboardInfo.countBooks}}</div>
+                    </div>
+                    <div class="flex align-items-center justify-content-center bg-purple-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                        <i class="pi pi-book text-purple-500 text-xl"></i>
+                    </div>
+                </div>
+                <span class="text-green-500 font-medium">+{{this.dashboardInfo.countNewBooks}} mới </span>
+                <span class="text-500">trong vòng 1 tháng</span>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="card">
+                <h5 class="mb-5">TOP THỂ LOẠI ĐƯỢC MƯỢN NHIỀU NHẤT</h5>
+                <p-chart type="bar" [data]="basicData" [options]="basicOptions"></p-chart>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="card">
+                <h5 class="mb-5">SỐ LƯỢT ĐẶT MƯỢN VÀ ĐÁNH GIÁ SÁCH</h5>
+                <p-chart type="line" [data]="chartData" [options]="chartOptions"></p-chart>
+            </div>
+    </div>
+</div>
+

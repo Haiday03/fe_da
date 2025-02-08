@@ -1,0 +1,251 @@
+<div
+    class="surface-0 flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden"
+>
+    <div class="grid justify-content-center p-2 lg:p-0" style="min-width: 80%">
+        <div
+            class="col-12 mt-5 xl:mt-0"
+            style="
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: relative;
+            "
+        >
+            <!-- Logo ở giữa -->
+            <img
+                src="assets/layout/images/logo.png"
+                alt="LMS logo"
+                class="mb-5"
+                style="width: 81px; height: 80px"
+            />
+
+            <!-- Language switcher ở cuối dòng (bên phải) -->
+            <div
+                class="language-switcher"
+                style="display: flex; gap: 10px; position: absolute; right: 0"
+            >
+                <button
+                    (click)="switchLanguage('en')"
+                    [class.active]="lg === 'en'"
+                    class="lang-btn"
+                    [style.background-color]="
+                        lg === 'en' ? '#e1f5fe' : '#f5f5f5'
+                    "
+                    [style.border]="
+                        lg === 'en' ? '2px solid #0288d1' : '1px solid #ddd'
+                    "
+                    style="
+                        display: flex;
+                        align-items: center;
+                        padding: 6px 10px;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        font-size: 12px;
+                        transition: all 0.3s ease;
+                    "
+                >
+                    <img
+                        src="assets/demo/images/login/en.png"
+                        alt="English"
+                        class="flag-icon"
+                        style="width: 16px; height: 12px; margin-right: 6px"
+                    />
+                    English
+                </button>
+                <button
+                    (click)="switchLanguage('vi')"
+                    [class.active]="lg === 'vi'"
+                    class="lang-btn"
+                    [style.background-color]="
+                        lg === 'vi' ? '#e1f5fe' : '#f5f5f5'
+                    "
+                    [style.border]="
+                        lg === 'vi' ? '2px solid #0288d1' : '1px solid #ddd'
+                    "
+                    style="
+                        display: flex;
+                        align-items: center;
+                        padding: 6px 10px;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        font-size: 12px;
+                        transition: all 0.3s ease;
+                    "
+                >
+                    <img
+                        src="assets/demo/images/login/vi.png"
+                        alt="Tiếng Việt"
+                        class="flag-icon"
+                        style="width: 16px; height: 12px; margin-right: 6px"
+                    />
+                    Tiếng Việt
+                </button>
+            </div>
+        </div>
+        <div
+            class="col-12 xl:col-6"
+            style="
+                border-radius: 56px;
+                padding: 0.3rem;
+                background: linear-gradient(
+                    180deg,
+                    var(--primary-color) 10%,
+                    rgba(33, 150, 243, 0) 30%
+                );
+            "
+        >
+            <div
+                class="h-full w-full m-0 py-7 px-4"
+                style="
+                    border-radius: 53px;
+                    background: linear-gradient(
+                        180deg,
+                        var(--surface-50) 38.9%,
+                        var(--surface-0)
+                    );
+                "
+            >
+                <div class="text-center mb-5">
+                    <img
+                        src="assets/demo/images/login/avatar.png"
+                        alt="Image"
+                        height="50"
+                        class="mb-3"
+                    />
+                    <div class="text-900 text-3xl font-medium mb-3">
+                        {{ lg === "vi" ? "Chào mừng!" : "Welcome" }}
+                    </div>
+                    <span class="text-600 font-medium"
+                        >{{
+                            lg === "vi"
+                                ? "Đăng nhập để tiếp tục"
+                                : "Please log in to continue"
+                        }}
+                    </span>
+                </div>
+
+                <form
+                    class="w-full md:w-10 mx-auto"
+                    [formGroup]="loginForm"
+                    (ngSubmit)="login()"
+                >
+                    <label
+                        for="email"
+                        class="block text-900 text-xl font-medium mb-2"
+                        >{{ lg === "vi" ? "Tên đăng nhập" : "Username" }}
+                    </label>
+                    <input
+                        id="email"
+                        type="text"
+                        formControlName="username"
+                        placeholder="Nhập email"
+                        pInputText
+                        class="w-full"
+                        style="padding: 1rem"
+                        [ngClass]="{
+                            'is-invalid': submitted && f.username.errors
+                        }"
+                    />
+                    <div
+                        *ngIf="submitted && f.username.errors"
+                        class="invalid-feedback"
+                    >
+                        <div
+                            *ngIf="f.username.errors.required"
+                            style="color: red"
+                        >
+                            {{
+                                lg === "vi"
+                                    ? "Tên đăng nhập không được trống!"
+                                    : "Username cannot be empty!"
+                            }}
+                        </div>
+                    </div>
+                    <label
+                        for="password"
+                        class="block text-900 font-medium text-xl mb-2 mt-3"
+                        >{{ lg === "vi" ? "Mật khẩu" : "Password" }}
+                    </label>
+                    <p-password
+                        id="password"
+                        placeholder="Nhập mật khẩu"
+                        formControlName="password"
+                        [toggleMask]="true"
+                        styleClass="w-full"
+                        [ngClass]="{
+                            'is-invalid': submitted && f.password.errors
+                        }"
+                    ></p-password>
+                    <div
+                        *ngIf="submitted && f.password.errors"
+                        class="invalid-feedback"
+                    >
+                        <div
+                            *ngIf="f.password.errors.required"
+                            style="color: red"
+                        >
+                            {{
+                                lg === "vi"
+                                    ? "Mật khẩu không được trống!"
+                                    : "Password cannot be empty!"
+                            }}
+                        </div>
+                    </div>
+
+                    <div
+                        class="flex align-items-center justify-content-between mb-5 mt-3"
+                    >
+                        <div class="flex align-items-center">
+                            <p-checkbox
+                                id="rememberme"
+                                [binary]="true"
+                                styleClass="mr-2"
+                            ></p-checkbox>
+                            <label for="rememberme"
+                                >{{ lg === "vi" ? "Ghi nhớ" : "Remember me" }}
+                            </label>
+                        </div>
+                        <a
+                            class="font-medium no-underline ml-2 text-right cursor-pointer"
+                            style="color: var(--primary-color)"
+                            >{{
+                                lg === "vi"
+                                    ? "Quên mật khẩu?"
+                                    : "Forgot password?"
+                            }}
+                        </a>
+                    </div>
+
+                    <div
+                        *ngIf="error"
+                        class="flex align-items-center justify-content-center m-3"
+                    >
+                        <a
+                            [routerLink]="['/auth/register']"
+                            class="font-medium no-underline ml-2 text-right cursor-pointer text-red-600"
+                            >{{ error }}</a
+                        >
+                    </div>
+
+                    <button
+                        pButton
+                        pRipple
+                        [label]="dangnhap"
+                        class="w-full p-3 text-xl"
+                    ></button>
+                </form>
+
+                <div
+                    class="flex align-items-center justify-content-center mt-5"
+                >
+                    <a
+                        [routerLink]="['/auth/register']"
+                        class="font-medium no-underline ml-2 text-right cursor-pointer"
+                        style="color: var(--primary-color)"
+                        >{{ lg === "vi" ? "Đăng ký" : "Sign up" }}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

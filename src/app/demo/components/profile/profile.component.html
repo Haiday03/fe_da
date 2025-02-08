@@ -1,0 +1,39 @@
+ <div class="col-12 xl:col-6 w-full">
+    <div  *ngIf='(user.address || user.city || user.university || user.about) == null'  class="text-center mb-5">
+      <button pButton pRipple type="button" styleClass="mr-2" label="Your profile is not completed" class="p-button-danger w-5" disabled></button>
+    </div>
+
+    <div class="card">
+         <div class="text-center">
+              <img src="./assets/demo/images/galleria/galleria1.jpg" class="mb-5" style="width:120px; height:120px; border-radius: 50%;">       
+         </div>
+         
+
+    <div class="block font-bold text-3xl text-center border-round ">
+      {{user.username}} 
+    </div>
+
+    <p-divider type="dashed"></p-divider>
+
+
+    <div class="text-center">
+      <button pButton pRipple type="button" label="PREMIUM" class="p-button-success p-button-text"></button>
+    </div>
+      <div class="card-container">
+          <div class="flex justify-content-center flex-wrap card-container pb-4 m-3">
+            <button *ngIf='user.facebook !=null' pButton pRipple type="button" (click)="goToLink(user.facebook)" icon="pi pi-facebook" class="p-button-rounded p-button-secondary p-button-text flex align-items-center justify-content-center w-2rem h-2rem font-bold text-black border-round"></button>
+            <button *ngIf='user.twitter !=null' pButton pRipple type="button" (click)="goToLink(user.twitter)"icon="pi pi-instagram" class="p-button-rounded p-button-secondary p-button-text flex align-items-center justify-content-center w-2rem h-2rem font-bold text-black border-round"></button>
+            <button *ngIf='user.instagram !=null' pButton pRipple type="button" (click)="goToLink(user.instagram)"icon="pi pi-twitter" class="p-button-rounded p-button-secondary p-button-text flex align-items-center justify-content-center w-2rem h-2rem font-bold text-black border-round"></button>
+          </div>
+          <div *ngIf='user.address && user.city !== null '  class="block text-600 surface-overlay font-bold mb-3 text border-round mb-3 text-center uppercase">
+            <i class="pi pi-map-marker"></i> {{user.address}}, {{user.city}}</div>
+
+          <div *ngIf='user.university != null '  class="block text-500 surface-overlay font-bold mb-3 text border-round mb-3 text-center">
+            <i class="pi pi-building"></i> {{user.university}}</div>
+
+          <div *ngIf="user.about != null "  class="block text-500 surface-overlay font-bold mb-3 text border-round mb-3 text-center">
+            <i class="pi pi-id-card"></i> {{user.about}}</div>
+            
+          </div>
+        </div>
+</div>

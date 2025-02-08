@@ -1,0 +1,126 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <p-toast></p-toast>
+            <p-breadcrumb [model]="itemsMenu" [home]="home" styleClass="mb-4"></p-breadcrumb>
+
+            <div class="card" styleClass="mb-4">
+                <div class="flex flex-row">
+                    <div class="flex flex-column w-16rem mr-4">
+                        <label for="searchCode">Mã thể loại: </label>
+                        <input pInputText id="searchCode" class="mt-2" type="text" [(ngModel)]="searchCategoryDto.code" placeholder="Nhập mã">
+                    </div>
+                    <div class="flex flex-column w-16rem mr-4">
+                        <label for="searchName">Tên thể loại: </label>
+                        <input pInputText id="searchName" class="mt-2" type="text" [(ngModel)]="searchCategoryDto.name" placeholder="Nhập tên">
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <button pButton pRipple label="Tìm kiếm" icon="pi pi-search" class="p-button-success mr-2 p-button-rounded p-button-sm" (click)="search()"></button>
+                    <button pButton pRipple label="Đặt lại" icon="pi pi-refresh" class="p-button-warning p-button-rounded p-button-sm" (click)="refreshSearchFields()"></button>
+                </div>
+            </div>
+
+            <p-table #dt 
+                [value]="listCategory" 
+                responsiveLayout="scroll" 
+                [rows]="pagination.size" 
+                [totalRecords]="pagination.totalElements"
+                [lazy]="true"
+                [paginator]="true" 
+                [rowsPerPageOptions]="[10,20,30]" 
+                [showCurrentPageReport]="true" 
+                currentPageReportTemplate="Trang {{pagination.page + 1}}/{{pagination.totalPages}}" 
+                [(selection)]="listCategorySelected" 
+                selectionMode="multiple" 
+                [rowHover]="true" 
+                dataKey="id" 
+                (onPage)="pageChange($event)"
+                (rowsChange)="sizeChange($event)"
+            >
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0">DANH SÁCH DỮ LIỆU</h5>
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <button pButton pRipple label="Thêm mới" icon="pi pi-plus" class="p-button-primary mr-2 p-button-rounded p-button-sm" (click)="openNew()"></button>
+                            <button pButton pRipple label="Xóa" icon="pi pi-trash" class="p-button-danger p-button-rounded p-button-sm" (click)="deleteList()" [disabled]="!listCategorySelected || !listCategorySelected.length"></button>
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th>Mã thể loại</th>
+                        <th>Tên thể loại</th>
+                        <th>Mô tả</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-category>
+                    <tr>
+                        <td>
+                            <p-tableCheckbox [value]="category"></p-tableCheckbox>
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            {{category.code || category.id}}
+                        </td>
+                        <td style="width:14%; min-width:18rem;">
+                            {{category.name}}
+                        </td>
+                        <td style="width:14%; min-width:32rem;">    
+                            {{category.description}}
+                        </td>
+                        <td>
+                            <div class="flex justify-content-left">
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="edit(category.id)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="deleteOne(category.id)"></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <p-dialog [(visible)]="dialogAddOrUpdate" [style]="{width: '450px'}" header="{{headerDialogAddOrUpdate}}" [modal]="true" class="p-fluid">
+            <ng-template pTemplate="content">
+                <div class="field">
+                    <label for="name">Tên thể loại <span style="color: red;">(*)</span></label>
+                    <input type="text" pInputText id="name" [(ngModel)]="category.name" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !category.name}"/>
+                    <small style="color: red;" class="ng-dirty ng-invalid" *ngIf="submitted && !category.name">Tên thể loại không được trống</small>
+                </div>
+                <div class="field">
+                    <label for="description">Mô tả</label>
+                    <textarea id="description" pInputTextarea [(ngModel)]="category.description" required rows="5" cols="20"></textarea>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple label="Lưu lại" icon="pi pi-check" class="p-button-text" (click)="save()"></button>
+                <button pButton pRipple label="Hủy bỏ" icon="pi pi-times" class="p-button-text" (click)="dialogAddOrUpdate = false"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="dialogConfirmDeleteOne" header="Xác nhận xóa" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span *ngIf="category">Bạn có chắc muốn xóa <b>{{category.name}}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Xác nhận" (click)="confirmDeleteOne()"></button>
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Hủy bỏ" (click)="dialogConfirmDeleteOne = false"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="dialogConfirmDeleteList" header="Xác nhận xóa" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span>Bạn có chắc muốn xóa các bản ghi này không?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Xác nhận" (click)="confirmDeleteList()"></button>
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Hủy bỏ" (click)="dialogConfirmDeleteList = false"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>

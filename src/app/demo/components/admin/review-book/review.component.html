@@ -1,0 +1,101 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <p-toast></p-toast>
+            <p-breadcrumb [model]="itemsMenu" [home]="home" styleClass="mb-4"></p-breadcrumb>
+
+            <div class="card" styleClass="mb-4">
+                <div class="flex flex-row">
+                    <div class="flex flex-column w-16rem mr-4">
+                        <label for="searchName">Từ ngày: </label>
+                        <p-calendar class="mt-2" [style]="{ width: '100%' }" [(ngModel)]="searchBorrowedHistoryDto.fromDate" [readonlyInput]="true" dateFormat="dd-mm-yy" dataType="string" [showIcon]="true" inputId="buttondisplay" placeholder="--Chọn ngày--"></p-calendar>
+                    </div>
+                    <div class="flex flex-column w-16rem mr-4">
+                        <label for="searchName">Đến ngày: </label>
+                        <p-calendar class="mt-2" [style]="{ width: '100%' }" [(ngModel)]="searchBorrowedHistoryDto.toDate" [readonlyInput]="true" dateFormat="dd-mm-yy" dataType="string" [showIcon]="true" inputId="buttondisplay" placeholder="--Chọn ngày--"></p-calendar>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <button pButton pRipple label="Tìm kiếm" icon="pi pi-search" class="p-button-success mr-2 p-button-rounded p-button-sm" (click)="search()"></button>
+                    <button pButton pRipple label="Đặt lại" icon="pi pi-refresh" class="p-button-warning p-button-rounded p-button-sm" (click)="refreshSearchFields()"></button>
+                </div>
+            </div>
+
+            <p-table #dt [value]="listReviews" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['name','country.name','representative.name','status']" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Trang {currentPage}/{totalPages}" [(selection)]="listReviewsSelected" selectionMode="multiple" [rowHover]="true" dataKey="id">
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0">DANH SÁCH DỮ LIỆU</h5>
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <button pButton pRipple label="Xuất Excel" icon="pi pi-file-excel" class="p-button-primary mr-2 p-button-rounded p-button-sm" (click)="exportExcel()"></button>
+                            <!-- <button pButton pRipple label="Thêm mới" icon="pi pi-plus" class="p-button-primary mr-2 p-button-rounded p-button-sm" (click)="openNew()"></button> -->
+                            <button pButton pRipple label="Xóa" icon="pi pi-trash" class="p-button-danger p-button-rounded p-button-sm" (click)="deleteList()" [disabled]="!listReviewsSelected || !listReviewsSelected.length"></button>
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th>Tên sách</th>
+                        <th>Đánh giá</th>
+                        <th>Nội dung</th>
+                        <th>Người đánh giá</th>
+                        <th>Ngày đánh giá</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-borrow>
+                    <tr>
+                        <td>
+                            <p-tableCheckbox [value]="borrow"></p-tableCheckbox>
+                        </td>
+                        <td style="width:14%; min-width:16rem;">
+                            {{borrow.book.name}}
+                        </td>
+                        <td style="width:14%; min-width:16rem;">
+                            <p-rating [readonly]="true" [cancel]="false" [(ngModel)]="borrow.rating"></p-rating>
+                        </td>
+                        <td style="width:14%; min-width:26rem;">    
+                            {{borrow.comment}}
+                        </td>
+                        <td style="width:14%; min-width:20rem;">
+                            {{borrow.borrower.username}}
+                        </td>
+                        <td style="width:14%; min-width:14rem;">
+                            {{borrow.reviewedDate | date:"dd/MM/yyyy HH:mm"}}
+                        </td>
+                        <td style="width:14%; min-width:8rem;">
+                            <div class="flex justify-content-left">
+                                <!-- <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="edit(category.id)"></button> -->
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="deleteOne(borrow.id)"></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <p-dialog [(visible)]="dialogConfirmDeleteOne" header="Xác nhận xóa" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span>Bạn có chắc muốn xóa bản ghi này không?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Xác nhận" (click)="confirmDeleteOne()"></button>
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Hủy bỏ" (click)="dialogConfirmDeleteOne = false"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="dialogConfirmDeleteList" header="Xác nhận xóa" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span>Bạn có chắc muốn xóa các bản ghi này không?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Xác nhận" (click)="confirmDeleteList()"></button>
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Hủy bỏ" (click)="dialogConfirmDeleteList = false"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>

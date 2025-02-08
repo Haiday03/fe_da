@@ -1,0 +1,31 @@
+<div class="grid p-fluid" >
+    <div class="col-12">
+        <div class="card">
+            <h5>Sách nổi bật</h5>
+            <p-carousel [value]="books" [numVisible]="3" [numScroll]="3" [circular]="true" [responsiveOptions]="carouselResponsiveOptions">
+                <ng-template let-book pTemplate="item">
+                        <div class="border-round m-2 text-center p-2 text-center hover:surface-100" style="border: 1px solid var(--surface-d)" >
+                            <div class="my-5">
+                                <img src="{{book.image}}" (error) ="changeSource($event)" [alt]="book.name" class="shadow-4" (click)="bookDetail(this.book.id)" style="width: 100%;" />
+
+                            </div>
+                            <div>
+                                <h5 class="mb-1" (click)="bookDetail(this.book.id)">{{ book.name | slice:0:27 }}{{ book.name.length > 27 ? '...' : '' }}</h5>
+                                <h6 class="mt-0 mb-3">{{book.price}}đ</h6>
+                                <span [class]="'book-badge status-'+book.inventoryStatus.toLowerCase()">{{book.inventoryStatus}}</span> 
+                                <div class="my-5">
+                                    <button pButton pRipple icon="pi pi-search" class="mr-2 p-button-rounded" (click)="bookDetail(this.book.id)"></button>
+                                    <button pButton pRipple icon="pi pi-heart-fill" class="mr-2 p-button-rounded p-button-success" (click)="addBookToWish(this.book.id)" ></button>
+                                    <button pButton pRipple icon="pi pi-cog" class="p-button-rounded p-button-info"></button>
+                                </div>
+                            </div>
+                        </div>
+                </ng-template>
+            </p-carousel>
+        </div>
+    </div>
+    <div class="col-6">
+
+    </div>
+</div>
+

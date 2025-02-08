@@ -1,0 +1,49 @@
+<div class="flex justify-content-center flex-wrap">
+  <div class="card">
+    <div class="flex card-container scalein animation-delay-50 animation-duration-500">
+
+      <div class="formgrid grid">
+        <div class="field col-12 md:col-6">
+          <div class="flex-grow-1 flex-shrink-1 flex align-items-centerfont-bold text-white p-4 m-3 border-round">
+            <p-card header="PREMIUM" subheader="$9.99 per Month" [style]="{width: '360px'}" styleClass="p-card-shadow">
+              <ng-template pTemplate="header">
+                  <img alt="Card" src="./assets/demo/images/sub/premium.png" width="300px" height="300px" class="p-5">
+              </ng-template>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt
+                  quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!</p>
+              <ng-template pTemplate="footer">
+                <div class="text-center">
+                  <button pButton pRipple (click)="checkoutMonthly()" class="p-button-rounded p-button-success">BUY</button>
+                </div>
+              </ng-template>
+            </p-card>
+      
+          </div>
+        </div>
+        <div class="field col-12 md:col-6">
+          <div class="flex-grow-1 flex-shrink-1 flex align-items-center font-bold text-white p-4 m-3 border-round">
+            <p-card header="PRO" subheader="$99.99 per Year" [style]="{width: '360px'}" styleClass="p-card-shadow">
+              <ng-template pTemplate="header">
+                  <img alt="Card" src="./assets/demo/images/sub/pro.png" width="300px" height="300px" class="p-5">
+              </ng-template>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt
+                  quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!</p>
+              <ng-template pTemplate="footer" >
+                <div class="text-center justify-content-center">
+                  <button pButton pRipple (click)="checkoutYearly()" class="p-button-rounded p-button-danger">BUY</button>
+                </div>
+              </ng-template>
+            </p-card>
+            </div>
+        </div>
+        </div> 
+        
+    
+       
+  </div>
+</div>
+
+
+
+
+

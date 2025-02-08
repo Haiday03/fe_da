@@ -1,0 +1,188 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <p-toast></p-toast>
+            <p-breadcrumb [model]="itemsMenu" [home]="home" styleClass="mb-4"></p-breadcrumb>
+
+            <div class="card" styleClass="mb-4">
+                <div class="flex flex-row">
+                    <div class="flex flex-column w-16rem mr-4">
+                        <label for="searchKeyword">Tiêu đề: </label>
+                        <input pInputText id="searchKeyword" class="mt-2" type="text" [(ngModel)]="searchNewsDto.keyword" placeholder="Nhập tiêu đề">
+                    </div>
+                    <div class="flex flex-column w-16rem mr-4">
+                        <label for="searchAuthor">Tác giả: </label>
+                        <p-dropdown [style]="{ width: '100%' }"  class="mt-2" [(ngModel)]="searchNewsDto.authorId" [options]="authors" optionLabel="name" optionValue="id" [filter]="true" filterBy="name" placeholder="--Chọn tác giả--"></p-dropdown>
+                    </div>
+                    <div class="flex flex-column w-16rem mr-4">
+                        <label for="searchName">Từ ngày (ngày xuất bản): </label>
+                        <p-calendar class="mt-2" [style]="{ width: '100%' }" [(ngModel)]="searchNewsDto.fromDate" [readonlyInput]="true" dateFormat="dd-mm-yy" dataType="string" [showIcon]="true" inputId="buttondisplay" placeholder="--Chọn ngày--"></p-calendar>
+                    </div>
+                    <div class="flex flex-column w-16rem mr-4">
+                        <label for="searchName">Đến ngày (ngày xuất bản): </label>
+                        <p-calendar class="mt-2" [style]="{ width: '100%' }" [(ngModel)]="searchNewsDto.toDate" [readonlyInput]="true" dateFormat="dd-mm-yy" dataType="string" [showIcon]="true" inputId="buttondisplay" placeholder="--Chọn ngày--"></p-calendar>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <button pButton pRipple label="Tìm kiếm" icon="pi pi-search" class="p-button-success mr-2 p-button-rounded p-button-sm" (click)="search()"></button>
+                    <button pButton pRipple label="Đặt lại" icon="pi pi-refresh" class="p-button-warning p-button-rounded p-button-sm" (click)="refreshSearchFields()"></button>
+                </div>
+            </div>
+
+            <p-table 
+                #dt
+                [value]="listNews" 
+                responsiveLayout="scroll" 
+                [rows]="pagination.size" 
+                [totalRecords]="pagination.totalElements"
+                [lazy]="true"
+                [paginator]="true" 
+                [rowsPerPageOptions]="[10,20,30]" 
+                [showCurrentPageReport]="true" 
+                currentPageReportTemplate="Trang {{pagination.page + 1}}/{{pagination.totalPages}}" 
+                [(selection)]="listNewsSelected" 
+                selectionMode="multiple" 
+                [rowHover]="true" 
+                dataKey="id" 
+                (onPage)="pageChange($event)"
+                (rowsChange)="sizeChange($event)"
+            >
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0">DANH SÁCH DỮ LIỆU</h5>
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <button pButton pRipple label="Thêm mới" icon="pi pi-plus" class="p-button-primary mr-2 p-button-rounded p-button-sm" (click)="openNew()"></button>
+                            <button pButton pRipple label="Xóa" icon="pi pi-trash" class="p-button-danger p-button-rounded p-button-sm" (click)="deleteList()" [disabled]="!listNewsSelected || !listNewsSelected.length"></button>
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th>Mã bài viết</th>
+                        <th>Tiêu đề</th>
+                        <th>Tác giả</th>
+                        <th>Ngày xuất bản</th>
+                        <th>Tóm tắt</th>
+                        <th>Nội dung</th>
+                        <th>Từ khóa</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-new>
+                    <tr>
+                        <td>
+                            <p-tableCheckbox [value]="new"></p-tableCheckbox>
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            {{new.code || new.id}}
+                        </td>
+                        <td style="width:14%; min-width:18rem;">
+                            {{new.title}}
+                        </td>
+                        <td style="width:14%; min-width:16rem;">    
+                            {{new.author.name}}
+                        </td>
+                        <td style="width:14%; min-width:12rem;">    
+                            {{new.releaseDate | date: "dd/MM/yyyy"}}
+                        </td>
+                        <td style="width:14%; min-width:24rem; max-width: 30rem; overflow: hidden !important; text-overflow: ellipsis !important; white-space: nowrap;">    
+                            {{new.summary}}
+                        </td>
+                        <td style="width:14%; min-width:24rem; max-width: 30rem; overflow: hidden !important; text-overflow: ellipsis !important; white-space: nowrap;">    
+                            {{new.content}}
+                        </td>
+                        <td style="width:14%; min-width:16rem; max-width: 30rem; overflow: hidden !important; text-overflow: ellipsis !important; white-space: nowrap;">    
+                            {{new.keyword}}
+                        </td>
+                        <td>
+                            <div class="flex justify-content-left">
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="edit(new.id)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="deleteOne(new.id)"></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <p-dialog [(visible)]="dialogAddOrUpdate" [style]="{ width: '75rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" header="{{headerDialogAddOrUpdate}}" [modal]="true" class="p-fluid">
+            <ng-template pTemplate="content">
+                <img [src]="new.thumnail" [alt]="new.thumnail" width="150" class="mt-0 mx-auto mb-5 block shadow-2">
+                <div class="field">
+                    <label for="image">Ảnh <span style="color: red;">(*)</span></label>
+                    <p-fileUpload mode="basic" chooseLabel="Chọn ảnh" accept=".jpg" [maxFileSize]="1000000" (onSelect)="chooseImage($event)"></p-fileUpload>
+                    <!-- <small style="color: red;" class="ng-dirty ng-invalid" *ngIf="submitted && (!fileSelected || fileSelected.size <= 0)">Vui lòng chọn ảnh</small> -->
+                    <!-- <small *ngIf="fileSelected && fileSelected.size > 0">
+                        {{fileSelected.name}} - {{fileSelected.size}} bytes
+                    </small> -->
+                </div>
+                <div class="field" style="margin-top: 14px;">
+                    <label for="title">Tiêu đề <span style="color: red;">(*)</span></label>
+                    <input type="text" pInputText id="title" [(ngModel)]="new.title" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !new.title}" placeholder="Nhập tiêu đề"/>
+                    <small style="color: red;" class="ng-dirty ng-invalid" *ngIf="submitted && !new.title">Tiêu đề không được trống</small>
+                </div>
+                <div class="flex align-items-center mt-3" style="margin: 0 -1rem !important;">
+                    <div class="field col-4">
+                        <label for="author">Tác giả <span style="color: red;">(*)</span></label>
+                        <p-dropdown [style]="{ width: '100%' }"  class="mt-2" [(ngModel)]="new.authorId" [options]="authors" optionLabel="name" optionValue="id" [filter]="true" filterBy="name" placeholder="--Chọn tác giả--"></p-dropdown>
+                        <small style="color: red;" class="ng-dirty ng-invalid" *ngIf="submitted && !new.authorId">Tác giả không được trống</small>
+                    </div>
+                    <div class="field col-4">
+                        <label for="releaseDate">Ngày xuất bản <span style="color: red;">(*)</span></label>
+                        <p-calendar id="releaseDate" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}" [ngClass]="{'ng-invalid ng-dirty' : submitted && !new.releaseDate}" [(ngModel)]="new.releaseDate" dateFormat="dd-mm-yy" [readonlyInput]="true" [showIcon]="true" inputId="buttondisplay"  placeholder="--Chọn ngày--"></p-calendar>
+                        <small style="color: red;" class="ng-dirty ng-invalid" *ngIf="submitted && !new.releaseDate">Ngày xuất bản không được trống</small>
+                    </div>
+                    <div class="field col-4">
+                        <label for="keyword">Từ khóa <span style="color: red;">(*)</span></label>
+                        <input type="text" pInputText id="keyword" [(ngModel)]="new.keyword" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !new.keyword}" placeholder="Nhập từ khóa"/>
+                        <small style="color: red;" class="ng-dirty ng-invalid" *ngIf="submitted && !new.keyword">Từ khóa không được trống</small>
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="summary">Tóm tắt <span style="color: red;">(*)</span></label>
+                    <textarea id="summary" pInputTextarea [(ngModel)]="new.summary" [maxLength]="460" required rows="4" cols="20" [ngClass]="{'ng-invalid ng-dirty' : submitted && !new.summary}" placeholder="Nhập tóm tắt"></textarea>
+                    <small style="color: red;" class="ng-dirty ng-invalid" *ngIf="submitted && !new.summary">Tóm tắt không được trống</small>
+                </div>
+                <!-- <div class="field" style="margin-top: 14px;">
+                    <label for="content">Nội dung <span style="color: red;">(*)</span></label>
+                    <textarea id="content" pInputTextarea [(ngModel)]="new.content" required rows="24" cols="20" [ngClass]="{'ng-invalid ng-dirty' : submitted && !new.content}" placeholder="Nhập nội dung"></textarea>
+                    <small style="color: red;" class="ng-dirty ng-invalid" *ngIf="submitted && !new.content">Nội dung không được trống</small>
+                </div> -->
+                <div class="field" style="margin-top: 14px;">
+                    <label for="content">Nội dung <span style="color: red;">(*)</span></label>
+                    <p-editor [(ngModel)]="new.content" [style]="{ height: '430px' }"></p-editor>
+                    <small style="color: red;" class="ng-dirty ng-invalid" *ngIf="submitted && !new.content">Nội dung không được trống</small>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple label="Lưu lại" icon="pi pi-check" class="p-button-text" (click)="save()"></button>
+                <button pButton pRipple label="Hủy bỏ" icon="pi pi-times" class="p-button-text" (click)="dialogAddOrUpdate = false"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="dialogConfirmDeleteOne" header="Xác nhận xóa" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span *ngIf="new">Bạn có chắc muốn xóa <b>{{new.title}}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Xác nhận" (click)="confirmDeleteOne()"></button>
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Hủy bỏ" (click)="dialogConfirmDeleteOne = false"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="dialogConfirmDeleteList" header="Xác nhận xóa" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span>Bạn có chắc muốn xóa các bản ghi này không?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Xác nhận" (click)="confirmDeleteList()"></button>
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Hủy bỏ" (click)="dialogConfirmDeleteList = false"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>
