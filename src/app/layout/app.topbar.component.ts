@@ -10,14 +10,14 @@ export class AppTopBarComponent implements OnInit {
 
     items: MenuItem[];
     constructor(public layoutService: LayoutService,private authenticationService: AuthenticationService) { }
+    
+    lg: string = 'vi';
 
     ngOnInit() {
+        if (localStorage.getItem('lang')) {
+            this.lg = localStorage.getItem('lang') || 'vi';
+        }
         this.items = [
-            // {
-            //     icon: "pi pi-shopping-cart",
-            //     routerLink: ['/cart']
-                
-            // },
             {
                 icon: "pi pi-heart",
                 routerLink: ['/wish']
