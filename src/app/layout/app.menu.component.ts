@@ -28,46 +28,73 @@ export class AppMenuComponent implements OnInit {
             this.admin = true;
             this.adminModel = [
                 {
-                    label: this.lg === 'vi' ? 'Quản trị hệ thống' : 'System Administration',
+                    label:
+                        this.lg === 'vi'
+                            ? 'Quản trị hệ thống'
+                            : 'System Administration',
                     icon: 'pi pi-fw pi-verified',
                     items: [
                         {
-                            label: this.lg === 'vi' ? 'Báo cáo thống kê' : 'Statistical report',
+                            label:
+                                this.lg === 'vi'
+                                    ? 'Báo cáo thống kê'
+                                    : 'Statistical report',
                             icon: 'pi pi-fw pi-chart-bar',
                             routerLink: ['/manage/dashboard'],
                         },
                         {
-                            label: this.lg === 'vi' ? 'Quản lý thể loại' : 'Manage categories',
+                            label:
+                                this.lg === 'vi'
+                                    ? 'Quản lý thể loại'
+                                    : 'Manage categories',
                             icon: 'pi pi-fw pi-th-large',
                             routerLink: ['/manage/category'],
                         },
                         {
-                            label: this.lg === 'vi' ? 'Quản lý sách' : 'Book management',
+                            label:
+                                this.lg === 'vi'
+                                    ? 'Quản lý sách'
+                                    : 'Book management',
                             icon: 'pi pi-fw pi-book',
                             routerLink: ['/manage/book'],
                         },
                         {
-                            label: this.lg === 'vi' ? 'Quản lý tác giả' : 'Author management',
+                            label:
+                                this.lg === 'vi'
+                                    ? 'Quản lý tác giả'
+                                    : 'Author management',
                             icon: 'pi pi-fw pi-pencil',
                             routerLink: ['/manage/author'],
                         },
                         {
-                            label: this.lg === 'vi' ? 'Quản lý nhà xuất bản' : 'Publisher Manager',
+                            label:
+                                this.lg === 'vi'
+                                    ? 'Quản lý nhà xuất bản'
+                                    : 'Publisher Manager',
                             icon: 'pi pi-fw pi-share-alt',
                             routerLink: ['/manage/publisher'],
                         },
                         {
-                            label: this.lg === 'vi' ? 'Quản lý bài viết' : 'Post management',
+                            label:
+                                this.lg === 'vi'
+                                    ? 'Quản lý bài viết'
+                                    : 'Post management',
                             icon: 'pi pi-fw pi-key',
                             routerLink: ['/manage/news'],
                         },
                         {
-                            label: this.lg === 'vi' ? 'Quản lý đánh giá' : 'Performance management',
+                            label:
+                                this.lg === 'vi'
+                                    ? 'Quản lý đánh giá'
+                                    : 'Performance management',
                             icon: 'pi pi-fw pi-comments',
                             routerLink: ['/manage/review'],
                         },
                         {
-                            label: this.lg === 'vi' ? 'Quản lý mượn trả' : 'Loan management',
+                            label:
+                                this.lg === 'vi'
+                                    ? 'Quản lý mượn trả'
+                                    : 'Loan management',
                             icon: 'pi pi-fw pi-money-bill   ',
                             routerLink: ['/manage/borrow-return'],
                         },
@@ -80,51 +107,73 @@ export class AppMenuComponent implements OnInit {
             this.admin = true;
             this.adminModel = [
                 {
-                    label: 'Quản trị hệ thống',
+                    label:
+                        this.lg === 'vi'
+                            ? 'Quản trị hệ thống'
+                            : 'System Administration',
                     icon: 'pi pi-fw pi-verified',
                     items: [
                         {
-                            label: 'Báo cáo thống kê',
+                            label:
+                                this.lg === 'vi'
+                                    ? 'Báo cáo thống kê'
+                                    : 'Statistical report',
                             icon: 'pi pi-fw pi-chart-bar',
                             routerLink: ['/manage/dashboard'],
                         },
                         {
-                            label: 'Quản lý thể loại',
+                            label:
+                                this.lg === 'vi'
+                                    ? 'Quản lý thể loại'
+                                    : 'Manage categories',
                             icon: 'pi pi-fw pi-th-large',
                             routerLink: ['/manage/category'],
                         },
                         {
-                            label: 'Quản lý sách',
+                            label:
+                                this.lg === 'vi'
+                                    ? 'Quản lý sách'
+                                    : 'Book management',
                             icon: 'pi pi-fw pi-book',
                             routerLink: ['/manage/book'],
                         },
                         {
-                            label: 'Quản lý tác giả',
+                            label:
+                                this.lg === 'vi'
+                                    ? 'Quản lý tác giả'
+                                    : 'Author management',
                             icon: 'pi pi-fw pi-pencil',
                             routerLink: ['/manage/author'],
                         },
                         {
-                            label: 'Quản lý nhà xuất bản',
+                            label:
+                                this.lg === 'vi'
+                                    ? 'Quản lý nhà xuất bản'
+                                    : 'Publisher Manager',
                             icon: 'pi pi-fw pi-share-alt',
                             routerLink: ['/manage/publisher'],
                         },
                         {
-                            label: 'Quản lý người dùng',
-                            icon: 'pi pi-fw pi-user',
-                            routerLink: ['/manage/user'],
-                        },
-                        {
-                            label: 'Quản lý bài viết',
+                            label:
+                                this.lg === 'vi'
+                                    ? 'Quản lý bài viết'
+                                    : 'Post management',
                             icon: 'pi pi-fw pi-key',
                             routerLink: ['/manage/news'],
                         },
                         {
-                            label: 'Quản lý đánh giá',
+                            label:
+                                this.lg === 'vi'
+                                    ? 'Quản lý đánh giá'
+                                    : 'Performance management',
                             icon: 'pi pi-fw pi-comments',
                             routerLink: ['/manage/review'],
                         },
                         {
-                            label: 'Quản lý mượn trả',
+                            label:
+                                this.lg === 'vi'
+                                    ? 'Quản lý mượn trả'
+                                    : 'Loan management',
                             icon: 'pi pi-fw pi-money-bill   ',
                             routerLink: ['/manage/borrow-return'],
                         },
@@ -135,113 +184,66 @@ export class AppMenuComponent implements OnInit {
 
         this.model = [
             {
-                label: 'Danh mục',
+                label: this.lg === 'vi' ? 'Danh mục' : 'Category', 
                 icon: 'pi pi-fw pi-briefcase',
                 routerLink: ['/pages'],
                 items: [
                     {
-                        label: 'Trang chủ',
+                        label: this.lg === 'vi' ? 'Trang chủ' : 'Home',
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/pages/home'],
                     },
-                    // {
-                    //     label: 'Giới thiệu',
-                    //     icon: 'pi pi-fw pi-info-circle',
-                    //     routerLink: ['/pages/introduce']
-                    // },
                     {
-                        label: 'Tin tức',
+                        label: this.lg === 'vi' ? 'Tin tức' : 'News',
                         icon: 'pi pi-fw pi-file',
                         routerLink: ['/pages/news'],
                     },
                     {
-                        label: 'Tra cứu sách',
+                        label:this.lg === 'vi' ? 'Tra cứu sách' : 'Book lookup',
                         icon: 'pi pi-fw pi-search',
                         routerLink: ['/pages/list'],
                     },
                     {
-                        label: 'Sách yêu thích',
+                        label:this.lg === 'vi' ? 'Sách yêu thích' : 'Favorite books',
                         icon: 'pi pi-fw pi-heart',
                         routerLink: ['/wish'],
                     },
                     {
-                        label: 'Lịch sử mượn trả',
+                        label:this.lg === 'vi' ? 'Lịch sử mượn trả' : 'Borrowing History',
                         icon: 'pi pi-fw pi-money-bill',
                         routerLink: ['/pages/borrowed-history'],
                     },
                     {
-                        label: 'Câu hỏi thường gặp',
+                        label:this.lg === 'vi' ? 'Câu hỏi thường gặp' : 'Frequently Asked Questions',
                         icon: 'pi pi-fw pi-question-circle',
                         routerLink: ['/pages/faq'],
                     },
-                    // {
-                    //     label: 'Giỏ hàng',
-                    //     icon: 'pi pi-fw pi-shopping-cart',
-                    //     routerLink: ['/cart']
-                    // },
-                    // {
-                    //     label: 'Yêu thích',
-                    //     icon: 'pi pi-fw pi-heart',
-                    //     routerLink: ['/wish']
-                    // },
-                    // {
-                    //     label: 'Subscription',
-                    //     icon: 'pi pi-fw pi-dollar',
-                    //     routerLink: ['/subscription']
-                    // },
                 ],
             },
             {
-                label: 'Thông tin cá nhân',
+                label:this.lg === 'vi' ? 'Thông tin cá nhân' : 'Personal Information',
                 items: [
                     {
-                        label: 'Cá nhân',
+                        label:this.lg === 'vi' ? 'Cá nhân' : 'Personal',
                         icon: 'pi pi-fw pi-user',
                         routerLink: ['/profile'],
                     },
                     {
-                        label: 'Cài đặt',
+                        label:this.lg === 'vi' ? 'Cài đặt' : 'Settings',
                         icon: 'pi pi-fw pi-bars',
                         items: [
                             {
-                                label: 'Sửa thông tin',
+                                label:this.lg === 'vi' ? 'Sửa thông tin' : 'Edit information',
                                 icon: 'pi pi-fw pi-user-edit',
                                 routerLink: ['/settings'],
                             },
                             {
-                                label: 'Đổi mật khẩu',
+                                label:this.lg === 'vi' ? 'Đổi mật khẩu' : 'Change password',
                                 icon: 'pi pi-fw pi-sync',
                                 routerLink: ['/change-password'],
                             },
                         ],
                     },
-                    // {
-                    //     label: 'Authenticate',
-                    //     icon: 'pi pi-fw pi-user',
-                    //     items:
-                    //         [
-                    //             {
-                    //                 label: 'Register',
-                    //                 icon: 'pi pi-fw pi-user-plus',
-                    //                 routerLink: ['/auth/register']
-                    //             },
-                    //             {
-                    //                 label: 'Login',
-                    //                 icon: 'pi pi-fw pi-sign-in',
-                    //                 routerLink: ['/auth/login']
-                    //             },
-                    //             {
-                    //                 label: 'Error',
-                    //                 icon: 'pi pi-fw pi-times-circle',
-                    //                 routerLink: ['/auth/error']
-                    //             },
-                    //             {
-                    //                 label: 'Access Denied',
-                    //                 icon: 'pi pi-fw pi-lock',
-                    //                 routerLink: ['/auth/access']
-                    //             }
-                    //         ]
-                    //     },
                 ],
             },
         ];
