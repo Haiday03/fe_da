@@ -1,6 +1,4 @@
-import { OnInit } from '@angular/core';
-import { Component } from '@angular/core';
-import { Role } from '../demo/api/user-detail/User';
+import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../demo/components/security/authentication.service';
 import { LayoutService } from './service/app.layout.service';
 
