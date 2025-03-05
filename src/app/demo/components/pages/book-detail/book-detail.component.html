@@ -124,3 +124,131 @@
 
     </div>
 </div>
+
+//
+<div class="grid">
+    <div class="col-12">
+        <p-toast></p-toast>
+        <div class="card">
+            <h4>Xem chi tiết</h4>
+            
+            <main class="container">
+
+                <!-- Left Column / Headphones Image -->
+                <div class="left-column">
+                  <!-- <img data-image="black" src="images/black.png" alt="">
+                  <img data-image="blue" src="images/blue.png" alt=""> -->
+                  <img class="active" src="{{book.image}}" alt="">
+                </div>
+          
+          
+                <!-- Right Column -->
+                <div class="right-column">
+                    
+                  <!-- Product Description -->
+                  <div class="product-description">
+                    <span>{{book.category?.name}}</span>
+                    <h1>{{book.name}}</h1>
+                  </div>
+                  
+                    <!-- Product Configuration -->
+                    <div class="product-configuration">
+
+                        <!-- Cable Configuration -->
+                        <div class="cable-config">
+                            <span>Đánh giá</span>
+                            <div class="cable-choose">
+                                <p-rating [ngModel]="book.rating" [readonly]="true" [cancel]="false"></p-rating>
+                            </div>
+
+                            <span>Tác giả</span>
+                            <div class="cable-choose">
+                                <p>{{book.author?.name}}</p>
+                            </div>
+
+                            <span>Nhà xuất bản</span>
+                            <div class="cable-choose">
+                                <p>{{book.publisher?.name}}</p>
+                            </div>
+
+                            <span>Giá</span>
+                            <!-- Product Pricing -->
+                            <div class="product-price">
+                                <span>{{book.price | currencyReverse}}</span>
+                            </div>
+                        </div>
+
+                        <!-- Product Color -->
+                        <div class="flex align-items-center">
+                            <label class="mr-3 block" for="stacked">
+                                Số lượng
+                            </label>
+                            <p-inputNumber
+                                [(ngModel)]="selectedQuantity"
+                                [min]="1" 
+                                [max]="100"
+                                [showButtons]="true"
+                                buttonLayout="horizontal"
+                                inputId="horizontal"
+                                spinnerMode="horizontal"
+                                decrementButtonClass="p-button-danger"
+                                incrementButtonClass="p-button-success"
+                                incrementButtonIcon="pi pi-plus"
+                                decrementButtonIcon="pi pi-minus">
+                            </p-inputNumber>
+                            <p-button class="m-2" icon="pi pi-shopping-cart" (click)="openConfirmBorrowDialog()" [disabled]="book.quantity == 0" pTooltip="Đặt mượn" tooltipPosition="top"></p-button>
+                            <button icon="pi pi-heart" (click)="addBookToWish(this.book.id)"  pButton type="button" class="p-button-danger" pTooltip="Thêm yêu thích" tooltipPosition="top"></button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            
+            <p-tabView class="mt-4">
+                <p-tabPanel header="Mô tả">
+                    <div style="white-space: pre-wrap; tab-size: 4;">{{book.description}}</div>
+                </p-tabPanel>
+                <p-tabPanel header="Đánh giá">
+
+                    <p-table #dt [value]="listReviews" [paginator]="true" [rows]="10">
+
+                        <ng-template pTemplate="body" let-review>
+                            <div class="mt-3">
+                                <p-fieldset>
+                                    <ng-template pTemplate="header">
+                                        <div class="flex align-items-center gap-2 px-2">
+                                            <i class="pi pi-user mr-2"></i>
+                                            <span class="font-bold">{{review.borrower.username}}</span>
+                                        </div>
+                                    </ng-template>
+                                    <div class="m-0">
+                                        <p-rating [ngModel]="review.rating" [readonly]="true" [cancel]="false"></p-rating>
+                                    </div>
+                                    <div class="mt-3">
+                                        {{review.comment}}
+                                    </div>
+                                    <div class="mt-3">
+                                        <i>{{review.reviewedDate | date: "dd/MM/yyyy HH:mm:hh"}}</i>
+                                    </div>
+                                </p-fieldset>
+                            </div>
+                        </ng-template>
+                        
+                    </p-table>
+
+                </p-tabPanel>
+            </p-tabView>
+        </div>
+
+        <p-dialog [(visible)]="dialogConfirmBorrow" header="Xác nhận đặt mượn" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span>Bạn muốn đặt mượn sách <b>{{ book.name }}</b> không?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Xác nhận" (click)="confirmBorrow(this.book.id)"></button>
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Hủy bỏ" (click)="dialogConfirmBorrow = false"></button>
+            </ng-template>
+        </p-dialog>
+
+    </div>
+</div>
