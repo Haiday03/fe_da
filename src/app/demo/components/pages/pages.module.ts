@@ -10,30 +10,3 @@ import { PagesRoutingModule } from './pages-routing.module';
     ]
 })
 export class PagesModule { }
-
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { PagesRoutingModule } from './pages-routing.module';
-
-@NgModule({
-    declarations: [],
-    imports: [
-        CommonModule,
-        PagesRoutingModule
-    ]
-})
-export class PagesModule { }
-
-
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { PagesRoutingModule } from './pages-routing.module';
-
-@NgModule({
-    declarations: [],
-    imports: [
-        CommonModule,
-        PagesRoutingModule
-    ]
-})
-export class PagesModule { }
