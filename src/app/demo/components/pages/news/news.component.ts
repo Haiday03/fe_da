@@ -8,19 +8,20 @@ import { NewService } from 'src/app/demo/service/new.service';
 @Component({
     templateUrl: './news.component.html',
     styleUrls: ['./news.component.css'],
-    providers: [MessageService]
+    providers: [MessageService],
 })
-export class NewsComponent { 
+export class NewsComponent {
     // begin search variables
-    searchKeyword = "";
-    searchReleaseDate = "";
+    searchKeyword = '';
+    searchReleaseDate = '';
     // end search variables
 
     visible: boolean = false;
-    content: string = "";
+    content: string = '';
 
     itemsMenu: MenuItem[];
     home: MenuItem;
+    lg: string = 'vi';
 
     new: New = {
         id: 0,
@@ -30,53 +31,60 @@ export class NewsComponent {
         summary: '',
         content: '',
         keyword: '',
-        authorId: 0
+        authorId: 0,
     };
 
     authors: Author[];
 
-    listNew : New[] = [];
-    listNewSelected : New[] = [];
+    listNew: New[] = [];
+    listNewSelected: New[] = [];
 
-    constructor(private newService: NewService, private authorService: AuthorService, private messageService: MessageService) { }
+    constructor(
+        private newService: NewService,
+        private authorService: AuthorService,
+        private messageService: MessageService
+    ) {}
 
     ngOnInit(): void {
-
+        if (!localStorage.getItem('lang')) {
+            localStorage.setItem('lang', 'vi');
+        } else {
+            this.lg = localStorage.getItem('lang') || 'vi';
+        }
         this.itemsMenu = [
-            {label: 'Danh mục'},
-            {label: 'Tin tức'}
+            {
+                label: this.lg === 'vi' ? 'Danh mục' : 'Categories',
+            },
+            {
+                label: this.lg === 'vi' ? 'Tin tức' : 'News',
+            },
         ];
 
-        this.home = {icon: 'pi pi-home'};
+        this.home = { icon: 'pi pi-home' };
 
         this.getAllAuthor();
 
-        this.newService.getAll().subscribe(
-            res=>{
-                this.listNew = res;
-            }
-        )
-
+        this.newService.getAll().subscribe((res) => {
+            this.listNew = res;
+        });
     }
 
-    getAllAuthor(){
-        this.authorService.getAll().subscribe(data => {
+    getAllAuthor() {
+        this.authorService.getAll().subscribe((data) => {
             this.authors = data;
-        })
+        });
     }
 
-    search(){
-    }
+    search() {}
 
-    refreshSearchFields(){
+    refreshSearchFields() {
         this.searchKeyword = '';
         this.searchReleaseDate = '';
     }
 
-    displayContent(content){
+    displayContent(content) {
         // alert("Hiển thị nội dung");
         this.visible = true;
         this.content = content;
     }
-
 }
