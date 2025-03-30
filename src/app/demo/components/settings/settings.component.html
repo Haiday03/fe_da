@@ -1,62 +1,173 @@
 <div class="col-12 xl:col-6 w-full">
-      <div class="card-container">
+    <div class="card-container">
         <div class="card">
             <p-toast></p-toast>
-          <div class="flex flex-wrap justify-content-center">
-            <div class="border-circle w-full  h-6rem m-5  flex align-items-center justify-content-center">
-              <img src="./assets/demo/images/galleria/galleria1.jpg" class="mb-5 p-2" style="width:150px; height:150px; border-radius: 50%  ;">          
+            <div class="flex flex-wrap justify-content-center">
+                <div
+                    class="border-circle w-full h-6rem m-5 flex align-items-center justify-content-center"
+                >
+                    <img
+                        src="./assets/demo/images/galleria/galleria1.jpg"
+                        class="mb-5 p-2"
+                        style="width: 150px; height: 150px; border-radius: 50%"
+                    />
+                </div>
             </div>
-        </div>
 
-        
-      <form class="w-full md:w-10 mx-auto" [formGroup]="UserUpdateForm">
-            <div class="formgrid grid">
+            <form class="w-full md:w-10 mx-auto" [formGroup]="UserUpdateForm">
+                <div class="formgrid grid">
+                    <p-accordion [multiple]="true" [activeIndex]="0">
+                        <p-accordionTab
+                            [header]="
+                                lg === 'vi'
+                                    ? 'Thông tin chung'
+                                    : 'General Information'
+                            "
+                        >
+                            <div class="formgrid grid">
+                                <div class="field col-12 md:col-6">
+                                    <label for="username">{{
+                                        lg === "vi"
+                                            ? "Tên đăng nhập"
+                                            : "Username"
+                                    }}</label>
+                                    <input
+                                        [readOnly]="true"
+                                        id="username"
+                                        type="text"
+                                        formControlName="username"
+                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                                        [placeholder]="
+                                            lg === 'vi'
+                                                ? 'Tên đăng nhập'
+                                                : 'Username'
+                                        "
+                                    />
+                                </div>
+                                <div class="field col-12 md:col-6">
+                                    <label for="email">{{
+                                        lg === "vi" ? "Email" : "Email"
+                                    }}</label>
+                                    <input
+                                        id="email"
+                                        type="text"
+                                        formControlName="email"
+                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                                        [placeholder]="
+                                            lg === 'vi' ? 'Email' : 'Email'
+                                        "
+                                    />
+                                </div>
+                                <div class="field col-12 md:col-6">
+                                    <label for="lastname">{{
+                                        lg === "vi" ? "Họ và tên" : "Full Name"
+                                    }}</label>
+                                    <input
+                                        id="lastname"
+                                        type="text"
+                                        formControlName="lastname"
+                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                                        [placeholder]="
+                                            lg === 'vi'
+                                                ? 'Họ và tên'
+                                                : 'Full Name'
+                                        "
+                                    />
+                                </div>
+                                <div class="field col-12 md:col-6">
+                                    <label for="phoneNumber">{{
+                                        lg === "vi"
+                                            ? "Số điện thoại"
+                                            : "Phone Number"
+                                    }}</label>
+                                    <input
+                                        id="phoneNumber"
+                                        type="text"
+                                        formControlName="phoneNumber"
+                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                                        [placeholder]="
+                                            lg === 'vi'
+                                                ? 'Số điện thoại'
+                                                : 'Phone Number'
+                                        "
+                                    />
+                                </div>
+                            </div>
+                        </p-accordionTab>
 
-                <p-accordion [multiple]="true" activeIndex="0">
-                    <p-accordionTab header="Thông tin chung">
-                        <div class="formgrid grid">
-                            <div class="field col-12 md:col-6">
-                                    <label for="username">Tên đăng nhập</label>
-                                    <input [readOnly]="true" id="username" type="text" formControlName="username" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                        <p-accordionTab
+                            [header]="
+                                lg === 'vi'
+                                    ? 'Thông tin thêm'
+                                    : 'Additional Information'
+                            "
+                        >
+                            <div class="formgrid grid">
+                                <div class="field col-12">
+                                    <label for="address">{{
+                                        lg === "vi" ? "Địa chỉ" : "Address"
+                                    }}</label>
+                                    <textarea
+                                        id="address"
+                                        formControlName="address"
+                                        rows="4"
+                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                                        [placeholder]="
+                                            lg === 'vi' ? 'Địa chỉ' : 'Address'
+                                        "
+                                    ></textarea>
+                                </div>
+                                <div class="field col-12">
+                                    <label for="facebook">{{
+                                        lg === "vi" ? "Facebook" : "Facebook"
+                                    }}</label>
+                                    <input
+                                        id="facebook"
+                                        type="text"
+                                        formControlName="facebook"
+                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                                        [placeholder]="
+                                            lg === 'vi'
+                                                ? 'Facebook'
+                                                : 'Facebook'
+                                        "
+                                    />
+                                </div>
+                                <div class="field col-12">
+                                    <label for="instagram">{{
+                                        lg === "vi" ? "Instagram" : "Instagram"
+                                    }}</label>
+                                    <input
+                                        id="instagram"
+                                        type="text"
+                                        formControlName="instagram"
+                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                                        [placeholder]="
+                                            lg === 'vi'
+                                                ? 'Instagram'
+                                                : 'Instagram'
+                                        "
+                                    />
+                                </div>
                             </div>
-                            <div class="field col-12 md:col-6">
-                                <label for="lastname6">Email</label>
-                                <input id="lastname6" type="text" formControlName="email" value="{{user.email}}" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-                            </div>
-                            <div class="field col-12 md:col-6">
-                                <label for="lastname6">Họ và tên</label>
-                                <input id="lastname6" type="text" formControlName="lastname" value="{{user.lastname}}" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-                            </div>
-                            <div class="field col-12 md:col-6">
-                                <label for="phoneNumber">Số điện thoại</label>
-                                <input id="phoneNumber" type="text" formControlName="phoneNumber" value="{{user.phoneNumber}}" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-                            </div>
-                        </div>
-                    </p-accordionTab>
-                    <p-accordionTab header="Thông tin thêm">
-                        <div class="formgrid grid">
-                            <div class="field col-12">
-                                <label for="address">Địa chỉ</label>
-                                <textarea id="address" type="text"  formControlName="address" value="{{user.address}}" rows="4" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"></textarea>
-                            </div>
-                            <div class="field col-12">
-                                <label for="facebook">Facebook</label>
-                                <input id="facebook" type="text" formControlName="facebook" value="{{user.facebook}}" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-                            </div>
-                            <div class="field col-12">
-                                <label for="instagram">Instagram</label>
-                                <input id="instagram" type="text" formControlName="instagram"  value="{{user.instagram}}" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-                            </div>
-                        </div>
-                    </p-accordionTab>
-                </p-accordion>
-              
-            </div>
-            <div class="text-center mt-3">
-            
-                <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
-                <p-button (click)="confirm()" icon="pi pi-check" label="Lưu lại" styleClass="mr-2"></p-button> 
-            </div>
-        </form>
+                        </p-accordionTab>
+                    </p-accordion>
+                </div>
+
+                <div class="text-center mt-3">
+                    <p-confirmDialog
+                        [style]="{ width: '50vw' }"
+                        [baseZIndex]="10000"
+                        rejectButtonStyleClass="p-button-text"
+                    ></p-confirmDialog>
+                    <p-button
+                        (click)="confirm()"
+                        icon="pi pi-check"
+                        [label]="lg === 'vi' ? 'Lưu lại' : 'Save'"
+                        styleClass="mr-2"
+                    ></p-button>
+                </div>
+            </form>
         </div>
     </div>
+</div>

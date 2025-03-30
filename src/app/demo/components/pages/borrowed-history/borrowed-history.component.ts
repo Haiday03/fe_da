@@ -9,32 +9,36 @@ import { BorrowedHistoryService } from 'src/app/demo/service/borrowed-history.se
 
 @Component({
     templateUrl: './borrowed-history.component.html',
-    providers: [MessageService]
+    providers: [MessageService],
 })
 export class BorrowedHistoryComponent {
     // search variable
-    searchBorrowedHistoryDto = new SearchBorrowedHistoryDto({ fromDate: "", toDate: "", status: 0 });
+    searchBorrowedHistoryDto = new SearchBorrowedHistoryDto({
+        fromDate: '',
+        toDate: '',
+        status: 0,
+    });
 
     // phân trang
-    pagination = new PaginationDto({ page: 0, size: 10});
+    pagination = new PaginationDto({ page: 0, size: 10 });
 
     itemsMenu: MenuItem[];
     home: MenuItem;
 
-    listBorrow : Borrow[] = [];
+    listBorrow: Borrow[] = [];
     borrow: Borrow = {
         id: 0,
         createdUser: 0,
-        borrower: new User,
+        borrower: new User(),
         createdDate: undefined,
         modifiedDate: undefined,
-        book: new Book,
+        book: new Book(),
         quantity: 0,
         status: 0,
         returnDate: undefined,
         userName: '',
         rating: 0,
-        comment: ''
+        comment: '',
     };
 
     listStatus: Object[];
@@ -42,21 +46,40 @@ export class BorrowedHistoryComponent {
     dialogReview: boolean = false;
 
     submitted: boolean = false;
+    lg: string = 'vi';
 
-    constructor(private borrowedHistoryService: BorrowedHistoryService, private messageService: MessageService) { }
+    constructor(
+        private borrowedHistoryService: BorrowedHistoryService,
+        private messageService: MessageService
+    ) {}
 
     ngOnInit(): void {
-
+        if (!localStorage.getItem('lang')) {
+            localStorage.setItem('lang', 'vi');
+        } else {
+            this.lg = localStorage.getItem('lang') || 'vi';
+        }
         this.itemsMenu = [
-            {label: 'Danh mục'},
-            {label: 'Lịch sử mượn trả'},
+            {
+                label: this.lg === 'vi' ? 'Danh mục' : 'Categories',
+            },
+            {
+                label:
+                    this.lg === 'vi' ? 'Lịch sử mượn trả' : 'Borrowing History',
+            },
         ];
 
-        this.home = {icon: 'pi pi-home'};
+        this.home = { icon: 'pi pi-home' };
 
         this.listStatus = [
-            { code: '1', name: 'Đang mượn'},
-            { code: '2', name: 'Đã trả'},
+            {
+                code: '1',
+                name: this.lg === 'vi' ? 'Đang mượn' : 'Borrowing',
+            },
+            {
+                code: '2',
+                name: this.lg === 'vi' ? 'Đã trả' : 'Returned',
+            },
         ];
 
         this.fetchPaging();
@@ -64,82 +87,93 @@ export class BorrowedHistoryComponent {
         this.borrow.rating = 0;
     }
 
-    search(){
+    search() {
         this.pagination.clear();
-        this.fetchPaging()
+        this.fetchPaging();
     }
 
-    refreshSearchFields(){
+    refreshSearchFields() {
         this.searchBorrowedHistoryDto = this.searchBorrowedHistoryDto.clear();
         this.pagination.clear();
 
         this.fetchPaging();
     }
-    
-    fetchPaging(){
-        this.borrowedHistoryService.getPage(this.pagination, this.searchBorrowedHistoryDto).subscribe(
-            data => {
-                this.listBorrow = data["content"];
-                this.pagination.totalElements = data["totalElements"]
-                this.pagination.totalPages = data["totalPages"]
-            }
-        )
+
+    fetchPaging() {
+        this.borrowedHistoryService
+            .getPage(this.pagination, this.searchBorrowedHistoryDto)
+            .subscribe((data) => {
+                this.listBorrow = data['content'];
+                this.pagination.totalElements = data['totalElements'];
+                this.pagination.totalPages = data['totalPages'];
+            });
     }
 
     pageChange(event) {
-        this.pagination.page = event.first/this.pagination.size;
+        this.pagination.page = event.first / this.pagination.size;
         this.fetchPaging();
     }
 
-    sizeChange(event){
+    sizeChange(event) {
         this.pagination = this.pagination.changePageSize(event);
         this.fetchPaging();
     }
 
-    review(borrowSelected: Borrow){
+    review(borrowSelected: Borrow) {
         this.dialogReview = true;
-        this.borrow = {...borrowSelected};
+        this.borrow = { ...borrowSelected };
         this.borrow.borrower = undefined;
         console.log(this.borrow.id);
     }
 
-    saveReview(){
+    saveReview() {
         this.submitted = true;
         // alert("Đánh giá thành công!")
         // this.dialogReview = false;
 
-        if(this._checkRequire()){
-            this.borrowedHistoryService.put(this.borrow.id, this.borrow).subscribe(
-                res=>{
-                    this.messageService.add({ severity: 'success', summary: 'Thành công!', detail: 'Đánh giá thành công', life: 3000 });
-                    this.ngOnInit();
-                },
-                error=>{
-                    this.messageService.add({ severity: 'error', summary: 'Thất bại', detail: 'Có lỗi xảy ra trong quá trình xử lý!', life: 3000 });
-                }
-            )
-    
+        if (this._checkRequire()) {
+            this.borrowedHistoryService
+                .put(this.borrow.id, this.borrow)
+                .subscribe(
+                    (res) => {
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: 'Thành công!',
+                            detail: 'Đánh giá thành công',
+                            life: 3000,
+                        });
+                        this.ngOnInit();
+                    },
+                    (error) => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: 'Thất bại',
+                            detail: 'Có lỗi xảy ra trong quá trình xử lý!',
+                            life: 3000,
+                        });
+                    }
+                );
+
             this.dialogReview = false;
             this.borrow = {
                 id: 0,
                 createdUser: 0,
-                borrower: new User,
+                borrower: new User(),
                 createdDate: undefined,
                 modifiedDate: undefined,
-                book: new Book,
+                book: new Book(),
                 quantity: 0,
                 status: 0,
                 returnDate: undefined,
                 userName: '',
                 rating: 0,
-                comment: ''
+                comment: '',
             };
         }
     }
 
-    _checkRequire(){
-        if(this.borrow.rating == 0)
-            return false;
+    _checkRequire() {
+        if (this.borrow.rating == 0) return false;
 
         return true;
     }

@@ -2,56 +2,159 @@
     <div class="col-12">
         <div class="card">
             <p-toast></p-toast>
-            <p-breadcrumb [model]="items" [home]="home" styleClass="mb-4"></p-breadcrumb>
+            <p-breadcrumb
+                [model]="items"
+                [home]="home"
+                styleClass="mb-4"
+            ></p-breadcrumb>
 
             <div class="card" styleClass="mb-4">
                 <div class="flex flex-row">
                     <div class="flex flex-column w-16rem mr-4">
-                        <label for="searchCode">Mã sách: </label>
-                        <input pInputText id="searchCode" class="mt-2" type="text" [(ngModel)]="searchBookDto.code" placeholder="Nhập mã">
+                        <label for="searchCode">
+                            {{ lg === "vi" ? "Mã sách:" : "Book Code:" }}
+                        </label>
+                        <input
+                            pInputText
+                            id="searchCode"
+                            class="mt-2"
+                            type="text"
+                            [(ngModel)]="searchBookDto.code"
+                            [placeholder]="
+                                lg === 'vi' ? 'Nhập mã' : 'Enter code'
+                            "
+                        />
                     </div>
+
                     <div class="flex flex-column w-16rem mr-4">
-                        <label for="searchName">Tên sách: </label>
-                        <input pInputText id="searchName" class="mt-2" type="text" [(ngModel)]="searchBookDto.name" placeholder="Nhập tên">
+                        <label for="searchName">
+                            {{ lg === "vi" ? "Tên sách:" : "Book Title:" }}
+                        </label>
+                        <input
+                            pInputText
+                            id="searchName"
+                            class="mt-2"
+                            type="text"
+                            [(ngModel)]="searchBookDto.name"
+                            [placeholder]="
+                                lg === 'vi' ? 'Nhập tên' : 'Enter title'
+                            "
+                        />
                     </div>
+
                     <div class="flex flex-column w-16rem mr-4">
-                        <label for="searchCategory">Thể loại: </label>
-                        <p-dropdown [style]="{ width: '100%' }" [(ngModel)]="searchBookDto.categoryId" class="mt-2" [options]="categories" optionLabel="name" optionValue="id" [filter]="true" filterBy="name" placeholder="--Chọn thể loại--"></p-dropdown>
+                        <label for="searchCategory">
+                            {{ lg === "vi" ? "Thể loại:" : "Category:" }}
+                        </label>
+                        <p-dropdown
+                            [style]="{ width: '100%' }"
+                            [(ngModel)]="searchBookDto.categoryId"
+                            class="mt-2"
+                            [options]="categories"
+                            optionLabel="name"
+                            optionValue="id"
+                            [filter]="true"
+                            filterBy="name"
+                            [placeholder]="
+                                lg === 'vi'
+                                    ? '--Chọn thể loại--'
+                                    : '--Select category--'
+                            "
+                        >
+                        </p-dropdown>
                     </div>
+
                     <div class="flex flex-column w-16rem">
-                        <label for="searchPublisherId">Nhà xuất bản: </label>
-                        <p-dropdown [style]="{ width: '100%' }" [(ngModel)]="searchBookDto.publisherId" class="mt-2" [options]="publishers" optionLabel="name" optionValue="id" [filter]="true" filterBy="name" placeholder="--Chọn nhà xuất bản--"></p-dropdown>
+                        <label for="searchPublisherId">
+                            {{ lg === "vi" ? "Nhà xuất bản:" : "Publisher:" }}
+                        </label>
+                        <p-dropdown
+                            [style]="{ width: '100%' }"
+                            [(ngModel)]="searchBookDto.publisherId"
+                            class="mt-2"
+                            [options]="publishers"
+                            optionLabel="name"
+                            optionValue="id"
+                            [filter]="true"
+                            filterBy="name"
+                            [placeholder]="
+                                lg === 'vi'
+                                    ? '--Chọn nhà xuất bản--'
+                                    : '--Select publisher--'
+                            "
+                        >
+                        </p-dropdown>
                     </div>
                 </div>
                 <div class="mt-4">
-                    <button pButton pRipple label="Tìm kiếm" icon="pi pi-search" class="p-button-success mr-2 p-button-rounded p-button-sm" (click)="search()"></button>
-                    <button pButton pRipple label="Đặt lại" icon="pi pi-refresh" class="p-button-warning p-button-rounded p-button-sm" (click)="refreshSearchFields()"></button>
+                    <button
+                        pButton
+                        pRipple
+                        label="Tìm kiếm"
+                        icon="pi pi-search"
+                        class="p-button-success mr-2 p-button-rounded p-button-sm"
+                        (click)="search()"
+                    ></button>
+                    <button
+                        pButton
+                        pRipple
+                        label="Đặt lại"
+                        icon="pi pi-refresh"
+                        class="p-button-warning p-button-rounded p-button-sm"
+                        (click)="refreshSearchFields()"
+                    ></button>
                 </div>
             </div>
 
             <div>
-                <p-table #dt 
-                    [value]="books" 
-                    responsiveLayout="scroll" 
-                    [rows]="pagination.size" 
+                <p-table
+                    #dt
+                    [value]="books"
+                    responsiveLayout="scroll"
+                    [rows]="pagination.size"
                     [totalRecords]="pagination.totalElements"
                     [lazy]="true"
-                    [paginator]="true" 
-                    [rowsPerPageOptions]="[10,20,30]" 
-                    [showCurrentPageReport]="true" 
-                    [(selection)]="selectedBooks" 
-                    selectionMode="multiple" 
-                    [rowHover]="true" 
-                    dataKey="id" 
+                    [paginator]="true"
+                    [rowsPerPageOptions]="[10, 20, 30]"
+                    [showCurrentPageReport]="true"
+                    [(selection)]="selectedBooks"
+                    selectionMode="multiple"
+                    [rowHover]="true"
+                    dataKey="id"
                     (onPage)="pageChange($event)"
                     (rowsChange)="sizeChange($event)"
                 >
                     <ng-template pTemplate="caption">
-                        <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-                            <h5 class="m-0">DANH SÁCH DỮ LIỆU</h5>
+                        <div
+                            class="flex flex-column md:flex-row md:justify-content-between md:align-items-center"
+                        >
+                            <h5 class="m-0">
+                                {{
+                                    lg === "vi"
+                                        ? "DANH SÁCH DỮ LIỆU"
+                                        : "DATA LIST"
+                                }}
+                            </h5>
                             <span class="block mt-2 md:mt-0 p-input-icon-left">
-                                <button pButton pRipple label="Thêm mới" icon="pi pi-plus" class="p-button-primary mr-2 p-button-rounded p-button-sm" (click)="openNew()"></button>
-                                <button pButton pRipple label="Xóa" icon="pi pi-trash" class="p-button-danger p-button-rounded p-button-sm" (click)="deleteList()" [disabled]="!selectedBooks || !selectedBooks.length"></button>
+                                <button
+                                    pButton
+                                    pRipple
+                                    label="Thêm mới"
+                                    icon="pi pi-plus"
+                                    class="p-button-primary mr-2 p-button-rounded p-button-sm"
+                                    (click)="openNew()"
+                                ></button>
+                                <button
+                                    pButton
+                                    pRipple
+                                    label="Xóa"
+                                    icon="pi pi-trash"
+                                    class="p-button-danger p-button-rounded p-button-sm"
+                                    (click)="deleteList()"
+                                    [disabled]="
+                                        !selectedBooks || !selectedBooks.length
+                                    "
+                                ></button>
                             </span>
                         </div>
                     </ng-template>
@@ -60,55 +163,95 @@
                             <th style="width: 3rem">
                                 <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                             </th>
-                            <th>Mã sách</th>
-                            <th>Ảnh</th>
-                            <th>Tên sách</th>
-                            <th>Giá mượn</th>
-                            <th>Số lượng</th>
-                            <th>Tác giả</th>
-                            <th>Thể loại</th>
-                            <th>Nhà xuất bản</th>
-                            <th>Đánh giá</th>
-                            <th>Thao tác</th>
+                            <th>{{ lg === "vi" ? "Mã sách" : "Book Code" }}</th>
+                            <th>{{ lg === "vi" ? "Ảnh" : "Image" }}</th>
+                            <th>{{ lg === "vi" ? "Tên sách" : "Title" }}</th>
+                            <th>
+                                {{
+                                    lg === "vi" ? "Giá mượn" : "Borrowing Price"
+                                }}
+                            </th>
+                            <th>{{ lg === "vi" ? "Số lượng" : "Quantity" }}</th>
+                            <th>{{ lg === "vi" ? "Tác giả" : "Author" }}</th>
+                            <th>{{ lg === "vi" ? "Thể loại" : "Category" }}</th>
+                            <th>
+                                {{ lg === "vi" ? "Nhà xuất bản" : "Publisher" }}
+                            </th>
+                            <th>{{ lg === "vi" ? "Đánh giá" : "Rating" }}</th>
+                            <th>{{ lg === "vi" ? "Thao tác" : "Actions" }}</th>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-book>
                         <tr>
                             <td>
-                                <p-tableCheckbox [value]="book"></p-tableCheckbox>
+                                <p-tableCheckbox
+                                    [value]="book"
+                                ></p-tableCheckbox>
                             </td>
-                            <td style="width:14%; min-width:10rem;"><span class="p-column-title">Code</span>
-                                {{book.code || book.id}}
+                            <td style="width: 14%; min-width: 10rem">
+                                <span class="p-column-title">Code</span>
+                                {{ book.code || book.id }}
                             </td>
-                            <td style="width:14%; min-width:10rem;" (click)="bookDetail(this.book.id)"><span class="p-column-title">Image</span>
-                                <img [src]="book.image" (error) ="changeSource($event)" [alt]="book.image" width="100" class="shadow-4" />
+                            <td
+                                style="width: 14%; min-width: 10rem"
+                                (click)="bookDetail(this.book.id)"
+                            >
+                                <span class="p-column-title">Image</span>
+                                <img
+                                    [src]="book.image"
+                                    (error)="changeSource($event)"
+                                    [alt]="book.image"
+                                    width="100"
+                                    class="shadow-4"
+                                />
                             </td>
-                            <td style="width:14%; min-width:20rem;" (click)="bookDetail(this.book.id)">
-                                {{ book.name | slice:0:27 }}{{ book.name.length > 27 ? '...' : '' }}
+                            <td
+                                style="width: 14%; min-width: 20rem"
+                                (click)="bookDetail(this.book.id)"
+                            >
+                                {{ book.name | slice : 0 : 27
+                                }}{{ book.name.length > 27 ? "..." : "" }}
                             </td>
-                            <td style="width:14%; min-width:10rem;">
-                                {{book.price | currencyReverse}}
+                            <td style="width: 14%; min-width: 10rem">
+                                {{ book.price | currencyReverse }}
                             </td>
-                            <td style="width:14%; min-width:10rem;">
-                                {{book.quantity}}
+                            <td style="width: 14%; min-width: 10rem">
+                                {{ book.quantity }}
                             </td>
-                            <td style="width:14%; min-width:15rem;">
-                                {{book.author.name}}
+                            <td style="width: 14%; min-width: 15rem">
+                                {{ book.author.name }}
                             </td>
-                            <td style="width:14%; min-width:20rem;">
-                                {{book.category.name}}
+                            <td style="width: 14%; min-width: 20rem">
+                                {{ book.category.name }}
                             </td>
-                            <td style="width:14%; min-width:20rem;">
-                                {{book.publisher.name}}
+                            <td style="width: 14%; min-width: 20rem">
+                                {{ book.publisher.name }}
                             </td>
-                            <td style="width:14%; min-width: 10rem;"><span class="p-column-title">Reviews</span>
-                                <p-rating [ngModel]="book.rating" [readonly]="true" [cancel]="false"></p-rating>
+                            <td style="width: 14%; min-width: 10rem">
+                                <span class="p-column-title">Reviews</span>
+                                <p-rating
+                                    [ngModel]="book.rating"
+                                    [readonly]="true"
+                                    [cancel]="false"
+                                ></p-rating>
                             </td>
-                        
+
                             <td>
                                 <div class="flex">
-                                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editBook(book)"></button>
-                                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="deleteBook(book)"></button>
+                                    <button
+                                        pButton
+                                        pRipple
+                                        icon="pi pi-pencil"
+                                        class="p-button-rounded p-button-success mr-2"
+                                        (click)="editBook(book)"
+                                    ></button>
+                                    <button
+                                        pButton
+                                        pRipple
+                                        icon="pi pi-trash"
+                                        class="p-button-rounded p-button-danger"
+                                        (click)="deleteBook(book)"
+                                    ></button>
                                 </div>
                             </td>
                         </tr>
@@ -116,103 +259,295 @@
                 </p-table>
             </div>
 
-        <p-dialog [(visible)]="bookDialog" [style]="{ width: '75rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" header="{{headerDialog}}" [modal]="true" class="p-fluid">
-            <ng-template pTemplate="content">
-                <img [src]="book.image" [alt]="book.image" width="150" class="mt-0 mx-auto mb-5 block shadow-2">
-                <div class="field">
-                    <label for="image">Ảnh <span style="color: red;">(*)</span></label>
-                    <p-fileUpload mode="basic" chooseLabel="Chọn ảnh" accept=".jpg" [maxFileSize]="1000000" (onSelect)="chooseImage($event)"></p-fileUpload>
-                    <!-- <small style="color: red;" class="ng-dirty ng-invalid" *ngIf="submitted && (!fileSelected || fileSelected.size <= 0)">Vui lòng chọn ảnh</small> -->
-                    <small *ngIf="fileSelected && fileSelected.size > 0">
-                        {{fileSelected.name}} - {{fileSelected.size}} bytes
-                    </small>
-                </div>
+            <p-dialog
+                [(visible)]="bookDialog"
+                [style]="{ width: '75rem' }"
+                [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+                [header]="lg === 'vi' ? 'Thông tin sách' : 'Book Information'"
+                [modal]="true"
+                class="p-fluid"
+            >
+                <ng-template pTemplate="content">
+                    <img
+                        [src]="book.image"
+                        [alt]="book.image"
+                        width="150"
+                        class="mt-0 mx-auto mb-5 block shadow-2"
+                    />
+                    <div class="field">
+                        <label for="image">
+                            {{ lg === "vi" ? "Ảnh" : "Image" }}
+                            <span style="color: red">(*)</span>
+                        </label>
+                        <p-fileUpload
+                            mode="basic"
+                            [chooseLabel]="
+                                lg === 'vi' ? 'Chọn ảnh' : 'Choose Image'
+                            "
+                            accept=".jpg"
+                            [maxFileSize]="1000000"
+                            (onSelect)="chooseImage($event)"
+                        ></p-fileUpload>
+                        <small *ngIf="fileSelected && fileSelected.size > 0">
+                            {{ fileSelected.name }} -
+                            {{ fileSelected.size }} bytes
+                        </small>
+                    </div>
 
-                <div class="flex flex-wrap-reverse md:flex-wrap" style="margin: 0 -1rem !important;">
-                    <div class="field md:col-4 sm:col-6 col-12">
-                        <label for="name">Tên sách <span style="color: red;">(*)</span></label>
-                        <input type="text" pInputText id="name" [(ngModel)]="book.name" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !book.name}" placeholder="Nhập tên sách"/>
-                        <small style="color: red;" class="ng-dirty ng-invalid" *ngIf="submitted && !book.name">Tên sách không được để trống</small>
+                    <div
+                        class="flex flex-wrap-reverse md:flex-wrap"
+                        style="margin: 0 -1rem !important"
+                    >
+                        <div class="field md:col-4 sm:col-6 col-12">
+                            <label for="name">
+                                {{ lg === "vi" ? "Tên sách" : "Book Title" }}
+                                <span style="color: red">(*)</span>
+                            </label>
+                            <input
+                                type="text"
+                                pInputText
+                                id="name"
+                                [(ngModel)]="book.name"
+                                required
+                                autofocus
+                                [ngClass]="{
+                                    'ng-invalid ng-dirty':
+                                        submitted && !book.name
+                                }"
+                                [placeholder]="
+                                    lg === 'vi'
+                                        ? 'Nhập tên sách'
+                                        : 'Enter book title'
+                                "
+                            />
+                            <small
+                                *ngIf="submitted && !book.name"
+                                style="color: red"
+                                class="ng-dirty ng-invalid"
+                            >
+                                {{
+                                    lg === "vi"
+                                        ? "Tên sách không được để trống"
+                                        : "Book title is required"
+                                }}
+                            </small>
+                        </div>
+                        <div class="field md:col-4 sm:col-6 col-12">
+                            <label>
+                                {{ lg === "vi" ? "Thể loại" : "Category" }}
+                                <span style="color: red">(*)</span>
+                            </label>
+                            <p-dropdown
+                                [(ngModel)]="book.categoryId"
+                                [options]="categories"
+                                optionLabel="name"
+                                optionValue="id"
+                                [filter]="true"
+                                filterBy="name"
+                                [placeholder]="
+                                    lg === 'vi'
+                                        ? '--Chọn thể loại--'
+                                        : '--Select category--'
+                                "
+                                [ngClass]="{
+                                    'ng-invalid ng-dirty':
+                                        submitted && !book.categoryId
+                                }"
+                            ></p-dropdown>
+                            <small
+                                *ngIf="submitted && !book.categoryId"
+                                style="color: red"
+                                class="ng-dirty ng-invalid"
+                            >
+                                {{
+                                    lg === "vi"
+                                        ? "Thể loại không được để trống"
+                                        : "Category is required"
+                                }}
+                            </small>
+                        </div>
+                        <div class="field md:col-4 sm:col-6 col-12">
+                            <label>
+                                {{ lg === "vi" ? "Tác giả" : "Author" }}
+                                <span style="color: red">(*)</span>
+                            </label>
+                            <p-dropdown
+                                [(ngModel)]="book.authorId"
+                                [options]="authors"
+                                optionLabel="name"
+                                optionValue="id"
+                                [filter]="true"
+                                filterBy="name"
+                                [placeholder]="
+                                    lg === 'vi'
+                                        ? '--Chọn tác giả--'
+                                        : '--Select author--'
+                                "
+                                [ngClass]="{
+                                    'ng-invalid ng-dirty':
+                                        submitted && !book.authorId
+                                }"
+                            ></p-dropdown>
+                            <small
+                                *ngIf="submitted && !book.authorId"
+                                style="color: red"
+                                class="ng-dirty ng-invalid"
+                            >
+                                {{
+                                    lg === "vi"
+                                        ? "Tác giả không được để trống"
+                                        : "Author is required"
+                                }}
+                            </small>
+                        </div>
                     </div>
-                    <div class="field md:col-4 sm:col-6 col-12">
-                        <label for="publisher">Thể loại <span style="color: red;">(*)</span></label>
-                        <p-dropdown [(ngModel)]="book.categoryId" [options]="categories" optionLabel="name" optionValue="id" [filter]="true" filterBy="name" placeholder="--Chọn thể loại--" [ngClass]="{'ng-invalid ng-dirty' : submitted && !book.categoryId}"></p-dropdown>
-                        <small style="color: red;" class="ng-dirty ng-invalid" *ngIf="submitted && !book.categoryId">Thể loại không được để trống</small>
-                    </div>
-    
-                    <div class="field md:col-4 sm:col-6 col-12">
-                        <label for="publisher">Tác giả <span style="color: red;">(*)</span></label>
-                        <p-dropdown [(ngModel)]="book.authorId" [options]="authors" optionLabel="name" optionValue="id" [filter]="true" filterBy="name" placeholder="--Chọn tác giả--" [ngClass]="{'ng-invalid ng-dirty' : submitted && !book.authorId}"></p-dropdown>
-                        <small style="color: red;" class="ng-dirty ng-invalid" *ngIf="submitted && !book.authorId">Tác giả không được để trống</small>
-                    </div>
-                </div>
 
-                
-
-                <div class="flex flex-wrap-reverse md:flex-wrap" style="margin: 0 -1rem !important;">
-                    <div class="field md:col-4 sm:col-6 col-12">
-                        <label for="publisher">Nhà xuất bản <span style="color: red;">(*)</span></label>
-                        <p-dropdown [(ngModel)]="book.publisherId" [options]="publishers" optionLabel="name" optionValue="id" [filter]="true" filterBy="name" placeholder="--Chọn nhà xuất bản--" [ngClass]="{'ng-invalid ng-dirty' : submitted && !book.publisherId}"></p-dropdown>
-                        <small style="color: red;" class="ng-dirty ng-invalid" *ngIf="submitted && !book.publisherId">Nhà xuất bản không được để trống</small>
+                    <div
+                        class="flex flex-wrap-reverse md:flex-wrap"
+                        style="margin: 0 -1rem !important"
+                    >
+                        <div class="field md:col-4 sm:col-6 col-12">
+                            <label>
+                                {{ lg === "vi" ? "Nhà xuất bản" : "Publisher" }}
+                                <span style="color: red">(*)</span>
+                            </label>
+                            <p-dropdown
+                                [(ngModel)]="book.publisherId"
+                                [options]="publishers"
+                                optionLabel="name"
+                                optionValue="id"
+                                [filter]="true"
+                                filterBy="name"
+                                [placeholder]="
+                                    lg === 'vi'
+                                        ? '--Chọn nhà xuất bản--'
+                                        : '--Select publisher--'
+                                "
+                                [ngClass]="{
+                                    'ng-invalid ng-dirty':
+                                        submitted && !book.publisherId
+                                }"
+                            ></p-dropdown>
+                            <small
+                                *ngIf="submitted && !book.publisherId"
+                                style="color: red"
+                                class="ng-dirty ng-invalid"
+                            >
+                                {{
+                                    lg === "vi"
+                                        ? "Nhà xuất bản không được để trống"
+                                        : "Publisher is required"
+                                }}
+                            </small>
+                        </div>
+                        <div class="field md:col-4 sm:col-6 col-12">
+                            <label for="price">{{
+                                lg === "vi" ? "Giá sách" : "Price"
+                            }}</label>
+                            <p-inputNumber
+                                id="price"
+                                [(ngModel)]="book.price"
+                                mode="currency"
+                                currency="VND"
+                                locale="de-US"
+                                [min]="0"
+                            ></p-inputNumber>
+                        </div>
+                        <div class="field md:col-4 sm:col-6 col-12">
+                            <label for="quantity">{{
+                                lg === "vi" ? "Số lượng" : "Quantity"
+                            }}</label>
+                            <p-inputNumber
+                                id="quantity"
+                                [(ngModel)]="book.quantity"
+                                [min]="0"
+                            ></p-inputNumber>
+                        </div>
                     </div>
-                    <div class="field md:col-4 sm:col-6 col-12">
-                        <label for="price">Giá sách</label>
-                        <p-inputNumber id="price" [(ngModel)]="book.price" mode="currency" currency="VND" locale="de-US" [min]="0"></p-inputNumber>
-                    </div>
-                    <div class="field md:col-4 sm:col-6 col-12">
-                        <label for="quantity">Số lượng</label>
-                        <p-inputNumber id="quantity" [(ngModel)]="book.quantity" [min]="0"></p-inputNumber>
-                    </div>
-                </div>
-                <div class="flex flex-wrap-reverse md:flex-wrap" style="margin: 0 -1rem !important;">
-                    <div class="field md:col-4 sm:col-6 col-12">
-                        <label for="publisher">Năm xuất bản <span style="color: red;">(*)</span></label>
-                        <p-inputNumber
-							style="width: 100%;"
-							class="mt-2" 
-                            [ngClass]="{'ng-invalid ng-dirty' : submitted && !book.publishingYear}"
-							placeholder="Nhập năm xuất bản"
-							[(ngModel)]="book.publishingYear" 
-							mode="decimal" 
-							inputId="withoutgrouping" 
-							[useGrouping]="false">
-						</p-inputNumber>
-                        <small style="color: red;" class="ng-dirty ng-invalid" *ngIf="submitted && !book.publishingYear">Năm xuất bản không được để trống</small>
-                    </div>
-                </div>
-                <div class="field" style="margin-top: 14px;">
-                    <label for="description">Mô tả</label>
-                    <textarea style="white-space: pre-wrap;" id="description" variant="filled" pInputTextarea [(ngModel)]="book.description" required rows="24" cols="20" placeholder="Nhập mô tả"></textarea>
-                </div>
-                
-            </ng-template>
 
-            <ng-template pTemplate="footer">
-                <button pButton pRipple label="Lưu lại" icon="pi pi-check" class="p-button-text" (click)="saveBook()"></button>
-                <button pButton pRipple label="Hủy bỏ" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-            </ng-template>
-        </p-dialog>
+                    <div
+                        class="flex flex-wrap-reverse md:flex-wrap"
+                        style="margin: 0 -1rem !important"
+                    >
+                        <div class="field md:col-4 sm:col-6 col-12">
+                            <label>
+                                {{
+                                    lg === "vi"
+                                        ? "Năm xuất bản"
+                                        : "Publishing Year"
+                                }}
+                                <span style="color: red">(*)</span>
+                            </label>
+                            <p-inputNumber
+                                style="width: 100%"
+                                class="mt-2"
+                                [ngClass]="{
+                                    'ng-invalid ng-dirty':
+                                        submitted && !book.publishingYear
+                                }"
+                                [placeholder]="
+                                    lg === 'vi'
+                                        ? 'Nhập năm xuất bản'
+                                        : 'Enter publishing year'
+                                "
+                                [(ngModel)]="book.publishingYear"
+                                mode="decimal"
+                                inputId="withoutgrouping"
+                                [useGrouping]="false"
+                            ></p-inputNumber>
+                            <small
+                                *ngIf="submitted && !book.publishingYear"
+                                style="color: red"
+                                class="ng-dirty ng-invalid"
+                            >
+                                {{
+                                    lg === "vi"
+                                        ? "Năm xuất bản không được để trống"
+                                        : "Publishing year is required"
+                                }}
+                            </small>
+                        </div>
+                    </div>
 
-        <p-dialog [(visible)]="deleteBookDialog" header="Xác nhận xóa" [modal]="true" [style]="{width:'450px'}">
-            <div class="flex align-items-center justify-content-center">
-                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span *ngIf="book">Bạn có chắc muốn xóa <b>{{book.name}}</b> không?</span>
-            </div>
-            <ng-template pTemplate="footer">
-                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Xác nhận" (click)="confirmDelete()"></button>
-                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Hủy bỏ" (click)="deleteBookDialog = false"></button>
-            </ng-template>
-        </p-dialog>
+                    <div class="field" style="margin-top: 14px">
+                        <label for="description">{{
+                            lg === "vi" ? "Mô tả" : "Description"
+                        }}</label>
+                        <textarea
+                            style="white-space: pre-wrap"
+                            id="description"
+                            variant="filled"
+                            pInputTextarea
+                            [(ngModel)]="book.description"
+                            required
+                            rows="24"
+                            cols="20"
+                            [placeholder]="
+                                lg === 'vi' ? 'Nhập mô tả' : 'Enter description'
+                            "
+                        ></textarea>
+                    </div>
+                </ng-template>
 
-        <p-dialog [(visible)]="dialogConfirmDeleteList" header="Xác nhận xóa" [modal]="true" [style]="{width:'450px'}">
-            <div class="flex align-items-center justify-content-center">
-                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span>Bạn có chắc muốn xóa các bản ghi này không?</span>
-            </div>
-            <ng-template pTemplate="footer">
-                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Xác nhận" (click)="confirmDeleteList()"></button>
-                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Hủy bỏ" (click)="dialogConfirmDeleteList = false"></button>
-            </ng-template>
-        </p-dialog>
+                <ng-template pTemplate="footer">
+                    <button
+                        pButton
+                        pRipple
+                        [label]="lg === 'vi' ? 'Lưu lại' : 'Save'"
+                        icon="pi pi-check"
+                        class="p-button-text"
+                        (click)="saveBook()"
+                    ></button>
+                    <button
+                        pButton
+                        pRipple
+                        [label]="lg === 'vi' ? 'Hủy bỏ' : 'Cancel'"
+                        icon="pi pi-times"
+                        class="p-button-text"
+                        (click)="hideDialog()"
+                    ></button>
+                </ng-template>
+            </p-dialog>
+        </div>
     </div>
 </div>

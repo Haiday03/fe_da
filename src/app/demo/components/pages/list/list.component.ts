@@ -4,7 +4,7 @@ import { DataView } from 'primeng/dataview';
 import { Book } from 'src/app/demo/api/book/Book';
 import { BookService } from 'src/app/demo/service/book.service';
 import { CartService } from 'src/app/demo/service/cart.service';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 import { WishService } from 'src/app/demo/service/wish.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Author } from 'src/app/demo/api/author/Author';
@@ -17,17 +17,20 @@ import { SearchBookDto } from 'src/app/demo/api/searchDto/search_book_dto';
 import { PaginationDto } from 'src/app/demo/api/pagination/pagination';
 @Component({
     templateUrl: './list.component.html',
-    styleUrls: ["./list.component.css"],
+    styleUrls: ['./list.component.css'],
     providers: [MessageService],
 })
-
 export class ListComponent implements OnInit {
-
     // search variable
-    searchBookDto = new SearchBookDto({ code: "", name: "", categoryId: undefined, publisherId: undefined });
+    searchBookDto = new SearchBookDto({
+        code: '',
+        name: '',
+        categoryId: undefined,
+        publisherId: undefined,
+    });
 
     // phân trang
-    pagination = new PaginationDto({ page: 0, size: 10});
+    pagination = new PaginationDto({ page: 0, size: 10 });
 
     currentUser = {};
 
@@ -54,60 +57,94 @@ export class ListComponent implements OnInit {
 
     publishers: Publisher[];
     publisherSelected: Publisher;
+    lg: string = 'vi';
 
-    constructor(private wishService: WishService,private router: Router,private bookService: BookService,private cartService: CartService,private messageService: MessageService, private http: HttpClient,private authorService: AuthorService,private publisherService: PublisherService, private categoryService: CategoryService) { }
+    constructor(
+        private wishService: WishService,
+        private router: Router,
+        private bookService: BookService,
+        private cartService: CartService,
+        private messageService: MessageService,
+        private http: HttpClient,
+        private authorService: AuthorService,
+        private publisherService: PublisherService,
+        private categoryService: CategoryService
+    ) {}
 
     ngOnInit() {
+        if (!localStorage.getItem('lang')) {
+            localStorage.setItem('lang', 'vi');
+        } else {
+            this.lg = localStorage.getItem('lang') || 'vi';
+        }
         // this.refreshSearchFields();
         this.getAllCategies();
         this.getAllAuthors();
         this.getAllPublishers();
-        
-        this.currentUser = JSON.parse(localStorage.getItem('currentUser')|| '{}');
+
+        this.currentUser = JSON.parse(
+            localStorage.getItem('currentUser') || '{}'
+        );
 
         this.itemsMenu = [
-            {label: 'Danh mục'},
-            {label: 'Tra cứu sách'}
+            {
+                label: this.lg === 'vi' ? 'Danh mục' : 'Categories',
+            },
+            {
+                label: this.lg === 'vi' ? 'Tra cứu sách' : 'Book Lookup',
+            },
         ];
 
-        this.home = {icon: 'pi pi-home'};
+        this.home = { icon: 'pi pi-home' };
 
         this.fetchPaging();
 
         this.sortOptions = [
-            { label: 'Giá từ xuống thấp', value: '!price' },
-            { label: 'Giá từ thấp lên cao', value: 'price' }
+            {
+                label:
+                    this.lg === 'vi'
+                        ? 'Giá từ xuống thấp'
+                        : 'Price High to Low',
+                value: '!price',
+            },
+            {
+                label:
+                    this.lg === 'vi'
+                        ? 'Giá từ thấp lên cao'
+                        : 'Price Low to High',
+                value: 'price',
+            },
         ];
     }
 
-    search(){
+    search() {
         this.pagination.clear();
-        this.fetchPaging()
+        this.fetchPaging();
     }
 
-    refreshSearchFields(){
+    refreshSearchFields() {
         this.searchBookDto = this.searchBookDto.clear();
         this.pagination.clear();
 
         this.fetchPaging();
     }
 
-    fetchPaging(){
-        this.bookService.getPage(this.pagination, this.searchBookDto).subscribe(
-            data => {
-                this.books = data["content"];
-                this.pagination.totalElements = data["totalElements"]
-                this.pagination.totalPages = data["totalPages"]
-            }
-        )
+    fetchPaging() {
+        this.bookService
+            .getPage(this.pagination, this.searchBookDto)
+            .subscribe((data) => {
+                this.books = data['content'];
+                this.pagination.totalElements = data['totalElements'];
+                this.pagination.totalPages = data['totalPages'];
+            });
     }
 
     pageChange(event) {
-        this.pagination.page = event.first/this.pagination.size;
+        this.pagination.page = event.first / this.pagination.size;
         this.fetchPaging();
     }
 
-    sizeChange(event){
+    sizeChange(event) {
         this.pagination = this.pagination.changePageSize(event);
         this.fetchPaging();
     }
@@ -127,53 +164,73 @@ export class ListComponent implements OnInit {
     onFilter(dv: DataView, event: Event) {
         dv.filter((event.target as HTMLInputElement).value);
     }
-    
-    changeSource(event) {      
-        event.target.src = "assets/demo/images/product/noimage.jpg";
+
+    changeSource(event) {
+        event.target.src = 'assets/demo/images/product/noimage.jpg';
     }
 
-    addBookToCart(bookId: number){
+    addBookToCart(bookId: number) {
         this.cartService.post(bookId).subscribe(
-            res=>{
-                this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Book is added to cart', life: 3000 });
+            (res) => {
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Success',
+                    detail: 'Book is added to cart',
+                    life: 3000,
+                });
             },
-            error =>{
-                this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Book cannot be added to cart', life: 3000 });
-            }     
-          )};
-    
-    addBookToWish(bookId: number){
+            (error) => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Error',
+                    detail: 'Book cannot be added to cart',
+                    life: 3000,
+                });
+            }
+        );
+    }
+
+    addBookToWish(bookId: number) {
         this.wishService.post(bookId).subscribe(
-            res=>{
-                this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Book is added to wish', life: 3000 });
+            (res) => {
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Success',
+                    detail: 'Book is added to wish',
+                    life: 3000,
+                });
             },
-            error =>{
-                this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Book cannot be added to wish', life: 3000 });
-            }     
-        )
-    };
-
-
-    bookDetail(bookId:number){
-        this.router.navigate(['/pages/book-detail',bookId]);
+            (error) => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Error',
+                    detail: 'Book cannot be added to wish',
+                    life: 3000,
+                });
+            }
+        );
     }
 
-    getAllCategies(){
-        this.categoryService.getAll().subscribe(data => {
+    bookDetail(bookId: number) {
+        this.router.navigate(['/pages/book-detail', bookId]);
+    }
+
+    getAllCategies() {
+        this.categoryService.getAll().subscribe((data) => {
             this.categories = data;
-        })
+        });
     }
 
-    getAllAuthors(){
-        this.authorService.getAll().subscribe(data => {
+    getAllAuthors() {
+        this.authorService.getAll().subscribe((data) => {
             this.authors = data;
-        })
+        });
     }
 
-    getAllPublishers(){
-        this.publisherService.getAll().subscribe(data => {
+    getAllPublishers() {
+        this.publisherService.getAll().subscribe((data) => {
             this.publishers = data;
-        })
+        });
     }
 
     // refreshSearchFields(){
@@ -181,7 +238,7 @@ export class ListComponent implements OnInit {
     //     this.searchCategory = "";
     //     this.searchPublisher = "";
     //     this.searchYearOfPublication = "";
-        
+
     //     const params = new HttpParams()
     //         .set("code", "")
     //         .set("name", this.searchName ? this.searchName : "");

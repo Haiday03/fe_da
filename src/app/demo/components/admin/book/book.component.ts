@@ -21,20 +21,24 @@ import { PaginationDto } from 'src/app/demo/api/pagination/pagination';
     providers: [MessageService],
 })
 export class BookComponent implements OnInit {
-
     // search variable
-    searchBookDto = new SearchBookDto({ code: "", name: "", categoryId: undefined, publisherId: undefined });
+    searchBookDto = new SearchBookDto({
+        code: '',
+        name: '',
+        categoryId: undefined,
+        publisherId: undefined,
+    });
 
     // phân trang
-    pagination = new PaginationDto({ page: 0, size: 10});
+    pagination = new PaginationDto({ page: 0, size: 10 });
 
     inputImage: any;
     fileSelected: File;
-    inforSelectedFile = "";
-    pathImage: string = "";
+    inforSelectedFile = '';
+    pathImage: string = '';
 
     bookDialog: boolean = false;
-    headerDialog = "";
+    headerDialog = '';
 
     deleteBookDialog: boolean = false;
 
@@ -56,70 +60,83 @@ export class BookComponent implements OnInit {
     publisherSelected: Publisher;
 
     items: MenuItem[];
-    
+    lg: string = 'vi';
+
     home: MenuItem;
 
     book: Book = {
         id: 0,
-        code: "",
-        name: "",
-        description: "",
+        code: '',
+        name: '',
+        description: '',
         price: 0,
         quantity: 0,
-        image: "",
+        image: '',
         rating: 0,
         categoryId: 0,
         publisherId: 0,
         authorId: 0,
         selectedQuantity: 1,
         loaned: 0,
-        publishingYear: undefined
+        publishingYear: undefined,
     };
 
     selectedBooks: Book[] = [];
 
     submitted: boolean = false;
 
-    constructor(private router: Router,private bookService: BookService,private authorService: AuthorService,private publisherService: PublisherService, private categoryService: CategoryService, private messageService: MessageService, private http: HttpClient) { }
+    constructor(
+        private router: Router,
+        private bookService: BookService,
+        private authorService: AuthorService,
+        private publisherService: PublisherService,
+        private categoryService: CategoryService,
+        private messageService: MessageService,
+        private http: HttpClient
+    ) {}
 
     ngOnInit() {
+        if (!localStorage.getItem('lang')) {
+            localStorage.setItem('lang', 'vi');
+        } else {
+            this.lg = localStorage.getItem('lang') || 'vi';
+        }
         this.fetchPaging();
         this.getAllCategies();
         this.getAllAuthors();
         this.getAllPublishers();
 
-        // if (this.fileSelected === null || this.fileSelected === undefined || this.fileSelected.size === 0) {
-        //     console.log("File is null or empty.");
-        // } else {
-        //     console.log("File is not null or empty.");
-        // }
-        
         this.items = [
-            {label: 'Quản trị hệ thống'},
-            {label: 'Quản lý sách'}
+            {
+                label:
+                    this.lg === 'vi'
+                        ? 'Quản trị hệ thống'
+                        : 'System Administration',
+            },
+            { label: this.lg === 'vi' ? 'Quản lý sách' : 'Book Management' },
         ];
-        
-        this.home = {icon: 'pi pi-home'};
+
+        this.home = { icon: 'pi pi-home' };
     }
 
     openNew() {
-        this.headerDialog = "Thêm mới";
+        this.headerDialog = 'Thêm mới';
 
-        this.book= {
+        this.book = {
             id: 0,
-            code: "",
-            name: "",
-            description: "",
+            code: '',
+            name: '',
+            description: '',
             price: 0,
             quantity: 0,
-            image: "",
+            image: '',
             rating: 0,
             categoryId: 0,
             publisherId: 0,
             authorId: 0,
             selectedQuantity: 1,
             loaned: 0,
-            publishingYear: undefined
+            publishingYear: undefined,
         };
         this.fileSelected = new File([], '');
         this.submitted = false;
@@ -131,7 +148,7 @@ export class BookComponent implements OnInit {
     }
 
     editBook(book: any) {
-        this.headerDialog = "Cập nhật";
+        this.headerDialog = 'Cập nhật';
         console.log(book);
         this.book = { ...book };
         this.bookDialog = true;
@@ -144,37 +161,54 @@ export class BookComponent implements OnInit {
 
     confirmDeleteSelected() {
         this.dialogConfirmDeleteList = false;
-        this.books = this.books.filter(val => !this.selectedBooks.includes(val));
-        this.messageService.add({ severity: 'success', summary: 'Thành công', detail: 'Xóa thành công', life: 3000 });
+        this.books = this.books.filter(
+            (val) => !this.selectedBooks.includes(val)
+        );
+        this.messageService.add({
+            severity: 'success',
+            summary: 'Thành công',
+            detail: 'Xóa thành công',
+            life: 3000,
+        });
         this.selectedBooks = [];
     }
 
     confirmDelete() {
         this.deleteBookDialog = false;
-        this.books = this.books.filter(val => val.id !== this.book.id);
+        this.books = this.books.filter((val) => val.id !== this.book.id);
         this.bookService.delete(this.book.id).subscribe(
-            res=>{
-                this.messageService.add({ severity: 'success', summary: 'Thành công', detail: 'Xóa thành công', life: 3000 });
+            (res) => {
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Thành công',
+                    detail: 'Xóa thành công',
+                    life: 3000,
+                });
             },
-            error =>{
-                this.messageService.add({ severity: 'error', summary: 'Thất bại', detail: 'Có lỗi xảy ra trong quá trình xử lý', life: 3000 });
+            (error) => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Thất bại',
+                    detail: 'Có lỗi xảy ra trong quá trình xử lý',
+                    life: 3000,
+                });
             }
-          );
-        this.book= {
+        );
+        this.book = {
             id: 0,
-            code: "",
-            name: "",
-            description: "",
+            code: '',
+            name: '',
+            description: '',
             price: 0,
             quantity: 0,
-            image: "",
+            image: '',
             rating: 0,
             categoryId: 0,
             publisherId: 0,
             authorId: 0,
             selectedQuantity: 1,
             loaned: 0,
-            publishingYear: undefined
+            publishingYear: undefined,
         };
     }
 
@@ -183,18 +217,28 @@ export class BookComponent implements OnInit {
         this.submitted = false;
     }
 
-    deleteList(){
+    deleteList() {
         this.dialogConfirmDeleteList = true;
     }
-    
-    confirmDeleteList(){
+
+    confirmDeleteList() {
         this.bookService.deleteList(this.selectedBooks).subscribe(
-            res=>{
-                this.messageService.add({ severity: 'success', summary: 'Thành công', detail: 'Xóa thành công', life: 3000 });
+            (res) => {
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Thành công',
+                    detail: 'Xóa thành công',
+                    life: 3000,
+                });
                 this.ngOnInit();
             },
-            error =>{
-                this.messageService.add({ severity: 'error', summary: 'Thất bại', detail: 'Có lỗi xảy ra trong quá trình xử lý', life: 3000 });
+            (error) => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Thất bại',
+                    detail: 'Có lỗi xảy ra trong quá trình xử lý',
+                    life: 3000,
+                });
             }
         );
 
@@ -202,59 +246,78 @@ export class BookComponent implements OnInit {
         this.selectedBooks = [];
     }
 
-    async saveBook() : Promise<void>{
+    async saveBook(): Promise<void> {
         this.submitted = true;
-       
+
         if (this.book.name?.trim()) {
             this.insertInventory(this.book.quantity);
             if (this.book.id) {
-                
                 // @ts-ignore
                 this.books[this.findIndexById(this.book.id)] = this.book;
-                this.bookService.put(this.book.id,this.book).subscribe(
-                    res=>{
-                        this.messageService.add({ severity: 'success', summary: 'Thành công', detail: 'Cập nhật thành công!', life: 3000 });
+                this.bookService.put(this.book.id, this.book).subscribe(
+                    (res) => {
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: 'Thành công',
+                            detail: 'Cập nhật thành công!',
+                            life: 3000,
+                        });
                         this.ngOnInit();
                     },
-                    error =>{
-                        this.messageService.add({ severity: 'error', summary: 'Thất bại', detail: 'Có lỗi xảy ra trong quá trình xử lý!', life: 3000 });
+                    (error) => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: 'Thất bại',
+                            detail: 'Có lỗi xảy ra trong quá trình xử lý!',
+                            life: 3000,
+                        });
                     }
-                )
+                );
             } else {
                 this.book.code = this.createId();
                 // await this.uploadImage();
-                console.log("Đường dẫn ảnh: " + this.pathImage);
+                console.log('Đường dẫn ảnh: ' + this.pathImage);
                 this.books.push(this.book);
                 this.bookService.post(this.book).subscribe(
-                    res=>{
-                        this.messageService.add({ severity: 'success', summary: 'Thành công', detail: 'Thêm mới thành công!', life: 3000 });
+                    (res) => {
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: 'Thành công',
+                            detail: 'Thêm mới thành công!',
+                            life: 3000,
+                        });
                         this.ngOnInit();
                     },
-                    error =>{
-                        this.messageService.add({ severity: 'error', summary: 'Thất bại', detail: 'Có lỗi xảy ra trong quá trình xử lý!', life: 3000 });
+                    (error) => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: 'Thất bại',
+                            detail: 'Có lỗi xảy ra trong quá trình xử lý!',
+                            life: 3000,
+                        });
                     }
-                  );
+                );
             }
 
             this.books = [...this.books];
             this.bookDialog = false;
-            this.author = new Author;
-            this.publisher = new Publisher;
+            this.author = new Author();
+            this.publisher = new Publisher();
             this.book = {
                 id: 0,
-                code: "",
-                name: "",
-                description: "",
+                code: '',
+                name: '',
+                description: '',
                 price: 0,
                 quantity: 0,
-                image: "",
+                image: '',
                 rating: 0,
                 categoryId: 0,
                 publisherId: 0,
                 authorId: 0,
                 selectedQuantity: 1,
                 loaned: 0,
-                publishingYear: undefined
+                publishingYear: undefined,
             };
             this.ngOnInit();
         }
@@ -271,9 +334,9 @@ export class BookComponent implements OnInit {
 
         return index;
     }
-    
-    changeSource(event) {      
-        event.target.src = "assets/demo/images/product/noimage.jpg";
+
+    changeSource(event) {
+        event.target.src = 'assets/demo/images/product/noimage.jpg';
     }
 
     createId(): string {
@@ -286,102 +349,97 @@ export class BookComponent implements OnInit {
     }
 
     onGlobalFilter(table: Table, event: Event) {
-        table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+        table.filterGlobal(
+            (event.target as HTMLInputElement).value,
+            'contains'
+        );
     }
 
-    getAllCategies(){
-        this.categoryService.getAll().subscribe(data => {
+    getAllCategies() {
+        this.categoryService.getAll().subscribe((data) => {
             this.categories = data;
-        })
+        });
     }
 
-    getAllAuthors(){
-        this.authorService.getAll().subscribe(data => {
+    getAllAuthors() {
+        this.authorService.getAll().subscribe((data) => {
             this.authors = data;
-        })
+        });
     }
 
     listAuthors(event) {
-        this.authorService.findAllByName(event.query).subscribe(data => {
+        this.authorService.findAllByName(event.query).subscribe((data) => {
             this.authors = data;
         });
     }
 
-    getAllPublishers(){
-        this.publisherService.getAll().subscribe(data => {
-            this.publishers = data;
-        })
-    }
-    listPublishers(event) {
-        this.publisherService.findAllByName(event.query).subscribe(data => {
+    getAllPublishers() {
+        this.publisherService.getAll().subscribe((data) => {
             this.publishers = data;
         });
     }
-    bookDetail(bookId:number){
-        this.router.navigate(['/pages/book-detail',bookId]);
+    listPublishers(event) {
+        this.publisherService.findAllByName(event.query).subscribe((data) => {
+            this.publishers = data;
+        });
+    }
+    bookDetail(bookId: number) {
+        this.router.navigate(['/pages/book-detail', bookId]);
     }
 
-    insertInventory(quantity: number)
-    {
-        if(quantity>25)
-
-        this.book.inventoryStatus="Còn sách";
-
-        else if(quantity>1){
-
-        this.book.inventoryStatus="Còn ít";
-        }
-        else
-        this.book.inventoryStatus="Hết sách";
+    insertInventory(quantity: number) {
+        if (quantity > 25) this.book.inventoryStatus = 'Còn sách';
+        else if (quantity > 1) {
+            this.book.inventoryStatus = 'Còn ít';
+        } else this.book.inventoryStatus = 'Hết sách';
     }
 
-    search(){
+    search() {
         this.pagination.clear();
-        this.fetchPaging()
+        this.fetchPaging();
     }
 
-    refreshSearchFields(){
+    refreshSearchFields() {
         this.searchBookDto = this.searchBookDto.clear();
         this.pagination.clear();
 
         this.fetchPaging();
     }
 
-    fetchPaging(){
-        this.bookService.getPage(this.pagination, this.searchBookDto).subscribe(
-            data => {
-                this.books = data["content"];
-                this.pagination.totalElements = data["totalElements"]
-                this.pagination.totalPages = data["totalPages"]
-            }
-        )
+    fetchPaging() {
+        this.bookService
+            .getPage(this.pagination, this.searchBookDto)
+            .subscribe((data) => {
+                this.books = data['content'];
+                this.pagination.totalElements = data['totalElements'];
+                this.pagination.totalPages = data['totalPages'];
+            });
     }
 
     pageChange(event) {
-        this.pagination.page = event.first/this.pagination.size;
+        this.pagination.page = event.first / this.pagination.size;
         this.fetchPaging();
     }
 
-    sizeChange(event){
+    sizeChange(event) {
         this.pagination = this.pagination.changePageSize(event);
         this.fetchPaging();
     }
 
-
-    chooseImage(imageInput:any){
+    chooseImage(imageInput: any) {
         this.fileSelected = imageInput.files[0];
         this.bookService.upload(this.fileSelected).subscribe(
-            response => {
+            (response) => {
                 console.log('Data sent successfully:', response.body);
                 this.pathImage = response.body;
                 // Handle the server response here
                 this.book.image = response.body;
             },
-            error => {
+            (error) => {
                 console.error('Error sending data:', error.status);
                 console.log('Response body:', error.body);
             }
-        )
+        );
     }
     // uploadImage() {
     //     this.bookService.upload(this.fileSelected).subscribe(

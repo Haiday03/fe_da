@@ -14,9 +14,7 @@ import { ChartInfo } from 'src/app/demo/api/dashboard/chartInfo';
     templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent implements OnInit {
-
     items!: MenuItem[];
-
 
     chartData: any;
 
@@ -33,11 +31,14 @@ export class DashboardComponent implements OnInit {
     listCategory: Category[] = [];
     labelsTop5Category: string[] = [];
     datasTop5Category: number[] = [];
+    lg: string = 'vi';
 
     chartInfor = new ChartInfo();
 
-    constructor(private stripeService: StripeService,
-        public layoutService: LayoutService, private categoryService: CategoryService,
+    constructor(
+        private stripeService: StripeService,
+        public layoutService: LayoutService,
+        private categoryService: CategoryService,
         private borrowService: BorrowService
     ) {
         this.subscription = this.layoutService.configUpdate$.subscribe(() => {
@@ -46,87 +47,100 @@ export class DashboardComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.categoryService.getTop5().subscribe(
-            data => {
-                this.listCategory = data;
-                // console.log(`size: ${this.listCategory.length}`)
-                this.listCategory.forEach(category =>{
-                    this.labelsTop5Category.push(category.name);
-                    this.datasTop5Category.push(category.numberOfLoans);
-                })
+        if (!localStorage.getItem('lang')) {
+            localStorage.setItem('lang', 'vi');
+        } else {
+            this.lg = localStorage.getItem('lang') || 'vi';
+        }
+        this.categoryService.getTop5().subscribe((data) => {
+            this.listCategory = data;
+            // console.log(`size: ${this.listCategory.length}`)
+            this.listCategory.forEach((category) => {
+                this.labelsTop5Category.push(category.name);
+                this.datasTop5Category.push(category.numberOfLoans);
+            });
 
-                this.basicData = {
-                    labels: this.labelsTop5Category,
-                    datasets: [
-                        {
-                            label: 'Thể loại',
-                            data: this.datasTop5Category,
-                            backgroundColor: ['rgba(255, 159, 64, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(153, 102, 255, 0.2)'],
-                            borderColor: ['rgb(255, 159, 64)', 'rgb(75, 192, 192)', 'rgb(54, 162, 235)', 'rgb(153, 102, 255)'],
-                            borderWidth: 1
-                        }
-                    ]
-                };
-            }
-        )
+            this.basicData = {
+                labels: this.labelsTop5Category,
+                datasets: [
+                    {
+                        label: 'Thể loại',
+                        data: this.datasTop5Category,
+                        backgroundColor: [
+                            'rgba(255, 159, 64, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                        ],
+                        borderColor: [
+                            'rgb(255, 159, 64)',
+                            'rgb(75, 192, 192)',
+                            'rgb(54, 162, 235)',
+                            'rgb(153, 102, 255)',
+                        ],
+                        borderWidth: 1,
+                    },
+                ],
+            };
+        });
 
-        this.borrowService.getDashboardData().subscribe(
-            data => {
-                this.chartInfor=data;
-                this.initChart();
-            }
-        )
+        this.borrowService.getDashboardData().subscribe((data) => {
+            this.chartInfor = data;
+            this.initChart();
+        });
 
-        this.stripeService.getOrders().subscribe(
-            data => {
-                this.dashboardInfo=data;
-            }
-        )
+        this.stripeService.getOrders().subscribe((data) => {
+            this.dashboardInfo = data;
+        });
 
         const documentStyle = getComputedStyle(document.documentElement);
         const textColor = documentStyle.getPropertyValue('--text-color');
-        const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
-        const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+        const textColorSecondary = documentStyle.getPropertyValue(
+            '--text-color-secondary'
+        );
+        const surfaceBorder =
+            documentStyle.getPropertyValue('--surface-border');
 
         this.basicOptions = {
             plugins: {
                 legend: {
                     labels: {
-                        color: textColor
-                    }
-                }
+                        color: textColor,
+                    },
+                },
             },
             scales: {
                 y: {
                     beginAtZero: true,
                     ticks: {
-                        color: textColorSecondary
+                        color: textColorSecondary,
                     },
                     grid: {
                         color: surfaceBorder,
-                        drawBorder: false
-                    }
+                        drawBorder: false,
+                    },
                 },
                 x: {
                     ticks: {
-                        color: textColorSecondary
+                        color: textColorSecondary,
                     },
                     grid: {
                         color: surfaceBorder,
-                        drawBorder: false
-                    }
-                }
-            }
+                        drawBorder: false,
+                    },
+                },
+            },
         };
-
-
     }
-    
+
     initChart() {
         const documentStyle = getComputedStyle(document.documentElement);
         const textColor = documentStyle.getPropertyValue('--text-color');
-        const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
-        const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+        const textColorSecondary = documentStyle.getPropertyValue(
+            '--text-color-secondary'
+        );
+        const surfaceBorder =
+            documentStyle.getPropertyValue('--surface-border');
 
         this.chartData = {
             labels: this.chartInfor.labels,
@@ -135,51 +149,52 @@ export class DashboardComponent implements OnInit {
                     label: 'Đặt mượn',
                     data: this.chartInfor.borrowedDatas,
                     fill: false,
-                    backgroundColor: documentStyle.getPropertyValue('--bluegray-700'),
-                    borderColor: documentStyle.getPropertyValue('--bluegray-700'),
-                    tension: .4
+                    backgroundColor:
+                        documentStyle.getPropertyValue('--bluegray-700'),
+                    borderColor:
+                        documentStyle.getPropertyValue('--bluegray-700'),
+                    tension: 0.4,
                 },
                 {
                     label: 'Đánh giá',
                     data: this.chartInfor.reviewedDatas,
                     fill: false,
-                    backgroundColor: documentStyle.getPropertyValue('--green-600'),
+                    backgroundColor:
+                        documentStyle.getPropertyValue('--green-600'),
                     borderColor: documentStyle.getPropertyValue('--green-600'),
-                    tension: .4
-                }
-            ]
+                    tension: 0.4,
+                },
+            ],
         };
-
-        
 
         this.chartOptions = {
             plugins: {
                 legend: {
                     labels: {
-                        color: textColor
-                    }
-                }
+                        color: textColor,
+                    },
+                },
             },
             scales: {
                 x: {
                     ticks: {
-                        color: textColorSecondary
+                        color: textColorSecondary,
                     },
                     grid: {
                         color: surfaceBorder,
-                        drawBorder: false
-                    }
+                        drawBorder: false,
+                    },
                 },
                 y: {
                     ticks: {
-                        color: textColorSecondary
+                        color: textColorSecondary,
                     },
                     grid: {
                         color: surfaceBorder,
-                        drawBorder: false
-                    }
-                }
-            }
+                        drawBorder: false,
+                    },
+                },
+            },
         };
     }
 }

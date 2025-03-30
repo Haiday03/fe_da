@@ -1,110 +1,321 @@
 <div class="grid">
-	<div class="col-12">
-		<div class="card">
-			
-			<p-breadcrumb [model]="itemsMenu" [home]="home" styleClass="mb-4"></p-breadcrumb>
+    <div class="col-12">
+        <div class="card">
+            <p-breadcrumb
+                [model]="itemsMenu"
+                [home]="home"
+                styleClass="mb-4"
+            ></p-breadcrumb>
 
-			<div class="card" styleClass="mb-4">
+            <div class="card" styleClass="mb-4">
                 <div class="flex md:justify-content-between flex-wrap">
                     <div class="flex flex-column w-16rem">
-                        <label for="searchName">Tên sách: </label>
-                        <input pInputText id="searchName" class="mt-2" type="text" [(ngModel)]="searchBookDto.name" placeholder="Nhập tên sách">
+                        <label for="searchName">{{
+                            lg === "vi" ? "Tên sách:" : "Book Name:"
+                        }}</label>
+                        <input
+                            pInputText
+                            id="searchName"
+                            class="mt-2"
+                            type="text"
+                            [(ngModel)]="searchBookDto.name"
+                            [placeholder]="
+                                lg === 'vi'
+                                    ? 'Nhập tên sách'
+                                    : 'Enter book name'
+                            "
+                        />
                     </div>
                     <div class="flex flex-column w-16rem">
-                        <label for="searchCategory">Thể loại: </label>
-                        <p-dropdown [style]="{ width: '100%' }" [(ngModel)]="searchBookDto.categoryId" class="mt-2" [options]="categories" optionLabel="name" optionValue="id" [filter]="true" filterBy="name" placeholder="--Chọn thể loại--"></p-dropdown>
+                        <label for="searchCategory">{{
+                            lg === "vi" ? "Thể loại:" : "Category:"
+                        }}</label>
+                        <p-dropdown
+                            [style]="{ width: '100%' }"
+                            [(ngModel)]="searchBookDto.categoryId"
+                            class="mt-2"
+                            [options]="categories"
+                            optionLabel="name"
+                            optionValue="id"
+                            [filter]="true"
+                            filterBy="name"
+                            [placeholder]="
+                                lg === 'vi'
+                                    ? '--Chọn thể loại--'
+                                    : '--Select category--'
+                            "
+                        ></p-dropdown>
                     </div>
                     <div class="flex flex-column w-16rem">
-                        <label for="searchPublisherId">Nhà xuất bản: </label>
-                        <p-dropdown [style]="{ width: '100%' }" [(ngModel)]="searchBookDto.publisherId" class="mt-2" [options]="publishers" optionLabel="name" optionValue="id" [filter]="true" filterBy="name" placeholder="--Chọn nhà xuất bản--"></p-dropdown>
+                        <label for="searchPublisherId">{{
+                            lg === "vi" ? "Nhà xuất bản:" : "Publisher:"
+                        }}</label>
+                        <p-dropdown
+                            [style]="{ width: '100%' }"
+                            [(ngModel)]="searchBookDto.publisherId"
+                            class="mt-2"
+                            [options]="publishers"
+                            optionLabel="name"
+                            optionValue="id"
+                            [filter]="true"
+                            filterBy="name"
+                            [placeholder]="
+                                lg === 'vi'
+                                    ? '--Chọn nhà xuất bản--'
+                                    : '--Select publisher--'
+                            "
+                        ></p-dropdown>
                     </div>
-					<div class="flex flex-column w-16rem">
-                        <label>Năm xuất bản: </label>
-						<p-inputNumber
-							style="width: 100%;"
-							class="mt-2" 
-							placeholder="Nhập năm xuất bản"
-							[(ngModel)]="searchBookDto.publishingYear" 
-							mode="decimal" 
-							inputId="withoutgrouping" 
-							[useGrouping]="false">
-						</p-inputNumber>
+                    <div class="flex flex-column w-16rem">
+                        <label>{{
+                            lg === "vi" ? "Năm xuất bản:" : "Publishing Year:"
+                        }}</label>
+                        <p-inputNumber
+                            style="width: 100%"
+                            class="mt-2"
+                            [placeholder]="
+                                lg === 'vi'
+                                    ? 'Nhập năm xuất bản'
+                                    : 'Enter publishing year'
+                            "
+                            [(ngModel)]="searchBookDto.publishingYear"
+                            mode="decimal"
+                            inputId="withoutgrouping"
+                            [useGrouping]="false"
+                        >
+                        </p-inputNumber>
                     </div>
                 </div>
                 <div class="mt-4">
-                    <button pButton pRipple label="Tìm kiếm" icon="pi pi-search" class="p-button-success mr-2 p-button-rounded p-button-sm" (click)="search()"></button>
-                    <button pButton pRipple label="Đặt lại" icon="pi pi-refresh" class="p-button-warning p-button-rounded p-button-sm" (click)="refreshSearchFields()"></button>
+                    <button
+                        pButton
+                        pRipple
+                        [label]="lg === 'vi' ? 'Tìm kiếm' : 'Search'"
+                        icon="pi pi-search"
+                        class="p-button-success mr-2 p-button-rounded p-button-sm"
+                        (click)="search()"
+                    ></button>
+                    <button
+                        pButton
+                        pRipple
+                        [label]="lg === 'vi' ? 'Đặt lại' : 'Reset'"
+                        icon="pi pi-refresh"
+                        class="p-button-warning p-button-rounded p-button-sm"
+                        (click)="refreshSearchFields()"
+                    ></button>
                 </div>
             </div>
 
-			<p-dataView #dv [value]="books" [paginator]="true" [rows]="9" filterBy="name" [sortField]="sortField" [sortOrder]="sortOrder" layout="grid">
-				<ng-template pTemplate="header">
-					<div class="grid grid-nogutter flex-column md:flex-row justify-content-between md:align-items-center">
-						<h5 class="m-0">DANH SÁCH DỮ LIỆU</h5>
-						<p-dropdown [options]="sortOptions" placeholder="Sắp xếp ngẫu nhiên" (onChange)="onSortChange($event)"></p-dropdown>
-						<!-- <span class="p-input-icon-left my-2">
-                            <i class="pi pi-search"></i>
-                            <input type="search" pInputText placeholder="Tìm kiếm theo tên" (input)="onFilter(dv, $event)">
-                        </span> -->
-						<!-- <p-dataViewLayoutOptions class="my-2 hidden md:inline-flex" ></p-dataViewLayoutOptions> -->
-					</div>
-				</ng-template>
+            <p-dataView
+                #dv
+                [value]="books"
+                [paginator]="true"
+                [rows]="9"
+                filterBy="name"
+                [sortField]="sortField"
+                [sortOrder]="sortOrder"
+                layout="grid"
+            >
+                <ng-template pTemplate="header">
+                    <div
+                        class="grid grid-nogutter flex-column md:flex-row justify-content-between md:align-items-center"
+                    >
+                        <h5 class="m-0">
+                            {{
+                                lg === "vi" ? "DANH SÁCH DỮ LIỆU" : "BOOK LIST"
+                            }}
+                        </h5>
+                        <p-dropdown
+                            [options]="sortOptions"
+                            [placeholder]="
+                                lg === 'vi'
+                                    ? 'Sắp xếp ngẫu nhiên'
+                                    : 'Random sort'
+                            "
+                            (onChange)="onSortChange($event)"
+                        ></p-dropdown>
+                    </div>
+                </ng-template>
 
-				<ng-template  let-book pTemplate="listItem">
-					<div class="flex md:justify-content-between flex-wrap">
-						<div class="flex flex-column md:flex-row align-items-left w-full mx-6" [ngClass]="{}">
-							<img style="cursor: pointer;" src="{{book.image}}" (click)="bookDetail(this.book.id)" (error) ="changeSource($event)" [alt]="book.name" class="my-4 md:my-0 w-9 md:w-10rem shadow-2 mr-5"/>
-							<div class="flex-1 text-center md:text-left">
-								<div style="cursor: pointer;" class="font-bold text-2xl" (click)="bookDetail(this.book.id)">{{ book.name | slice:0:27 }}{{ book.name.length > 27 ? '...' : '' }}</div>
-								<p-rating class="my-1" [ngModel]="book.rating" [readonly]="true" [cancel]="false"></p-rating>
-								<div class="flex align-items-center my-2">
-									<i class="pi pi-tag mr-2"></i>
-									<span class="font-semibold">{{book.category}}</span>
-								</div>
-								<span [class]="'book-badge status-' + book.inventoryStatus.toLowerCase()">{{book.inventoryStatus}}</span>
-							</div>
-							<div class="flex justify-content-end flex-wrap">
-								<div class="grid">
-									<div class="col-12 flex align-items-end justify-content-end ">
-										<span class="text-2xl font-semibold">{{book.price | currencyReverse}}</span>
-									</div>
-									<div class="col-12 flex align-items-end justify-content-end">
-										<p-button icon="pi pi-shopping-cart" (click)="addBookToCart(this.book.id)" label="Thêm vào giỏ hàng" [disabled]="book.inventoryStatus === 'OUTOFSTOCK'"></p-button>
-									</div>
-									<div class="col-12 flex align-items-end justify-content-end">
-										<button icon="pi pi-heart" (click)="addBookToWish(this.book.id)" label="Thêm vào yêu thích" pButton type="button" class="p-button-danger"></button>	
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</ng-template>
+                <ng-template let-book pTemplate="listItem">
+                    <div class="flex md:justify-content-between flex-wrap">
+                        <div
+                            class="flex flex-column md:flex-row align-items-left w-full mx-6"
+                        >
+                            <img
+                                style="cursor: pointer"
+                                src="{{ book.image }}"
+                                (click)="bookDetail(book.id)"
+                                (error)="changeSource($event)"
+                                [alt]="book.name"
+                                class="my-4 md:my-0 w-9 md:w-10rem shadow-2 mr-5"
+                            />
+                            <div class="flex-1 text-center md:text-left">
+                                <div
+                                    style="cursor: pointer"
+                                    class="font-bold text-2xl"
+                                    (click)="bookDetail(book.id)"
+                                >
+                                    {{ book.name | slice : 0 : 27
+                                    }}{{ book.name.length > 27 ? "..." : "" }}
+                                </div>
+                                <p-rating
+                                    class="my-1"
+                                    [ngModel]="book.rating"
+                                    [readonly]="true"
+                                    [cancel]="false"
+                                ></p-rating>
+                                <div class="flex align-items-center my-2">
+                                    <i class="pi pi-tag mr-2"></i>
+                                    <span class="font-semibold">{{
+                                        book.category
+                                    }}</span>
+                                </div>
+                                <span
+                                    [class]="
+                                        'book-badge status-' +
+                                        book.inventoryStatus.toLowerCase()
+                                    "
+                                    >{{ book.inventoryStatus }}</span
+                                >
+                            </div>
+                            <div class="flex justify-content-end flex-wrap">
+                                <div class="grid">
+                                    <div
+                                        class="col-12 flex align-items-end justify-content-end"
+                                    >
+                                        <span class="text-2xl font-semibold">{{
+                                            book.price | currencyReverse
+                                        }}</span>
+                                    </div>
+                                    <div
+                                        class="col-12 flex align-items-end justify-content-end"
+                                    >
+                                        <p-button
+                                            icon="pi pi-shopping-cart"
+                                            (click)="addBookToCart(book.id)"
+                                            [label]="
+                                                lg === 'vi'
+                                                    ? 'Thêm vào giỏ hàng'
+                                                    : 'Add to cart'
+                                            "
+                                            [disabled]="
+                                                book.inventoryStatus ===
+                                                'OUTOFSTOCK'
+                                            "
+                                        ></p-button>
+                                    </div>
+                                    <div
+                                        class="col-12 flex align-items-end justify-content-end"
+                                    >
+                                        <button
+                                            icon="pi pi-heart"
+                                            (click)="addBookToWish(book.id)"
+                                            [label]="
+                                                lg === 'vi'
+                                                    ? 'Thêm vào yêu thích'
+                                                    : 'Add to wishlist'
+                                            "
+                                            pButton
+                                            type="button"
+                                            class="p-button-danger"
+                                        ></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
 
-				<ng-template let-book pTemplate="gridItem" class="flex md:justify-content-between">
-					<div class="col-12 sm:col-6 md:col-4">
-						<div class="product-card">
-							<div class="badge" [style]="{background: (book.quantity - book.loaned) > 0 ? '#00D340' : '#E80000'}">{{(book.quantity - book.loaned) > 0 ? "Còn sách" : "Hết sách"}}</div>
-							<div class="product-tumb">
-								<img style="cursor: pointer; max-width: 100%;" src="{{book.image}}" (error) ="changeSource($event)" (click)="bookDetail(this.book.id)" [alt]="book.name" class="shadow-2 my-3 mx-0"/>
-							</div>
-							<div class="product-details">
-								<span class="product-catagory">{{book.category.name}}</span>
-								<h4 style="cursor: pointer; height: 1.2em; white-space: pre-wrap; overflow: hidden; text-overflow: ellipsis;"><a (click)="bookDetail(this.book.id)">{{ book.name | slice:0:20 }}{{ book.name.length > 20 ? '...' : '' }}</a></h4>
-								<!-- <p-rating [ngModel]="book.rating" [readonly]="true" [cancel]="false"></p-rating> -->
-								<p style="height: 6rem; white-space: pre-wrap; overflow: hidden; text-overflow: ellipsis;">{{ book.description | slice:0:155 }}{{ book.description.length > 155 ? '...' : '' }}</p>
-								<div class="product-bottom-details">
-									<div class="product-price">{{book.price | currencyReverse}}</div>
-									<div class="product-links">
-										<a href=""><i class="fa fa-heart"></i></a>
-										<a href=""><i class="fa fa-shopping-cart"></i></a>
-									</div>
-								</div>
-							</div>
-						</div>
-
-					</div>
-				</ng-template>
-			</p-dataView>
-		</div>
-	</div>
+                <ng-template
+                    let-book
+                    pTemplate="gridItem"
+                    class="flex md:justify-content-between"
+                >
+                    <div class="col-12 sm:col-6 md:col-4">
+                        <div class="product-card">
+                            <div
+                                class="badge"
+                                [style]="{
+                                    background:
+                                        book.quantity - book.loaned > 0
+                                            ? '#00D340'
+                                            : '#E80000'
+                                }"
+                            >
+                                {{
+                                    book.quantity - book.loaned > 0
+                                        ? lg === "vi"
+                                            ? "Còn sách"
+                                            : "In stock"
+                                        : lg === "vi"
+                                        ? "Hết sách"
+                                        : "Out of stock"
+                                }}
+                            </div>
+                            <div class="product-tumb">
+                                <img
+                                    style="cursor: pointer; max-width: 100%"
+                                    src="{{ book.image }}"
+                                    (error)="changeSource($event)"
+                                    (click)="bookDetail(book.id)"
+                                    [alt]="book.name"
+                                    class="shadow-2 my-3 mx-0"
+                                />
+                            </div>
+                            <div class="product-details">
+                                <span class="product-catagory">{{
+                                    book.category.name
+                                }}</span>
+                                <h4
+                                    style="
+                                        cursor: pointer;
+                                        height: 1.2em;
+                                        white-space: pre-wrap;
+                                        overflow: hidden;
+                                        text-overflow: ellipsis;
+                                    "
+                                >
+                                    <a (click)="bookDetail(book.id)"
+                                        >{{ book.name | slice : 0 : 20
+                                        }}{{
+                                            book.name.length > 20 ? "..." : ""
+                                        }}</a
+                                    >
+                                </h4>
+                                <p
+                                    style="
+                                        height: 6rem;
+                                        white-space: pre-wrap;
+                                        overflow: hidden;
+                                        text-overflow: ellipsis;
+                                    "
+                                >
+                                    {{ book.description | slice : 0 : 155
+                                    }}{{
+                                        book.description.length > 155
+                                            ? "..."
+                                            : ""
+                                    }}
+                                </p>
+                                <div class="product-bottom-details">
+                                    <div class="product-price">
+                                        {{ book.price | currencyReverse }}
+                                    </div>
+                                    <div class="product-links">
+                                        <a href=""
+                                            ><i class="fa fa-heart"></i
+                                        ></a>
+                                        <a href=""
+                                            ><i class="fa fa-shopping-cart"></i
+                                        ></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-dataView>
+        </div>
+    </div>
 </div>

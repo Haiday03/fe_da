@@ -8,18 +8,16 @@ import { Wish } from '../../api/wish/Wish';
 import { WishService } from '../../service/wish.service';
 @Component({
     templateUrl: './wish.component.html',
-    providers: [MessageService]
+    providers: [MessageService],
 })
-
 export class WishComponent implements OnInit {
-
     currentUser = {};
 
     books: Book[] = [];
 
     wishes: Wish[];
 
-    sum: any = 0    ;
+    sum: any = 0;
 
     sortOptions: SelectItem[] = [];
 
@@ -36,30 +34,45 @@ export class WishComponent implements OnInit {
     itemsMenu: MenuItem[];
     home: MenuItem;
 
-    constructor(private router: Router, private messageService: MessageService, private wishService: WishService) { }
+    lg: string = 'vi';
+
+    constructor(
+        private router: Router,
+        private messageService: MessageService,
+        private wishService: WishService
+    ) {}
 
     ngOnInit() {
-        this.currentUser = JSON.parse(localStorage.getItem('currentUser')|| '{}');
+        if (!localStorage.getItem('lang')) {
+            localStorage.setItem('lang', 'vi');
+        } else {
+            this.lg = localStorage.getItem('lang') || 'vi';
+        }
+        this.currentUser = JSON.parse(
+            localStorage.getItem('currentUser') || '{}'
+        );
 
         this.itemsMenu = [
-            {label: 'Danh mục'},
-            {label: 'Sách yêu thích'}
+            {
+                label: this.lg === 'vi' ? 'Danh mục' : 'Categories',
+            },
+            {
+                label: this.lg === 'vi' ? 'Sách yêu thích' : 'Favorite Books',
+            },
         ];
 
-        this.home = {icon: 'pi pi-home'};
+        this.home = { icon: 'pi pi-home' };
 
-        this.wishService.getWish().subscribe(
-            res=>{
-                this.wishes=res;
-                // this.books=this.wish.bookList;
-                this.wishes.forEach(element => {
-                    this.books.push(element.book);
-                });
-            },
-        );
+        this.wishService.getWish().subscribe((res) => {
+            this.wishes = res;
+            // this.books=this.wish.bookList;
+            this.wishes.forEach((element) => {
+                this.books.push(element.book);
+            });
+        });
         this.sortOptions = [
             { label: 'Price High to Low', value: '!price' },
-            { label: 'Price Low to High', value: 'price' }
+            { label: 'Price Low to High', value: 'price' },
         ];
 
         this.cols = [
@@ -67,7 +80,7 @@ export class WishComponent implements OnInit {
             { field: 'quantity', header: 'Quantity' },
             { field: 'action', header: 'Description' },
         ];
-    };
+    }
     onSortChange(event: any) {
         const value = event.value;
 
@@ -85,32 +98,42 @@ export class WishComponent implements OnInit {
     }
 
     onGlobalFilter(table: Table, event: Event) {
-        table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+        table.filterGlobal(
+            (event.target as HTMLInputElement).value,
+            'contains'
+        );
     }
-    
-    changeSource(event) {      
-        event.target.src = "assets/demo/images/product/noimage.jpg";
+
+    changeSource(event) {
+        event.target.src = 'assets/demo/images/product/noimage.jpg';
     }
 
-
-
-    deleteBookFromWish(wishId: number)
-    {
+    deleteBookFromWish(wishId: number) {
         this.wishService.delete(wishId).subscribe(
-            res=>{
-                this.messageService.add({ severity: 'success', summary: 'Thành công', detail: 'Xóa thành công', life: 3000 });
+            (res) => {
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Thành công',
+                    detail: 'Xóa thành công',
+                    life: 3000,
+                });
                 this.ngOnInit();
             },
-            error =>{
-                this.messageService.add({ severity: 'error', summary: 'Thất bại', detail: 'Có lỗi xảy ra trong quá trình xử lý', life: 3000 });
+            (error) => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Thất bại',
+                    detail: 'Có lỗi xảy ra trong quá trình xử lý',
+                    life: 3000,
+                });
             }
         );
     }
 
-    bookDetail(bookId:number){
-        this.router.navigate(['/pages/book-detail',bookId]);
-      }
-      
+    bookDetail(bookId: number) {
+        this.router.navigate(['/pages/book-detail', bookId]);
+    }
+
     redirectToList(): void {
         this.router.navigateByUrl('/pages/list');
     }

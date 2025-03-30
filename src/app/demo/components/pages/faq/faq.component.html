@@ -1,93 +1,270 @@
 <div class="grid">
     <div class="col-12">
         <div class="card">
-            <p-breadcrumb [model]="itemsMenu" [home]="home" styleClass="mb-4"></p-breadcrumb>
+            <p-breadcrumb
+                [model]="itemsMenu"
+                [home]="home"
+                styleClass="mb-4"
+            ></p-breadcrumb>
             <div class="card">
                 <p-tabView id="closableTabView">
-                    <p-tabPanel header="Đăng ký và sử dụng dịch vụ thư viện" [selected]="true" class="tbpanel">
+                    <p-tabPanel
+                        header="{{
+                            lg === 'vi'
+                                ? 'Đăng ký và sử dụng dịch vụ thư viện'
+                                : 'Library Service Registration & Usage'
+                        }}"
+                        [selected]="true"
+                        class="tbpanel"
+                    >
                         <p-accordion [multiple]="true">
-                            <p-accordionTab header="Làm thế nào để đăng ký thành viên mới trong thư viện?">
+                            <p-accordionTab
+                                header="{{
+                                    lg === 'vi'
+                                        ? 'Làm thế nào để đăng ký thành viên mới trong thư viện?'
+                                        : 'How to register as a new library member?'
+                                }}"
+                            >
                                 <p>
-                                    Để đăng ký thành viên mới trong thư viện, bạn có thể đến quầy đăng ký và cung cấp các thông tin cá nhân cần thiết như tên, địa chỉ, số điện thoại, và có thể yêu cầu cung cấp một số giấy tờ tuỳ theo quy định.
+                                    {{
+                                        lg === "vi"
+                                            ? "Để đăng ký thành viên mới trong thư viện, bạn có thể đến quầy đăng ký và cung cấp các thông tin cá nhân cần thiết như tên, địa chỉ, số điện thoại, và có thể yêu cầu cung cấp một số giấy tờ tuỳ theo quy định."
+                                            : "To register as a new member, you can visit the registration desk and provide necessary personal information such as name, address, phone number, and may need to provide some documents according to regulations."
+                                    }}
                                 </p>
                             </p-accordionTab>
-                            <p-accordionTab header="Quy trình mượn và trả sách như thế nào?">
+                            <p-accordionTab
+                                header="{{
+                                    lg === 'vi'
+                                        ? 'Quy trình mượn và trả sách như thế nào?'
+                                        : 'What is the procedure for borrowing and returning books?'
+                                }}"
+                            >
                                 <p>
-                                    Quy trình mượn và trả sách thường bao gồm việc chọn sách, đưa thẻ thành viên và sách tới quầy mượn/trả, và sau đó nhận lại thẻ và biên lai trả sách.
+                                    {{
+                                        lg === "vi"
+                                            ? "Quy trình mượn và trả sách thường bao gồm việc chọn sách, đưa thẻ thành viên và sách tới quầy mượn/trả, và sau đó nhận lại thẻ và biên lai trả sách."
+                                            : "The borrowing and returning process usually includes selecting books, presenting your membership card and books at the counter, then receiving back your card and return receipt."
+                                    }}
                                 </p>
                             </p-accordionTab>
-                            <p-accordionTab header="Có bao nhiêu sách tối đa mà một người đọc có thể mượn cùng một lúc?">
+                            <p-accordionTab
+                                header="{{
+                                    lg === 'vi'
+                                        ? 'Có bao nhiêu sách tối đa mà một người đọc có thể mượn cùng một lúc?'
+                                        : 'What is the maximum number of books a reader can borrow at one time?'
+                                }}"
+                            >
                                 <p>
-                                    Số lượng sách tối đa mà một người đọc có thể mượn cùng một lúc thường được quy định trong chính sách mượn sách của thư viện đó.
+                                    {{
+                                        lg === "vi"
+                                            ? "Số lượng sách tối đa mà một người đọc có thể mượn cùng một lúc thường được quy định trong chính sách mượn sách của thư viện đó."
+                                            : "The maximum number of books a reader can borrow at once is usually regulated by the library’s borrowing policy."
+                                    }}
                                 </p>
                             </p-accordionTab>
-                            <p-accordionTab header="Thư viện có dịch vụ mượn sách trực tuyến không? Nếu có, làm thế nào để sử dụng dịch vụ này?">
+                            <p-accordionTab
+                                header="{{
+                                    lg === 'vi'
+                                        ? 'Thư viện có dịch vụ mượn sách trực tuyến không? Nếu có, làm thế nào để sử dụng dịch vụ này?'
+                                        : 'Does the library offer online book borrowing? If yes, how to use it?'
+                                }}"
+                            >
                                 <p>
-                                    Thư viện có thể cung cấp dịch vụ mượn sách trực tuyến thông qua hệ thống quản lý thư viện trực tuyến hoặc ứng dụng di động. Bạn có thể đăng nhập vào tài khoản của mình và tìm kiếm, đặt sách trực tuyến, và xem thông tin về các mượn sách hiện tại và lịch sử mượn sách.
+                                    {{
+                                        lg === "vi"
+                                            ? "Thư viện có thể cung cấp dịch vụ mượn sách trực tuyến thông qua hệ thống quản lý thư viện trực tuyến hoặc ứng dụng di động. Bạn có thể đăng nhập vào tài khoản của mình và tìm kiếm, đặt sách trực tuyến, và xem thông tin về các mượn sách hiện tại và lịch sử mượn sách."
+                                            : "The library may offer online book borrowing through an online management system or mobile app. You can log into your account, search, reserve books online, and view current and past borrowings."
+                                    }}
                                 </p>
                             </p-accordionTab>
-                            <p-accordionTab header="Làm thế nào để xem thông tin cá nhân của mình và cập nhật thông tin liên hệ trong hồ sơ thành viên?">
+                            <p-accordionTab
+                                header="{{
+                                    lg === 'vi'
+                                        ? 'Làm thế nào để xem thông tin cá nhân của mình và cập nhật thông tin liên hệ trong hồ sơ thành viên?'
+                                        : 'How to view and update personal information in the membership profile?'
+                                }}"
+                            >
                                 <p>
-                                    Để xem thông tin cá nhân của mình và cập nhật thông tin liên hệ trong hồ sơ thành viên, bạn có thể truy cập vào hệ thống quản lý thư viện trực tuyến hoặc ứng dụng di động (nếu có). Đăng nhập vào tài khoản của bạn và tìm phần "Hồ sơ cá nhân" hoặc "Thông tin thành viên". 
-                                    Tại đó, bạn có thể xem thông tin cá nhân hiện tại, như địa chỉ, số điện thoại, và email, và cập nhật bất kỳ thay đổi nào cần thiết.
+                                    {{
+                                        lg === "vi"
+                                            ? 'Để xem thông tin cá nhân của mình và cập nhật thông tin liên hệ trong hồ sơ thành viên, bạn có thể truy cập vào hệ thống quản lý thư viện trực tuyến hoặc ứng dụng di động (nếu có). Đăng nhập vào tài khoản của bạn và tìm phần "Hồ sơ cá nhân" hoặc "Thông tin thành viên". Tại đó, bạn có thể xem thông tin cá nhân hiện tại, như địa chỉ, số điện thoại, và email, và cập nhật bất kỳ thay đổi nào cần thiết.'
+                                            : 'To view and update personal info in your membership profile, access the library’s online system or mobile app (if available). Log in and find "Personal Profile" or "Member Information" section to view and update your address, phone, email, and other details.'
+                                    }}
                                 </p>
                             </p-accordionTab>
                         </p-accordion>
                     </p-tabPanel>
-                    <p-tabPanel header="Tìm kiếm và truy cập tài liệu" class="tbpanel">
+
+                    <p-tabPanel
+                        header="{{
+                            lg === 'vi'
+                                ? 'Tìm kiếm và truy cập tài liệu'
+                                : 'Searching and Accessing Materials'
+                        }}"
+                        class="tbpanel"
+                    >
                         <p-accordion [multiple]="true">
-                            <p-accordionTab header="Làm thế nào để tìm kiếm sách trong cơ sở dữ liệu của thư viện?">
+                            <p-accordionTab
+                                header="{{
+                                    lg === 'vi'
+                                        ? 'Làm thế nào để tìm kiếm sách trong cơ sở dữ liệu của thư viện?'
+                                        : 'How to search for books in the library database?'
+                                }}"
+                            >
                                 <p>
-                                    Để tìm kiếm sách trong cơ sở dữ liệu của thư viện, bạn có thể sử dụng hệ thống tìm kiếm trực tuyến hoặc hỏi nhân viên thư viện giúp đỡ. Thông thường, bạn có thể tìm kiếm theo tên sách, tác giả, từ khóa, hoặc mã số sách.
-                            </p-accordionTab>
-                            <p-accordionTab header="Thư viện có chính sách phí trễ không? Nếu có, làm thế nào để tính toán và thanh toán các khoản phí này?">
-                                <p>
-                                    Chính sách phí trễ (nếu có) và cách tính toán phí thường được quy định trong quy định của thư viện. Thông thường, phí trễ được tính dựa trên số ngày trễ và loại tài liệu.
+                                    {{
+                                        lg === "vi"
+                                            ? "Để tìm kiếm sách trong cơ sở dữ liệu của thư viện, bạn có thể sử dụng hệ thống tìm kiếm trực tuyến hoặc hỏi nhân viên thư viện giúp đỡ. Thông thường, bạn có thể tìm kiếm theo tên sách, tác giả, từ khóa, hoặc mã số sách."
+                                            : "To search for books in the library database, you can use the online search system or ask library staff for help. Usually, you can search by book title, author, keywords, or book ID."
+                                    }}
                                 </p>
                             </p-accordionTab>
-                            <p-accordionTab header="Làm thế nào để đề xuất mua sách mới cho thư viện?">
+                            <p-accordionTab
+                                header="{{
+                                    lg === 'vi'
+                                        ? 'Thư viện có chính sách phí trễ không? Nếu có, làm thế nào để tính toán và thanh toán các khoản phí này?'
+                                        : 'Does the library have late fees? How to calculate and pay?'
+                                }}"
+                            >
                                 <p>
-                                    Để đề xuất mua sách mới cho thư viện, bạn có thể liên hệ với nhân viên thư viện hoặc sử dụng các hệ thống đề xuất sách trực tuyến nếu có.
+                                    {{
+                                        lg === "vi"
+                                            ? "Chính sách phí trễ (nếu có) và cách tính toán phí thường được quy định trong quy định của thư viện. Thông thường, phí trễ được tính dựa trên số ngày trễ và loại tài liệu."
+                                            : "Late fee policies (if any) and how to calculate fees are usually specified in the library regulations. Typically, fees are based on days overdue and document type."
+                                    }}
                                 </p>
                             </p-accordionTab>
-                            <p-accordionTab header="Thư viện có chương trình sự kiện, buổi thảo luận hoặc câu lạc bộ đọc sách không? Làm thế nào để tham gia?">
+                            <p-accordionTab
+                                header="{{
+                                    lg === 'vi'
+                                        ? 'Làm thế nào để đề xuất mua sách mới cho thư viện?'
+                                        : 'How to suggest new book purchases for the library?'
+                                }}"
+                            >
                                 <p>
-                                    Thư viện có thể tổ chức các chương trình sự kiện, buổi thảo luận, hoặc câu lạc bộ đọc sách. Thông tin về các sự kiện này thường được thông báo trên trang web của thư viện hoặc bảng thông tin trong thư viện.
+                                    {{
+                                        lg === "vi"
+                                            ? "Để đề xuất mua sách mới cho thư viện, bạn có thể liên hệ với nhân viên thư viện hoặc sử dụng các hệ thống đề xuất sách trực tuyến nếu có."
+                                            : "To suggest new book purchases, contact library staff or use online suggestion systems if available."
+                                    }}
                                 </p>
                             </p-accordionTab>
-                            <p-accordionTab header="Làm thế nào để đề nghị mua sách hoặc nguồn tài liệu mới cho thư viện?">
+                            <p-accordionTab
+                                header="{{
+                                    lg === 'vi'
+                                        ? 'Thư viện có chương trình sự kiện, buổi thảo luận hoặc câu lạc bộ đọc sách không? Làm thế nào để tham gia?'
+                                        : 'Does the library organize events, discussions, or book clubs? How to join?'
+                                }}"
+                            >
                                 <p>
-                                    Để đề nghị mua sách hoặc nguồn tài liệu mới cho thư viện, bạn có thể liên hệ trực tiếp với nhân viên thư viện. Họ sẽ hướng dẫn bạn về quy trình và các yêu cầu cụ thể. 
-                                    Thông thường, thư viện có một quy trình đánh giá và xem xét các đề nghị mua mới dựa trên các yếu tố như tính chất và nhu cầu của người dùng, ngân sách và chính sách mua sắm của thư viện.
+                                    {{
+                                        lg === "vi"
+                                            ? "Thư viện có thể tổ chức các chương trình sự kiện, buổi thảo luận, hoặc câu lạc bộ đọc sách. Thông tin về các sự kiện này thường được thông báo trên trang web của thư viện hoặc bảng thông tin trong thư viện."
+                                            : "The library may organize events, discussions, or book clubs. Information is usually announced on the library website or notice boards."
+                                    }}
+                                </p>
+                            </p-accordionTab>
+                            <p-accordionTab
+                                header="{{
+                                    lg === 'vi'
+                                        ? 'Làm thế nào để đề nghị mua sách hoặc nguồn tài liệu mới cho thư viện?'
+                                        : 'How to request new books or materials for the library?'
+                                }}"
+                            >
+                                <p>
+                                    {{
+                                        lg === "vi"
+                                            ? "Để đề nghị mua sách hoặc nguồn tài liệu mới cho thư viện, bạn có thể liên hệ trực tiếp với nhân viên thư viện. Họ sẽ hướng dẫn bạn về quy trình và các yêu cầu cụ thể. Thông thường, thư viện có một quy trình đánh giá và xem xét các đề nghị mua mới dựa trên các yếu tố như tính chất và nhu cầu của người dùng, ngân sách và chính sách mua sắm của thư viện."
+                                            : "To request new books or materials, contact library staff directly. They will guide you through the process and requirements. The library usually has a review process based on user needs, budget, and procurement policies."
+                                    }}
                                 </p>
                             </p-accordionTab>
                         </p-accordion>
                     </p-tabPanel>
-                    <p-tabPanel header="Chính sách và thông tin khác" class="tbpanel">
+
+                    <p-tabPanel
+                        header="{{
+                            lg === 'vi'
+                                ? 'Chính sách và thông tin khác'
+                                : 'Policies and Other Information'
+                        }}"
+                        class="tbpanel"
+                    >
                         <p-accordion [multiple]="true">
-                            <p-accordionTab header="Thư viện có dịch vụ in ấn, sao chụp tài liệu không? Nếu có, làm thế nào để sử dụng dịch vụ này?">
+                            <p-accordionTab
+                                header="{{
+                                    lg === 'vi'
+                                        ? 'Thư viện có dịch vụ in ấn, sao chụp tài liệu không? Nếu có, làm thế nào để sử dụng dịch vụ này?'
+                                        : 'Does the library provide printing and copying services? How to use them?'
+                                }}"
+                            >
                                 <p>
-                                    Thư viện có thể cung cấp dịch vụ in ấn, sao chụp tài liệu cho người dùng. Để sử dụng dịch vụ này, bạn cần liên hệ với nhân viên thư viện và tuân thủ quy định về việc sử dụng máy in và sao chụp.
+                                    {{
+                                        lg === "vi"
+                                            ? "Thư viện có thể cung cấp dịch vụ in ấn, sao chụp tài liệu cho người dùng. Để sử dụng dịch vụ này, bạn cần liên hệ với nhân viên thư viện và tuân thủ quy định về việc sử dụng máy in và sao chụp."
+                                            : "The library may offer printing and copying services. To use these, contact library staff and comply with printer and copier regulations."
+                                    }}
                                 </p>
                             </p-accordionTab>
-                            <p-accordionTab header="Làm thế nào để biết thông tin về các tài liệu mới, sách bán chạy hoặc sách được đề xuất trong thư viện?">
+                            <p-accordionTab
+                                header="{{
+                                    lg === 'vi'
+                                        ? 'Làm thế nào để biết thông tin về các tài liệu mới, sách bán chạy hoặc sách được đề xuất trong thư viện?'
+                                        : 'How to find information about new, bestselling, or recommended books?'
+                                }}"
+                            >
                                 <p>
-                                    Thông tin về các tài liệu mới, sách bán chạy, hoặc sách được đề xuất thường có thể được tìm thấy trong các bảng thông tin trong thư viện, trang web của thư viện, hoặc thông qua hệ thống tìm kiếm trực tuyến.
+                                    {{
+                                        lg === "vi"
+                                            ? "Thông tin về các tài liệu mới, sách bán chạy, hoặc sách được đề xuất thường có thể được tìm thấy trong các bảng thông tin trong thư viện, trang web của thư viện, hoặc thông qua hệ thống tìm kiếm trực tuyến."
+                                            : "Information about new, bestselling, or recommended books can usually be found on library notice boards, the website, or online search systems."
+                                    }}
                                 </p>
                             </p-accordionTab>
-                            <p-accordionTab header="Thư viện có máy tính và Wi-Fi miễn phí cho người dùng không?">
+                            <p-accordionTab
+                                header="{{
+                                    lg === 'vi'
+                                        ? 'Thư viện có máy tính và Wi-Fi miễn phí cho người dùng không?'
+                                        : 'Does the library provide free computers and Wi-Fi for users?'
+                                }}"
+                            >
                                 <p>
-                                    Thư viện có thể cung cấp máy tính và Wi-Fi miễn phí cho người dùng. Thông tin về cách sử dụng các thiết bị này có thể được tìm thấy tại quầythông tin hoặc trên trang web của thư viện.
+                                    {{
+                                        lg === "vi"
+                                            ? "Thư viện có thể cung cấp máy tính và Wi-Fi miễn phí cho người dùng. Thông tin về cách sử dụng các thiết bị này có thể được tìm thấy tại quầythông tin hoặc trên trang web của thư viện."
+                                            : "The library may provide free computers and Wi-Fi. Usage info is usually available at information desks or on the website."
+                                    }}
                                 </p>
                             </p-accordionTab>
-                            <p-accordionTab header="Làm thế nào để liên hệ với thủ thư hoặc nhận hỗ trợ khi cần thiết?">
+                            <p-accordionTab
+                                header="{{
+                                    lg === 'vi'
+                                        ? 'Làm thế nào để liên hệ với thủ thư hoặc nhận hỗ trợ khi cần thiết?'
+                                        : 'How to contact the librarian or get support when needed?'
+                                }}"
+                            >
                                 <p>
-                                    Để liên hệ với thủ thư hoặc nhận hỗ trợ, bạn có thể đến quầy thông tin hoặc quầy mượn/trả sách trong thư viện. Thông tin liên hệ của thư viện và các phương thức liên lạc khác thường được hiển thị trên trang web của thư viện.
+                                    {{
+                                        lg === "vi"
+                                            ? "Để liên hệ với thủ thư hoặc nhận hỗ trợ, bạn có thể đến quầy thông tin hoặc quầy mượn/trả sách trong thư viện. Thông tin liên hệ của thư viện và các phương thức liên lạc khác thường được hiển thị trên trang web của thư viện."
+                                            : "To contact a librarian or get support, visit the information desk or borrowing/return counter. Contact details and other methods are usually on the library website."
+                                    }}
                                 </p>
                             </p-accordionTab>
-                            <p-accordionTab header="Thư viện có chính sách bảo mật thông tin cá nhân không? ">
+                            <p-accordionTab
+                                header="{{
+                                    lg === 'vi'
+                                        ? 'Thư viện có chính sách bảo mật thông tin cá nhân không?'
+                                        : 'Does the library have a personal data privacy policy?'
+                                }}"
+                            >
                                 <p>
-                                    Chính sách bảo mật thông tin cá nhân thường được thư viện tuân thủ theo quy định pháp luật và được công bố trên trang web hoặc trong các tài liệu hướng dẫn của thư viện.
+                                    {{
+                                        lg === "vi"
+                                            ? "Thư viện thường có chính sách bảo mật thông tin cá nhân để bảo vệ dữ liệu của người dùng. Chính sách này được công bố trên trang web hoặc tại các quầy dịch vụ của thư viện."
+                                            : "Libraries usually have personal data privacy policies to protect user data. These are published on websites or service desks."
+                                    }}
                                 </p>
                             </p-accordionTab>
                         </p-accordion>

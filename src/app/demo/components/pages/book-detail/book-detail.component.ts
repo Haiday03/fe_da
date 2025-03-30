@@ -14,7 +14,7 @@ import { BookService } from '../../../service/book.service';
 @Component({
     templateUrl: './book-detail.component.html',
     styleUrls: ['./book-detail.component.css'],
-    providers: [MessageService]
+    providers: [MessageService],
 })
 export class BookDetailComponent implements OnInit {
     selectedQuantity = 1;
@@ -30,122 +30,170 @@ export class BookDetailComponent implements OnInit {
 
     recommended: BookRec[];
 
-    listReviews : Borrow[] = [];
-    
+    listReviews: Borrow[] = [];
+
     responsiveOptions;
 
-    bookId:string="";
-    title: string="";
-    content: string="";
+    bookId: string = '';
+    title: string = '';
+    content: string = '';
 
+    currentUser: {};
+    userId: string = '';
+    username: string = '';
+    lg: string = 'vi';
 
-    currentUser:{};
-    userId: string="";
-    username: string="";
-
-    constructor(private cartService: CartService,
+    constructor(
+        private cartService: CartService,
         private route: ActivatedRoute,
         private messageService: MessageService,
         private bookService: BookService,
         private router: Router,
         private wishService: WishService,
-        private borrowService: BorrowService,
-    ){}
+        private borrowService: BorrowService
+    ) {}
 
     ngOnInit(): void {
-
+        if (!localStorage.getItem('lang')) {
+            localStorage.setItem('lang', 'vi');
+        } else {
+            this.lg = localStorage.getItem('lang') || 'vi';
+        }
         this.responsiveOptions = [
             {
                 breakpoint: '1024px',
                 numVisible: 3,
-                numScroll: 3
+                numScroll: 3,
             },
             {
                 breakpoint: '768px',
                 numVisible: 2,
-                numScroll: 2
+                numScroll: 2,
             },
             {
                 breakpoint: '560px',
                 numVisible: 1,
-                numScroll: 1
-            }
+                numScroll: 1,
+            },
         ];
 
         this.currentUser = JSON.parse(localStorage.getItem('currentUser')!);
-        this.username=this.currentUser['username'];
-    
+        this.username = this.currentUser['username'];
+
         this.bookId = this.route.snapshot.paramMap.get('id')!;
 
         this.bookService.getById(this.bookId).subscribe(
-            res=>{
-                this.book=res;
+            (res) => {
+                this.book = res;
             },
-            error =>{
-                this.messageService.add({ severity: 'error', summary: 'Thất bại', detail: 'Có lỗi xảy ra trong quá trình xử lý!', life: 3000 });
+            (error) => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Thất bại',
+                    detail: 'Có lỗi xảy ra trong quá trình xử lý!',
+                    life: 3000,
+                });
             }
         );
 
         this.borrowService.getReviewsByBookId(this.bookId).subscribe(
-            res=>{
-                this.listReviews=res;
+            (res) => {
+                this.listReviews = res;
             },
-            error =>{
-                this.messageService.add({ severity: 'error', summary: 'Thất bại', detail: 'Có lỗi xảy ra trong quá trình xử lý!', life: 3000 });
+            (error) => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Thất bại',
+                    detail: 'Có lỗi xảy ra trong quá trình xử lý!',
+                    life: 3000,
+                });
             }
         );
-       
     }
 
-    addBookToCart(bookId: number){
+    addBookToCart(bookId: number) {
         this.cartService.post(bookId).subscribe(
-            res=>{
-                this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Book is added to cart', life: 3000 });
-            }, 
-            error =>{
-                this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Book cannot be added to cart', life: 3000 });
-            }     
-        )
-    };
-
-    changeSource(event) {      
-        event.target.src = "assets/demo/images/product/noimage.jpg";
+            (res) => {
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Success',
+                    detail: 'Book is added to cart',
+                    life: 3000,
+                });
+            },
+            (error) => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Error',
+                    detail: 'Book cannot be added to cart',
+                    life: 3000,
+                });
+            }
+        );
     }
 
-    bookDetail(bookId:number){
+    changeSource(event) {
+        event.target.src = 'assets/demo/images/product/noimage.jpg';
+    }
+
+    bookDetail(bookId: number) {
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
         this.router.onSameUrlNavigation = 'reload';
-        this.router.navigate(['/pages/book-detail',bookId]);
+        this.router.navigate(['/pages/book-detail', bookId]);
     }
 
-    addBookToWish(bookId: number){
+    addBookToWish(bookId: number) {
         this.wishService.post(bookId).subscribe(
-            res=>{
-                this.messageService.add({ severity: 'success', summary: 'Thành công', detail: 'Sách đã được thêm vào yêu thích!', life: 3000 });
+            (res) => {
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Thành công',
+                    detail: 'Sách đã được thêm vào yêu thích!',
+                    life: 3000,
+                });
             },
-            error =>{
-                this.messageService.add({ severity: 'error', summary: 'Thất bại', detail: error, life: 3000 });
-            }     
-        )
-    };
+            (error) => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Thất bại',
+                    detail: error,
+                    life: 3000,
+                });
+            }
+        );
+    }
 
-    openConfirmBorrowDialog(){
+    openConfirmBorrowDialog() {
         this.dialogConfirmBorrow = true;
     }
 
-    confirmBorrow(bookId: number){
-        let borrow = new Borrow(bookId, this.selectedQuantity, 1, this.username);
+    confirmBorrow(bookId: number) {
+        let borrow = new Borrow(
+            bookId,
+            this.selectedQuantity,
+            1,
+            this.username
+        );
 
         this.borrowService.post(borrow).subscribe(
-            res => {
-                this.messageService.add({ severity: 'success', summary: 'Thành công', detail: 'Đặt mượn sách thành công!', life: 3000 });
+            (res) => {
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Thành công',
+                    detail: 'Đặt mượn sách thành công!',
+                    life: 3000,
+                });
                 this.dialogConfirmBorrow = false;
-            }, 
-            error => {
-                this.messageService.add({ severity: 'error', summary: 'Thất bại', detail: error, life: 3000 });
+            },
+            (error) => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Thất bại',
+                    detail: error,
+                    life: 3000,
+                });
                 this.dialogConfirmBorrow = false;
             }
-        )
+        );
     }
-
 }
