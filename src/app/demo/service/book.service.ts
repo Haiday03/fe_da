@@ -195,45 +195,32 @@ export class BookService {
     ));
   }
 
-  getConditionString(searchBookDto: SearchBookDto){
-    var conditionStr = '';
-    if(typeof searchBookDto.code!='undefined' && searchBookDto.code){
-      conditionStr += `code~'*${searchBookDto.code}*'`;
-    }
-    if(typeof searchBookDto.name!='undefined' && searchBookDto.name){
-      if(conditionStr){
-        conditionStr += `and name~'*${searchBookDto.name}*'`;
-      } else {
-        conditionStr += `name~'*${searchBookDto.name}*'`;
-      }
-    }
-    if(typeof searchBookDto.categoryId!='undefined' && searchBookDto.categoryId){
-      if(conditionStr){
-        conditionStr += `and categoryId:${searchBookDto.categoryId}`;
-      } else {
-        conditionStr += `categoryId:${searchBookDto.categoryId}`;
-      }
-    }
-    if(typeof searchBookDto.publisherId!='undefined' && searchBookDto.publisherId){
-      if(conditionStr){
-        conditionStr += `and publisherId:${searchBookDto.publisherId}`;
-      } else {
-        conditionStr += `publisherId:${searchBookDto.publisherId}`;
-      }
-    }
-    if(typeof searchBookDto.publishingYear!='undefined' && searchBookDto.publishingYear){
-      console.log(searchBookDto.publishingYear);
-      if(conditionStr){
-        conditionStr += `and publishingYear:${searchBookDto.publishingYear}`;
-      } else {
-        conditionStr += `publishingYear:${searchBookDto.publishingYear}`;
-      }
-    }
+getConditionString(searchBookDto: SearchBookDto) {
+  let conditionStr = '';
 
-    if(conditionStr){
-      conditionStr = "&filter=" + conditionStr;
-    }
-
-    return conditionStr;
+  if (searchBookDto.code) {
+    conditionStr += `code:'*${searchBookDto.code}*'`;
   }
+
+  if (searchBookDto.name) {
+    conditionStr += conditionStr ? ` and name:'*${searchBookDto.name}*'` : `name:'*${searchBookDto.name}*'`;
+  }
+
+  if (searchBookDto.categoryId) {
+    conditionStr += conditionStr ? ` and categoryId:${searchBookDto.categoryId}` : `categoryId:${searchBookDto.categoryId}`;
+  }
+
+  if (searchBookDto.publisherId) {
+    conditionStr += conditionStr ? ` and publisherId:${searchBookDto.publisherId}` : `publisherId:${searchBookDto.publisherId}`;
+  }
+
+  if (searchBookDto.publishingYear) {
+    conditionStr += conditionStr ? ` and publishingYear:${searchBookDto.publishingYear}` : `publishingYear:${searchBookDto.publishingYear}`;
+  }
+
+  return conditionStr ? `&filter=${encodeURIComponent(conditionStr)}` : '';
+}
+
+
+
 }
