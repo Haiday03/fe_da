@@ -203,7 +203,7 @@ getConditionString(searchBookDto: SearchBookDto) {
   }
 
   if (searchBookDto.name) {
-    conditionStr += conditionStr ? ` and name:'*${searchBookDto.name}*'` : `name:'*${searchBookDto.name}*'`;
+    conditionStr += conditionStr ? ` and name:'${searchBookDto.name}'` : `name:'${searchBookDto.name}'`;
   }
 
   if (searchBookDto.categoryId) {
