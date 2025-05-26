@@ -110,7 +110,7 @@ export class NewsComponent {
 
     fetchPaging() {
         this.newService
-            .getPage(this.pagination, this.searchNewsDto)
+            .getList(this.pagination, this.searchNewsDto)
             .subscribe((data) => {
                 this.listNews = data['content'];
                 this.pagination.totalElements = data['totalElements'];

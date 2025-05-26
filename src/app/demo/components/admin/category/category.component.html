@@ -155,7 +155,6 @@
                                     icon="pi pi-pencil"
                                     class="p-button-rounded p-button-success mr-2"
                                     (click)="edit(category.id)"
-
                                 ></button>
                                 <button
                                     pButton
@@ -174,11 +173,11 @@
             <p-dialog
                 [(visible)]="dialogAddOrUpdate"
                 [style]="{ width: '450px' }"
-                header="''
+                [header]="
                     lg === 'vi'
-                        ? 'headerDialogAddOrUpdateVi'
-                        : 'headerDialogAddOrUpdateEn'
-                '"
+                        ? 'Thêm / Cập nhật nhà xuất bản'
+                        : 'Add / Update Publisher'
+                "
                 [modal]="true"
                 class="p-fluid"
             >

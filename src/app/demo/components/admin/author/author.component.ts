@@ -290,7 +290,7 @@ export class AuthorComponent implements OnInit {
 
     fetchPaging() {
         this.authorService
-            .getPage(this.pagination, this.searchAuthorDto)
+            .getList(this.pagination, this.searchAuthorDto)
             .subscribe((data) => {
                 this.authors = data['content'];
                 this.pagination.totalElements = data['totalElements'];

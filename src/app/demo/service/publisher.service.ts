@@ -7,130 +7,174 @@ import { PaginationDto } from '../api/pagination/pagination';
 import { SearchAuthorDto } from '../api/searchDto/search_author_dto';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root',
 })
 export class PublisherService {
-  PUBLISHER_PATH = '/publisher';
-  PUBLISHER_PATH_PAGE = '/pagination';
-  FIND_ALL_BY_NAME_PATH = '/find?name=';
+    PUBLISHER_PATH = '/publisher';
+    PUBLISHER_PATH_PAGE = '/pagination';
+    FIND_ALL_BY_NAME_PATH = '/find?name=';
 
-  constructor(private apiService: ApiService, private http: HttpClient) { }
+    constructor(private apiService: ApiService, private http: HttpClient) {}
 
-  getAll(): Observable<any> {
-    return this.apiService.getAll(this.PUBLISHER_PATH).pipe(map(
-      res => {
-        if (res) {
-          return res;
-        } else {
-          return {};
-        }
-      }
-    ));
-  }
-  findAllByName(name){
-    return this.apiService.findAllByName(this.PUBLISHER_PATH + this.FIND_ALL_BY_NAME_PATH + name).pipe(map(
-      res => {
-        if (res) {
-          return res;
-        } else {
-          return {};
-        }
-      }
-    ));
-  }
-  getById(id: number): Observable<any> {
-    return this.apiService.getById(this.PUBLISHER_PATH + '/' + id).pipe(map(
-      res => {
-        if (res) {
-          return res;
-        } else {
-          return {};
-        }
-      }
-    ));
-  }
-  post(publisher): Observable<any> {
-    return this.apiService.post(this.PUBLISHER_PATH, publisher).pipe(map(
-      res => {
-        if (res) {
-          return res;
-        } else {
-          return {};
-        }
-      }
-    ));
-  }
-  put(id,publisher): Observable<any> {
-    return this.apiService.put(this.PUBLISHER_PATH + '/' + id, publisher).pipe(map(
-      res => {
-        if (res) {
-          return res;
-        } else {
-          return {};
-        }
-      }
-    ));
-  }
-  delete(id):  Observable<any> {
-    return this.apiService.delete(this.PUBLISHER_PATH + '/' + id).pipe(map(
-      res => {
-        if (res) {
-          return res;
-        } else {
-          return {};
-        }
-      }
-    ));
-  }
-
-  getPage(pagination: PaginationDto, searchAuthorDto: SearchAuthorDto){
-    var conditionStr = this.getConditionString(searchAuthorDto);
-    return this.apiService.getAll(`${this.PUBLISHER_PATH}/get/page?page=${pagination.page}&size=${pagination.size}${conditionStr}`).pipe(map(
-      res => {
-        if (res) {
-          return res;
-        } else {
-          return {};
-        }
-      }
-    ));
-  }
-
-  getConditionString(searchAuthorDto: SearchAuthorDto){
-    var conditionStr = '';
-    if(typeof searchAuthorDto.searchCode!='undefined' && searchAuthorDto.searchCode){
-      conditionStr += `code~'*${searchAuthorDto.searchCode}*'`;
+    getAll(): Observable<any> {
+        return this.apiService.getAll(this.PUBLISHER_PATH).pipe(
+            map((res) => {
+                if (res) {
+                    return res;
+                } else {
+                    return {};
+                }
+            })
+        );
     }
-    if(typeof searchAuthorDto.searchName!='undefined' && searchAuthorDto.searchName){
-      if(conditionStr){
-        conditionStr += `and name~'*${searchAuthorDto.searchName}*'`;
-      } else {
-        conditionStr += `name~'*${searchAuthorDto.searchName}*'`;
-      }
+    findAllByName(name) {
+        return this.apiService
+            .findAllByName(
+                this.PUBLISHER_PATH + this.FIND_ALL_BY_NAME_PATH + name
+            )
+            .pipe(
+                map((res) => {
+                    if (res) {
+                        return res;
+                    } else {
+                        return {};
+                    }
+                })
+            );
     }
-    if(typeof searchAuthorDto.searchEmail!='undefined' && searchAuthorDto.searchEmail){
-      if(conditionStr){
-        conditionStr += `and email~'*${searchAuthorDto.searchEmail}*'`;
-      } else {
-        conditionStr += `email~'*${searchAuthorDto.searchEmail}*'`;
-      }
+    getById(id: number): Observable<any> {
+        return this.apiService.getById(this.PUBLISHER_PATH + '/' + id).pipe(
+            map((res) => {
+                if (res) {
+                    return res;
+                } else {
+                    return {};
+                }
+            })
+        );
     }
-    if(typeof searchAuthorDto.searchPhoneNumber!='undefined' && searchAuthorDto.searchPhoneNumber){
-      if(conditionStr){
-        conditionStr += `and phoneNumber~'*${searchAuthorDto.searchPhoneNumber}*'`;
-      } else {
-        conditionStr += `phoneNumber~'*${searchAuthorDto.searchPhoneNumber}*'`;
-      }
+    post(publisher): Observable<any> {
+        return this.apiService.post(this.PUBLISHER_PATH, publisher).pipe(
+            map((res) => {
+                if (res) {
+                    return res;
+                } else {
+                    return {};
+                }
+            })
+        );
+    }
+    put(id, publisher): Observable<any> {
+        return this.apiService
+            .put(this.PUBLISHER_PATH + '/' + id, publisher)
+            .pipe(
+                map((res) => {
+                    if (res) {
+                        return res;
+                    } else {
+                        return {};
+                    }
+                })
+            );
+    }
+    delete(id): Observable<any> {
+        return this.apiService.delete(this.PUBLISHER_PATH + '/' + id).pipe(
+            map((res) => {
+                if (res) {
+                    return res;
+                } else {
+                    return {};
+                }
+            })
+        );
     }
 
-    if(conditionStr){
-      conditionStr = "&filter=" + conditionStr;
+    getPage(pagination: PaginationDto, searchAuthorDto: SearchAuthorDto) {
+        var conditionStr = this.getConditionString(searchAuthorDto);
+        return this.apiService
+            .getAll(
+                `${this.PUBLISHER_PATH}/get/page?page=${pagination.page}&size=${pagination.size}${conditionStr}`
+            )
+            .pipe(
+                map((res) => {
+                    if (res) {
+                        return res;
+                    } else {
+                        return {};
+                    }
+                })
+            );
     }
 
-    return conditionStr;
-  }
+    getList(pagination: PaginationDto, searchAuthorDto: SearchAuthorDto) {
+        const dataBody = {
+            page: pagination.page,
+            limit: pagination.size,
+            code: searchAuthorDto.searchCode,
+            name: searchAuthorDto.searchName,
+            email: searchAuthorDto.searchEmail,
+            phoneNumber: searchAuthorDto.searchPhoneNumber,
+        };
+        return this.apiService
+            .postBody(this.PUBLISHER_PATH + '/search', dataBody)
+            .pipe(
+                map((res) => {
+                    if (res) {
+                        return res;
+                    } else {
+                        return {};
+                    }
+                })
+            );
+    }
 
-  deleteList(list): Observable<any>{
-    return this.apiService.deleteList(this.PUBLISHER_PATH, list);
-  }
+    getConditionString(searchAuthorDto: SearchAuthorDto) {
+        var conditionStr = '';
+        if (
+            typeof searchAuthorDto.searchCode != 'undefined' &&
+            searchAuthorDto.searchCode
+        ) {
+            conditionStr += `code~'*${searchAuthorDto.searchCode}*'`;
+        }
+        if (
+            typeof searchAuthorDto.searchName != 'undefined' &&
+            searchAuthorDto.searchName
+        ) {
+            if (conditionStr) {
+                conditionStr += `and name~'*${searchAuthorDto.searchName}*'`;
+            } else {
+                conditionStr += `name~'*${searchAuthorDto.searchName}*'`;
+            }
+        }
+        if (
+            typeof searchAuthorDto.searchEmail != 'undefined' &&
+            searchAuthorDto.searchEmail
+        ) {
+            if (conditionStr) {
+                conditionStr += `and email~'*${searchAuthorDto.searchEmail}*'`;
+            } else {
+                conditionStr += `email~'*${searchAuthorDto.searchEmail}*'`;
+            }
+        }
+        if (
+            typeof searchAuthorDto.searchPhoneNumber != 'undefined' &&
+            searchAuthorDto.searchPhoneNumber
+        ) {
+            if (conditionStr) {
+                conditionStr += `and phoneNumber~'*${searchAuthorDto.searchPhoneNumber}*'`;
+            } else {
+                conditionStr += `phoneNumber~'*${searchAuthorDto.searchPhoneNumber}*'`;
+            }
+        }
+
+        if (conditionStr) {
+            conditionStr = '&filter=' + conditionStr;
+        }
+
+        return conditionStr;
+    }
+
+    deleteList(list): Observable<any> {
+        return this.apiService.deleteList(this.PUBLISHER_PATH, list);
+    }
 }

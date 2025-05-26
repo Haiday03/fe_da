@@ -269,7 +269,7 @@ export class PublisherComponent implements OnInit {
 
     fetchPaging() {
         this.publisherService
-            .getPage(this.pagination, this.searchAuthorDto)
+            .getList(this.pagination, this.searchAuthorDto)
             .subscribe((data) => {
                 this.publishers = data['content'];
                 this.pagination.totalElements = data['totalElements'];

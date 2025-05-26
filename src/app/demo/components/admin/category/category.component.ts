@@ -229,7 +229,7 @@ export class CategoryComponent implements OnInit {
 
     fetchPaging() {
         this.categoryService
-            .getPage(this.pagination, this.searchCategoryDto)
+            .getList(this.pagination, this.searchCategoryDto)
             .subscribe((data) => {
                 this.listCategory = data['content'];
                 this.pagination.totalElements = data['totalElements'];
@@ -239,11 +239,14 @@ export class CategoryComponent implements OnInit {
 
     pageChange(event) {
         this.pagination.page = event.first / this.pagination.size;
+
         this.fetchPaging();
     }
 
     sizeChange(event) {
         this.pagination = this.pagination.changePageSize(event);
-        this.fetchPaging();
+
+        // Xóa để cho đỡ lỗi chuyển sang trang khác không lấy đc dữ liệu
+        // this.fetchPaging();
     }
 }

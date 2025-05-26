@@ -408,7 +408,7 @@ export class BookComponent implements OnInit {
 
     fetchPaging() {
         this.bookService
-            .getPage(this.pagination, this.searchBookDto)
+            .getList(this.pagination, this.searchBookDto)
             .subscribe((data) => {
                 this.books = data['content'];
                 this.pagination.totalElements = data['totalElements'];

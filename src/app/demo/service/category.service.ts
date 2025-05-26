@@ -85,6 +85,25 @@ export class CategoryService {
     ));
   }
 
+  getList(pagination: PaginationDto, searchCategoryDto: SearchCategoryDto){
+      const dataBody = {
+          page: pagination.page,
+          limit: pagination.size,
+          code: searchCategoryDto.code,
+          name: searchCategoryDto.name,
+      };
+
+      return this.apiService.postBody(this.CATEGORY_PATH + '/search', dataBody).pipe(
+          map((res) => {
+              if (res) {
+                  return res;
+              } else {
+                  return {};
+              }
+          })
+      );
+  }
+
   getConditionString(searchCategoryDto: SearchCategoryDto){
     var conditionStr = '';
     if(typeof searchCategoryDto.code!='undefined' && searchCategoryDto.code){

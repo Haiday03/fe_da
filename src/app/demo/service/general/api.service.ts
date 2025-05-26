@@ -73,6 +73,10 @@ export class ApiService {
     return this.http.post(this.baseURL + "api" + path, params);
   }
 
+  postBody(path: string, params: Object): Observable<any> {
+    return this.http.post(this.baseURL + "api" + path, params);
+  }
+
   put(path: string, params: HttpParams = new HttpParams()): Observable<any> {
     return this.http.put(this.baseURL + "api" + path, JSON.stringify(params), this.httpOptions);
   }
