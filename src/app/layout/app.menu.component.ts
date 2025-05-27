@@ -175,6 +175,14 @@ export class AppMenuComponent implements OnInit {
                             icon: 'pi pi-fw pi-money-bill   ',
                             routerLink: ['/manage/borrow-return'],
                         },
+                        {
+                            label:
+                                this.lg === 'vi'
+                                    ? 'Quản lý người dùng'
+                                    : 'User management',
+                            icon: 'pi pi-fw pi-users',
+                            routerLink: ['/manage/user'],
+                        },
                     ],
                 },
             ];
@@ -182,7 +190,7 @@ export class AppMenuComponent implements OnInit {
 
         this.model = [
             {
-                label: this.lg === 'vi' ? 'Danh mục' : 'Category', 
+                label: this.lg === 'vi' ? 'Danh mục' : 'Category',
                 icon: 'pi pi-fw pi-briefcase',
                 routerLink: ['/pages'],
                 items: [
@@ -197,46 +205,65 @@ export class AppMenuComponent implements OnInit {
                         routerLink: ['/pages/news'],
                     },
                     {
-                        label:this.lg === 'vi' ? 'Tra cứu sách' : 'Book lookup',
+                        label:
+                            this.lg === 'vi' ? 'Tra cứu sách' : 'Book lookup',
                         icon: 'pi pi-fw pi-search',
                         routerLink: ['/pages/list'],
                     },
                     {
-                        label:this.lg === 'vi' ? 'Sách yêu thích' : 'Favorite books',
+                        label:
+                            this.lg === 'vi'
+                                ? 'Sách yêu thích'
+                                : 'Favorite books',
                         icon: 'pi pi-fw pi-heart',
                         routerLink: ['/wish'],
                     },
                     {
-                        label:this.lg === 'vi' ? 'Lịch sử mượn trả' : 'Borrowing History',
+                        label:
+                            this.lg === 'vi'
+                                ? 'Lịch sử mượn trả'
+                                : 'Borrowing History',
                         icon: 'pi pi-fw pi-money-bill',
                         routerLink: ['/pages/borrowed-history'],
                     },
                     {
-                        label:this.lg === 'vi' ? 'Câu hỏi thường gặp' : 'Frequently Asked Questions',
+                        label:
+                            this.lg === 'vi'
+                                ? 'Câu hỏi thường gặp'
+                                : 'Frequently Asked Questions',
                         icon: 'pi pi-fw pi-question-circle',
                         routerLink: ['/pages/faq'],
                     },
                 ],
             },
             {
-                label:this.lg === 'vi' ? 'Thông tin cá nhân' : 'Personal Information',
+                label:
+                    this.lg === 'vi'
+                        ? 'Thông tin cá nhân'
+                        : 'Personal Information',
                 items: [
                     {
-                        label:this.lg === 'vi' ? 'Cá nhân' : 'Personal',
+                        label: this.lg === 'vi' ? 'Cá nhân' : 'Personal',
                         icon: 'pi pi-fw pi-user',
                         routerLink: ['/profile'],
                     },
                     {
-                        label:this.lg === 'vi' ? 'Cài đặt' : 'Settings',
+                        label: this.lg === 'vi' ? 'Cài đặt' : 'Settings',
                         icon: 'pi pi-fw pi-bars',
                         items: [
                             {
-                                label:this.lg === 'vi' ? 'Sửa thông tin' : 'Edit information',
+                                label:
+                                    this.lg === 'vi'
+                                        ? 'Sửa thông tin'
+                                        : 'Edit information',
                                 icon: 'pi pi-fw pi-user-edit',
                                 routerLink: ['/settings'],
                             },
                             {
-                                label:this.lg === 'vi' ? 'Đổi mật khẩu' : 'Change password',
+                                label:
+                                    this.lg === 'vi'
+                                        ? 'Đổi mật khẩu'
+                                        : 'Change password',
                                 icon: 'pi pi-fw pi-sync',
                                 routerLink: ['/change-password'],
                             },

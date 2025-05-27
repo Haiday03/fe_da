@@ -82,32 +82,24 @@ export class NewService {
             typeof searchNewDto.fromDate != 'undefined' &&
             searchNewDto.fromDate
         ) {
-            console.log('dong 1');
-
             if (conditionStr) {
                 conditionStr += ` and releaseDate>:'${searchNewDto.fromDate.toLocaleString()}`;
             } else {
                 conditionStr += `releaseDate>:'${searchNewDto.fromDate.toLocaleString()}'`;
             }
-            console.log('dong 2');
         }
         if (typeof searchNewDto.toDate != 'undefined' && searchNewDto.toDate) {
-            console.log('dong 3');
-
             if (conditionStr) {
                 conditionStr += ` and releaseDate<:'${searchNewDto.toDate.toLocaleString()} 23:59:59'`;
             } else {
                 conditionStr += `releaseDate<:'${searchNewDto.toDate.toLocaleString()} 23:59:59'`;
             }
-            console.log('dong 4');
         }
 
         if (conditionStr) {
             conditionStr = '&filter=' + conditionStr;
         }
 
-        console.log('ao that day');
-        
         return conditionStr;
     }
 

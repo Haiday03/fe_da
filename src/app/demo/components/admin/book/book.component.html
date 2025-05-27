@@ -171,7 +171,8 @@
                                     lg === "vi" ? "Giá mượn" : "Borrowing Price"
                                 }}
                             </th>
-                            <th>{{ lg === "vi" ? "Số lượng" : "Quantity" }}</th>
+                            <th>{{ lg === "vi" ? "Tổng sách" : "Sum books" }}</th>
+                            <th>{{ lg === "vi" ? "Số lượng đã mượn" : "Quantity borrow" }}</th>
                             <th>{{ lg === "vi" ? "Tác giả" : "Author" }}</th>
                             <th>{{ lg === "vi" ? "Thể loại" : "Category" }}</th>
                             <th>
@@ -217,6 +218,9 @@
                             </td>
                             <td style="width: 14%; min-width: 10rem">
                                 {{ book.quantity }}
+                            </td>
+                             <td style="width: 14%; min-width: 10rem">
+                                {{ book.loaned }}
                             </td>
                             <td style="width: 14%; min-width: 15rem">
                                 {{ book.author.name }}
