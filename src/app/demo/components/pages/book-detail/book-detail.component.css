@@ -28,7 +28,8 @@ html, body {
 /* Left Column */
 .left-column img {
     /* width: 100%; */
-    height: 100%;
+    width: 440px;
+    height: 680px;
     position: absolute;
     left: 0;
     top: 0;

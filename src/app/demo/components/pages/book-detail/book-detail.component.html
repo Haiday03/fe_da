@@ -52,6 +52,12 @@
                             <div class="product-price">
                                 <span>{{ book.price | currencyReverse }}</span>
                             </div>
+
+                            <span>{{ lg === "vi" ? "Số lượng" : "Quantity" }}</span>
+                            <!-- Product Pricing -->
+                            <div class="product-quantity">
+                                <span>{{ book.quantity - (book?.loaned !== undefined ? book.loaned : 0) }}</span>
+                            </div>
                         </div>
 
                         <!-- Product Color -->

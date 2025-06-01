@@ -184,6 +184,10 @@ export class BookDetailComponent implements OnInit {
                     life: 3000,
                 });
                 this.dialogConfirmBorrow = false;
+                // ⏳ Đợi 2 giây rồi mới chuyển trang
+                setTimeout(() => {
+                    this.router.navigate(['/pages/list']);
+                }, 1500); // 2000 ms = 2s           
             },
             (error) => {
                 this.messageService.add({

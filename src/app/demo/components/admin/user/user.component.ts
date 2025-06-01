@@ -81,8 +81,8 @@ export class UserComponent {
     save(){
         this.submitted = true;
         if(this._checkRequire()){
-            if(this.user.id){
-                this.userService.update(this.user.id, this.user).subscribe(
+            if(this.user.username){
+                this.userService.update(this.user.username, this.user).subscribe(
                     res=>{
                     this.messageService.add({ severity: 'success', summary: 'Thành công', detail: 'Cập nhật thành công!', life: 3000 });
                     this.ngOnInit();
