@@ -223,7 +223,8 @@ export class BookService {
             name: searchBookDto.name,
             categoryId: searchBookDto.categoryId,
             publisherId: searchBookDto.publisherId,
-            publishingYear: searchBookDto.publishingYear
+            publishingYear: searchBookDto.publishingYear,
+            currentBookId: searchBookDto.currentBookId,
         };
         return this.apiService.postBody(this.BOOK_PATH + this.SEARCH, dataBody).pipe(
             map((res) => {

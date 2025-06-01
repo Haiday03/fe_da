@@ -21,6 +21,8 @@ import { PanelModule } from 'primeng/panel';
 import { AvatarModule } from 'primeng/avatar';
 import { FieldsetModule } from 'primeng/fieldset';
 import {TableModule} from 'primeng/table';
+import { DataViewModule } from 'primeng/dataview';
+
 
 @NgModule({
     imports: [
@@ -45,7 +47,8 @@ import {TableModule} from 'primeng/table';
         PanelModule,
         AvatarModule,
         FieldsetModule,
-        TableModule
+        TableModule,
+        DataViewModule
     ],
     declarations: [BookDetailComponent]
 })

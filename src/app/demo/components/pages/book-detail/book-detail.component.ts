@@ -10,7 +10,8 @@ import { CartService } from 'src/app/demo/service/cart.service';
 import { WishService } from 'src/app/demo/service/wish.service';
 import { Book } from '../../../api/book/Book';
 import { BookService } from '../../../service/book.service';
-
+import { PaginationDto } from 'src/app/demo/api/pagination/pagination';
+import { SearchBookDto } from 'src/app/demo/api/searchDto/search_book_dto';
 @Component({
     templateUrl: './book-detail.component.html',
     styleUrls: ['./book-detail.component.css'],
@@ -31,6 +32,14 @@ export class BookDetailComponent implements OnInit {
     recommended: BookRec[];
 
     listReviews: Borrow[] = [];
+
+    books: Book[];
+
+    pagination = new PaginationDto({ page: 0, size: 10 });
+
+    searchBookDto = new SearchBookDto({
+        categoryId: undefined,
+    });
 
     responsiveOptions;
 
@@ -85,6 +94,16 @@ export class BookDetailComponent implements OnInit {
         this.bookService.getById(this.bookId).subscribe(
             (res) => {
                 this.book = res;
+                console.log('Book Detail:', this.book);
+                
+                this.searchBookDto = new SearchBookDto({
+                    categoryId: this.book?.category?.id,
+                    currentBookId: this.book?.id
+                });
+
+                console.log('Search Book DTO:', this.searchBookDto);
+                
+                this.fetchPaging();
             },
             (error) => {
                 this.messageService.add({
@@ -187,7 +206,7 @@ export class BookDetailComponent implements OnInit {
                 // ⏳ Đợi 2 giây rồi mới chuyển trang
                 setTimeout(() => {
                     this.router.navigate(['/pages/list']);
-                }, 1500); // 2000 ms = 2s           
+                }, 1500); // 2000 ms = 2s
             },
             (error) => {
                 this.messageService.add({
@@ -199,5 +218,15 @@ export class BookDetailComponent implements OnInit {
                 this.dialogConfirmBorrow = false;
             }
         );
+    }
+
+    fetchPaging() {
+        console.log(this.searchBookDto);
+        
+        this.bookService
+            .getList(this.pagination, this.searchBookDto)
+            .subscribe((data) => {
+                this.books = data['content'];
+            });
     }
 }
