@@ -17,7 +17,8 @@ export class BorrowReturnComponent {
     searchBorrowedHistoryDto = new SearchBorrowedHistoryDto({
         fromDate: '',
         toDate: '',
-        status: 0,
+        status: undefined,
+        username: '',
     });
 
     // phân trang
@@ -93,7 +94,7 @@ export class BorrowReturnComponent {
 
     fetchPaging() {
         this.borrowService
-            .getBorrowPage(this.pagination, this.searchBorrowedHistoryDto)
+            .getList(this.pagination, this.searchBorrowedHistoryDto)
             .subscribe((data) => {
                 this.listBorrow = data['content'];
                 this.pagination.totalElements = data['totalElements'];

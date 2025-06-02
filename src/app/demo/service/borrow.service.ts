@@ -28,8 +28,6 @@ export class BorrowService {
   }
 
   getBorrowPage(pagination: PaginationDto, searchBorrowedHistoryDto: SearchBorrowedHistoryDto){
-    console.log('hoi can can nhe!');
-    
     var conditionStr = this.getBorrowConditionString(searchBorrowedHistoryDto);
     return this.apiService.getAll(`${this.BORROW_PATH}/get/page?page=${pagination.page}&size=${pagination.size}${conditionStr}`).pipe(map(
       res => {
@@ -40,6 +38,26 @@ export class BorrowService {
         }
       }
     ));
+  }
+
+  getList(pagination: PaginationDto, searchBorrowedHistoryDto: SearchBorrowedHistoryDto) {
+      const dataBody = {
+          page: pagination.page,
+          limit: pagination.size,
+          fromDate: searchBorrowedHistoryDto.fromDate,
+          toDate: searchBorrowedHistoryDto.toDate,
+          status: searchBorrowedHistoryDto.status,
+          username: searchBorrowedHistoryDto.username,
+      };
+      return this.apiService.postBody(this.BORROW_PATH + '/search', dataBody).pipe(
+          map((res) => {
+              if (res) {
+                  return res;
+              } else {
+                  return {};
+              }
+          })
+      );
   }
 
   getReviewPage(pagination: PaginationDto, searchBorrowedHistoryDto: SearchBorrowedHistoryDto){

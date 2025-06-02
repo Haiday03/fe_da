@@ -7,6 +7,19 @@
             <div class="card" styleClass="mb-4">
                 <div class="flex flex-row">
                     <div class="flex flex-column w-16rem mr-4">
+                        <label for="searchKeyword"
+                            >{{ lg === "en" ? "Username" : "Người mượn" }}:</label
+                        >
+                        <input
+                            pInputText
+                            class="mt-2"
+                            [(ngModel)]="searchBorrowedHistoryDto.username"
+                            [placeholder]="
+                                lg === 'en' ? 'Enter username' : 'Nhập người mượn'
+                            "
+                        />
+                    </div>
+                    <div class="flex flex-column w-16rem mr-4">
                         <label for="searchName">{{ lg === 'vi' ? 'Từ ngày (ngày mượn):' : 'From date (borrowed date):' }}</label>
                         <p-calendar class="mt-2" [style]="{ width: '100%' }" [(ngModel)]="searchBorrowedHistoryDto.fromDate" [readonlyInput]="true" dateFormat="dd-mm-yy" dataType="string" [showIcon]="true" inputId="buttondisplay" [placeholder]="lg === 'vi' ? '--Chọn ngày--' : '--Select date--'"></p-calendar>
                     </div>
