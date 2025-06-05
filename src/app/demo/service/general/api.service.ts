@@ -22,8 +22,8 @@ export class ApiService {
     return this.http.get<any>(this.baseURL +"api" + path);
   }
 
-  getAllWithParams(path: string, myparams = {}): Observable<any> {
-    return this.http.get<any>(this.baseURL +"api" + path, { params : myparams });
+  getAllWithParams(path: string, myparams : any): Observable<any> {
+    return this.http.get<any>(this.baseURL +"api" + path, myparams);
   }
 
   getTopBooks(path: string): Observable<any> {

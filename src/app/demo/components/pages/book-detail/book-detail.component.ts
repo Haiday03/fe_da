@@ -12,6 +12,8 @@ import { Book } from '../../../api/book/Book';
 import { BookService } from '../../../service/book.service';
 import { PaginationDto } from 'src/app/demo/api/pagination/pagination';
 import { SearchBookDto } from 'src/app/demo/api/searchDto/search_book_dto';
+import { PaymentService } from 'src/app/demo/service/payment.service';
+import { HttpParams } from '@angular/common/http';
 @Component({
     templateUrl: './book-detail.component.html',
     styleUrls: ['./book-detail.component.css'],
@@ -59,7 +61,8 @@ export class BookDetailComponent implements OnInit {
         private bookService: BookService,
         private router: Router,
         private wishService: WishService,
-        private borrowService: BorrowService
+        private borrowService: BorrowService,
+        private paymentService: PaymentService
     ) {}
 
     ngOnInit(): void {
@@ -94,15 +97,12 @@ export class BookDetailComponent implements OnInit {
         this.bookService.getById(this.bookId).subscribe(
             (res) => {
                 this.book = res;
-                console.log('Book Detail:', this.book);
-                
+
                 this.searchBookDto = new SearchBookDto({
                     categoryId: this.book?.category?.id,
-                    currentBookId: this.book?.id
+                    currentBookId: this.book?.id,
                 });
 
-                console.log('Search Book DTO:', this.searchBookDto);
-                
                 this.fetchPaging();
             },
             (error) => {
@@ -128,6 +128,43 @@ export class BookDetailComponent implements OnInit {
                 });
             }
         );
+        this.route.queryParams.subscribe((params) => {
+            const httpParams = new HttpParams({ fromObject: params });
+            const vnp_SecureHash = httpParams.get('vnp_ResponseCode') || '';
+            const quantity = Number(httpParams.get('vnp_TxnRef')) || 1;
+            let borrow = new Borrow(
+                Number.parseInt(this.bookId),
+                quantity,
+                1,
+                this.username
+            );
+            this.paymentService
+                .verifyPayment(vnp_SecureHash, httpParams)
+                .subscribe((res) => {
+                    if (res?.paymentStatus) {
+                        this.borrowService.post(borrow).subscribe(
+                            (res) => {
+                                this.messageService.add({
+                                    severity: 'success',
+                                    summary: 'Thành công',
+                                    detail: 'Đặt mượn sách thành công!',
+                                    life: 3000,
+                                });
+                                this.dialogConfirmBorrow = false;
+                            },
+                            (error) => {
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: 'Thất bại',
+                                    detail: error,
+                                    life: 3000,
+                                });
+                                this.dialogConfirmBorrow = false;
+                            }
+                        );
+                    }
+                });
+        });
     }
 
     addBookToCart(bookId: number) {
@@ -194,35 +231,28 @@ export class BookDetailComponent implements OnInit {
             this.username
         );
 
-        this.borrowService.post(borrow).subscribe(
-            (res) => {
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Thành công',
-                    detail: 'Đặt mượn sách thành công!',
-                    life: 3000,
+        if (this.selectedQuantity > this.book.quantity - this.book.loaned) {
+            this.messageService.add({
+                severity: 'error',
+                summary: 'Thất bại',
+                detail: 'Số lượng sách bạn đặt mượn vượt quá số lượng hiện có!',
+                life: 3000,
+            });
+        } else {
+            let url = window.location.toString().split('?')[0];
+            this.paymentService
+                .payment(
+                    this.selectedQuantity * this.book.price,
+                    url,
+                    this.selectedQuantity
+                )
+                .subscribe((res) => {
+                    window.location.href = res?.url;
                 });
-                this.dialogConfirmBorrow = false;
-                // ⏳ Đợi 2 giây rồi mới chuyển trang
-                setTimeout(() => {
-                    this.router.navigate(['/pages/list']);
-                }, 1500); // 2000 ms = 2s
-            },
-            (error) => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Thất bại',
-                    detail: error,
-                    life: 3000,
-                });
-                this.dialogConfirmBorrow = false;
-            }
-        );
+        }
     }
 
     fetchPaging() {
-        console.log(this.searchBookDto);
-        
         this.bookService
             .getList(this.pagination, this.searchBookDto)
             .subscribe((data) => {

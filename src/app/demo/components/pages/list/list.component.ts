@@ -4,7 +4,7 @@ import { DataView } from 'primeng/dataview';
 import { Book } from 'src/app/demo/api/book/Book';
 import { BookService } from 'src/app/demo/service/book.service';
 import { CartService } from 'src/app/demo/service/cart.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { WishService } from 'src/app/demo/service/wish.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Author } from 'src/app/demo/api/author/Author';
@@ -15,6 +15,7 @@ import { PublisherService } from 'src/app/demo/service/publisher.service';
 import { CategoryService } from 'src/app/demo/service/category.service';
 import { SearchBookDto } from 'src/app/demo/api/searchDto/search_book_dto';
 import { PaginationDto } from 'src/app/demo/api/pagination/pagination';
+import { PaymentService } from 'src/app/demo/service/payment.service';
 @Component({
     templateUrl: './list.component.html',
     styleUrls: ['./list.component.css'],
@@ -68,7 +69,9 @@ export class ListComponent implements OnInit {
         private http: HttpClient,
         private authorService: AuthorService,
         private publisherService: PublisherService,
-        private categoryService: CategoryService
+        private categoryService: CategoryService,
+        private route: ActivatedRoute,
+        private paymentService: PaymentService
     ) {}
 
     ngOnInit() {
@@ -115,6 +118,8 @@ export class ListComponent implements OnInit {
                 value: 'price',
             },
         ];
+
+
     }
 
     search() {

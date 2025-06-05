@@ -21,20 +21,20 @@ export class BookService {
 
     constructor(private apiService: ApiService, private http: HttpClient) {}
 
-    getAll(myparams = {}): Observable<any> {
-        console.log(myparams);
-        return this.apiService
-            .getAllWithParams(this.BOOK_PATH, myparams ? myparams : {})
-            .pipe(
-                map((res) => {
-                    if (res) {
-                        return res;
-                    } else {
-                        return {};
-                    }
-                })
-            );
-    }
+    // getAll(myparams = {}): Observable<any> {
+    //     console.log(myparams);
+    //     return this.apiService
+    //         .getAllWithParams(this.BOOK_PATH, myparams ? myparams : {})
+    //         .pipe(
+    //             map((res) => {
+    //                 if (res) {
+    //                     return res;
+    //                 } else {
+    //                     return {};
+    //                 }
+    //             })
+    //         );
+    // }
     getTopBooks(): Observable<any> {
         return this.apiService.getTopBooks(this.BOOK_PATH + this.FILTER).pipe(
             map((res) => {
