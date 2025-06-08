@@ -171,6 +171,7 @@
                         placeholder="Nhập mật khẩu"
                         formControlName="password"
                         [toggleMask]="true"
+                        [feedback]="false"
                         styleClass="w-full"
                         [ngClass]="{
                             'is-invalid': submitted && f.password.errors

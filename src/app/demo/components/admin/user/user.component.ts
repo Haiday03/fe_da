@@ -236,6 +236,6 @@ export class UserComponent {
 
     sizeChange(event){
         this.pagination = this.pagination.changePageSize(event);
-        this.fetchPaging();
+        // this.fetchPaging();
     }
 }

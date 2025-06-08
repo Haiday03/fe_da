@@ -9,7 +9,7 @@ import { AuthenticationService } from '../../security/authentication.service';
     selector: 'app-login',
     templateUrl: './login.component.html',
     styles: [`
-        :host ::ng-deep .p-password input {
+        :host ::ng-deep p-password input {
             width: 100%;
             padding:1rem;
         }
